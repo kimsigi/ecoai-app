@@ -6,4 +6,5 @@ export type InitState =
 
 export type MainStackParamList = {
   [MAIN_ROUTES.LOCATION_PICKER]: undefined;
+  [MAIN_ROUTES.SHOWCASE]: undefined;
 };
