@@ -7,4 +7,5 @@
 export const MAIN_ROUTES = {
   SHOWCASE: "Showcase",
   LOCATION_PICKER: "LocationPicker",
+  AI_CHAT: "AiChat",
 } as const;
