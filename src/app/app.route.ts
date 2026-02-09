@@ -5,5 +5,6 @@
  * - navigation / screen / type 에서 공통으로 사용
  */
 export const MAIN_ROUTES = {
+  SHOWCASE: "Showcase",
   LOCATION_PICKER: "LocationPicker",
 } as const;

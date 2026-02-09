@@ -7,6 +7,7 @@ import { MAIN_ROUTES } from "./app.route";
 import { MainStackParamList } from "./app.type";
 import LocationPickerScreen from "@/features/location/LocationPickerScreen";
 import AppLayout from "./AppLayout";
+import ShowcaseScreen from "@/features/showcase/ShowcaseScreen";
 
 
 /* ---------- Stack ---------- */
@@ -16,9 +17,14 @@ const MainStack = createNativeStackNavigator<MainStackParamList>();
 function MainFlowStack() {
   return (
     <MainStack.Navigator
-      initialRouteName={MAIN_ROUTES.LOCATION_PICKER}
+      initialRouteName={MAIN_ROUTES.SHOWCASE}
       screenOptions={{ headerTitleAlign: "center" }}
     >
+      <MainStack.Screen
+        name={MAIN_ROUTES.SHOWCASE}
+        component={ShowcaseScreen}
+        options={{ title: "쇼케이스" }}
+      />
       <MainStack.Screen
         name={MAIN_ROUTES.LOCATION_PICKER}
         component={LocationPickerScreen}
