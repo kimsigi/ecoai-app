@@ -8,6 +8,7 @@ import { MainStackParamList } from "./app.type";
 import LocationPickerScreen from "@/features/location/LocationPickerScreen";
 import AppLayout from "./AppLayout";
 import ShowcaseScreen from "@/features/showcase/ShowcaseScreen";
+import AiChatScreen from "@/features/aichat/AiChatScreen";
 
 
 /* ---------- Stack ---------- */
@@ -29,6 +30,11 @@ function MainFlowStack() {
         name={MAIN_ROUTES.LOCATION_PICKER}
         component={LocationPickerScreen}
         options={{ title: "폐기물 위치 설정" }}
+      />
+      <MainStack.Screen
+        name={MAIN_ROUTES.AI_CHAT}
+        component={AiChatScreen}
+        options={{ title: "AI 도우미" }}
       />
     </MainStack.Navigator>
   );

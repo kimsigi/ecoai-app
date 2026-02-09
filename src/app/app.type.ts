@@ -5,6 +5,7 @@ export type InitState =
   (typeof INIT_STATE)[keyof typeof INIT_STATE];
 
 export type MainStackParamList = {
-  [MAIN_ROUTES.LOCATION_PICKER]: undefined;
   [MAIN_ROUTES.SHOWCASE]: undefined;
+  [MAIN_ROUTES.LOCATION_PICKER]: undefined;
+  [MAIN_ROUTES.AI_CHAT]: undefined;
 };

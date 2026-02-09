@@ -18,6 +18,14 @@ export default function ShowcaseScreen() {
                     <Text>위치선택</Text>
                 </TouchableOpacity>
             </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity 
+                  style={styles.button} 
+                  activeOpacity={0.7}
+                  onPress={() => navigation.push(MAIN_ROUTES.AI_CHAT)}>
+                    <Text>AI 도우미</Text>
+                </TouchableOpacity>
+            </View>
         </ScrollView>
     );
 }
