@@ -1,3 +1,4 @@
+/* ---------- 앱 초기화 상태 목록 ---------- */
 export const INIT_STATE = {
   CHECKING: "CHECKING",
   NETWORK_ERROR: "NETWORK_ERROR",

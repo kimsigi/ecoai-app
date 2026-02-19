@@ -1,12 +1,16 @@
 import { MAIN_ROUTES } from "@/app/app.route";
 import { MainStackParamList } from "@/app/app.type";
+import { useAlert } from "@/shared/ui/component/alert";
+import DefaultButton from "@/shared/ui/component/button/AppButton";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function ShowcaseScreen() {
     
     const navigation = useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+
+    const {alert, confirm} = useAlert();
 
     return (
         <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -26,6 +30,50 @@ export default function ShowcaseScreen() {
                     <Text>AI 도우미</Text>
                 </TouchableOpacity>
             </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity 
+                  style={styles.button} 
+                  activeOpacity={0.7}
+                  onPress={() => navigation.push(MAIN_ROUTES.PERMISSION)}>
+                    <Text>퍼미션</Text>
+                </TouchableOpacity>
+            </View>
+            
+            {/* 👇 구분선 추가 */}
+            <View style={styles.separator} />
+            <View><Text>######## 아래부터는 컴포넌트 테스트 영역 ########</Text></View>
+            <View style={styles.separator} />
+            <View style={styles.buttonWrapper}>
+              <DefaultButton onPress={() => Alert.alert("테스트", "테스트22")}>Alert.alert</DefaultButton>
+            </View>
+            <View style={styles.buttonWrapper}>
+              <DefaultButton onPress={() => {
+                alert("저장되었습니다", () => {
+                  console.log("확인");
+                });
+                console.log("##얼럿아래");
+                return;
+                console.log("##얼럿아래2");
+              }}>Paper Alert</DefaultButton>
+            </View>
+            <View style={styles.buttonWrapper}>
+              <DefaultButton onPress={() => {
+                confirm({
+                  title: "삭제",
+                  message: "정말 삭제하시겠습니까?",
+                  onConfirm: () => {
+                    console.log("삭제");
+                  },
+                  onCancel: () => {
+                    console.log("취소");
+                  },
+                });
+                console.log("##컨펌아래");
+                return;
+                console.log("##컨펌아래2");
+              }}>Paper Confirm</DefaultButton>
+            </View>
+            
         </ScrollView>
     );
 }
@@ -65,5 +113,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     letterSpacing: -0.5, // 자간을 살짝 좁혀서 가독성 향상
+  },
+  separator: {
+    width: '90%',        // 버튼 너비와 맞춤
+    maxWidth: 400,
+    height: 1,           // 선 두께
+    backgroundColor: '#E1E1E1', // 선 색상 (연한 회색)
+    marginVertical: 24,  // 선 위아래 간격 (버튼 사이 거리를 벌려줌)
   },
 });

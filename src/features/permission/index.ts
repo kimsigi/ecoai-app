@@ -1,0 +1,1 @@
+export { hasRequiredPermissions } from "./permission.service";
