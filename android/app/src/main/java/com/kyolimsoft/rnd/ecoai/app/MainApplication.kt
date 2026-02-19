@@ -1,4 +1,4 @@
-package com.ecoaiapp
+package com.kyolimsoft.rnd.ecoai.app
 
 import android.app.Application
 import com.facebook.react.PackageList
