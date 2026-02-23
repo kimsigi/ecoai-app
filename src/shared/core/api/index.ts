@@ -1,0 +1,1 @@
+export { kakaoGet } from './client';

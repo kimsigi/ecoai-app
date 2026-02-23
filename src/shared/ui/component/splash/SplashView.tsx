@@ -9,7 +9,7 @@ export default function SplashView() {
           <Image
             resizeMode="contain"
             style={styles.imageLarge}
-            source={require("@/shared/foundation/assets/image/PhoneTouchText.png")}
+            source={require("@/shared/ui/assets/image/PhoneTouchText.png")}
           />
         </View>
 
@@ -18,7 +18,7 @@ export default function SplashView() {
           <Image
             resizeMode="contain"
             style={styles.imageXL}
-            source={require("@/shared/foundation/assets/image/PhoneTouch.png")}
+            source={require("@/shared/ui/assets/image/PhoneTouch.png")}
           />
         </View>
 
@@ -27,7 +27,7 @@ export default function SplashView() {
           <Image
             resizeMode="contain"
             style={styles.imageLogo}
-            source={require("@/shared/foundation/assets/image/KyolimsoftLogo.png")}
+            source={require("@/shared/ui/assets/image/KyolimsoftLogo.png")}
           />
         </View>
       </View>
