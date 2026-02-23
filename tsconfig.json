@@ -1,27 +1,29 @@
 {
-  "extends": "@react-native/typescript-config",
+    "extends": "@react-native/typescript-config",
 
-  "compilerOptions": {
-    /* === Path Alias === */
-    // 베이스 경로 src로 고정
-    "baseUrl": "./src",
-    // @/ 쓰면 src 내부로 바로 점프 (상대경로 뎁스 방지)
-    "paths": {
-      "@/*": ["*"]
+    "compilerOptions": {
+        /* === Path Alias === */
+        // 베이스 경로 src로 고정
+        "baseUrl": "./src",
+        // @/ 쓰면 src 내부로 바로 점프 (상대경로 뎁스 방지)
+        "paths": {
+            "@/*": ["*"]
+        },
+
+        // 빌드 결과물 생성 금지 (메트로 번들러가 알아서 함)
+        "noEmit": true,
+
+        /* === Type Check === */
+        // 엄격한 타입 체크 (any 허용 안 함)
+        "strict": true,
+        // 외부 라이브러리 타입 검사 패스 (빌드 속도 최적화)
+        "skipLibCheck": true,
+        // Node.js 전역 타입 자동 주입 (process.env 사용 가능)
+        "types": ["node"]
     },
 
-    // 빌드 결과물 생성 금지 (메트로 번들러가 알아서 함)
-    "noEmit": true,
-
-    /* === Type Check === */
-    // 엄격한 타입 체크 (any 허용 안 함)
-    "strict": true,
-    // 외부 라이브러리 타입 검사 패스 (빌드 속도 최적화)
-    "skipLibCheck": true
-  },
-
-  // src 내부 파일만 감시 대상
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
-  // 쓸데없는 폴더 제외
-  "exclude": ["node_modules", "android", "ios"]
+    // src 내부 파일만 감시 대상
+    "include": ["src/**/*.ts", "src/**/*.tsx"],
+    // 쓸데없는 폴더 제외
+    "exclude": ["node_modules", "android", "ios"]
 }
