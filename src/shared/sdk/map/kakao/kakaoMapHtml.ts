@@ -1,6 +1,6 @@
-import { ENV, FALLBACK } from '@/shared/core/config/env';
+import { FALLBACK, KAKAO } from '@/shared/core/config';
 
-const jsKey = ENV.KAKAO_JAVASCRIPT_KEY;
+const jsKey = KAKAO.JAVASCRIPT_KEY;
 const fallbackMapLat = FALLBACK.MAP_LAT;
 const fallbackMapLng = FALLBACK.MAP_LNG;
 
