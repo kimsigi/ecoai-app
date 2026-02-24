@@ -5,7 +5,7 @@ import {
     getCurrentPosition,
     getLocation,
     resolveRegion,
-    saveLocation,
+    setLocation,
 } from './location.service';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -127,7 +127,7 @@ export function useLocationPicker(params: Partial<LocationCoordinate>) {
                 address: response?.address_name,
             };
 
-            saveLocation(finalCoordinate);
+            setLocation(finalCoordinate);
 
             navigation.push(ROUTES.USER_TYPE);
         } catch (error) {

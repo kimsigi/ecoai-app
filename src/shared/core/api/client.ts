@@ -1,3 +1,4 @@
+import { ENV } from '../config/env';
 import { http, kakaoHttp } from './http';
 
 /**
@@ -7,6 +8,7 @@ export async function get<T>(
     url: string,
     params?: Record<string, unknown>,
 ): Promise<T> {
+    console.log('#### get: ', ENV.API_BASE_URL);
     const { data } = await http.get<T>(url, { params });
     return data;
 }

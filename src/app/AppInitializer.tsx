@@ -1,11 +1,12 @@
-import { ReactNode } from 'react';
 import { INIT_STATE } from './app.constant';
 import { SplashView } from '@/shared/ui/component/splash';
 import { ErrorView } from '@/shared/ui/component/error';
 import PermissionScreen from '@/features/permission/PermissionScreen';
 import { useAppInitializer } from './useAppInitializer';
+import AppNavigation from './AppNavigation';
+import { ROUTES } from './app.route';
 
-export default function AppInitializer({ children }: { children: ReactNode }) {
+export default function AppInitializer() {
     const { state, entryPoint } = useAppInitializer();
 
     /* -------------------------------
@@ -40,6 +41,16 @@ export default function AppInitializer({ children }: { children: ReactNode }) {
             />
         );
     }
+
+    // 5. 주소 정보 체크
+    if ( state === INIT_STATE.ADDRESS_REQUIRED ) {
+        return <AppNavigation initialRouteName={ROUTES.LOCATION_PICKER} />;
+    }
+
+    // 6. 사용자 유형 체크
+    if ( state === INIT_STATE.USER_TYPE_REQUIRED ) {
+        return <AppNavigation initialRouteName={ROUTES.USER_TYPE} />;
+    }
     /*
   // 5. 강제 업데이트
   if (state === INIT_STATE.FORCE_UPDATE) {
@@ -51,6 +62,6 @@ export default function AppInitializer({ children }: { children: ReactNode }) {
     );
   }
 */
-    // 6. 초기화 완료
-    return <>{children}</>;
+    // 초기화 완료
+    return <AppNavigation initialRouteName={ROUTES.HOME} />;
 }
