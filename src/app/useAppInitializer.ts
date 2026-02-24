@@ -2,10 +2,12 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import BootSplash from 'react-native-bootsplash';
 import { InitState } from './app.type';
 import { INIT_STATE } from './app.constant';
-import { checkNetwork, initDeviceId } from './app.service';
+import { checkNetwork } from './app.service';
 import { getLocation } from '@/features/location';
 import { getUserType } from '@/features/usertype';
 import { hasRequiredPermissions } from '@/features/permission';
+import { initDeviceId } from '@/shared/core/device';
+import { issueTokenAndCache } from '@/features/auth/auth.service';
 
 export function useAppInitializer() {
     const [state, setState] = useState<InitState>(INIT_STATE.CHECKING);
@@ -72,9 +74,8 @@ async function initApp(): Promise<InitState> {
     const hasPermission = await hasRequiredPermissions();
     if (!hasPermission) return INIT_STATE.PERMISSION_REQUIRED;
 
-    // 4. 인증 토큰 유효성 검사 (Keycloak)
-    // 기존 로그인 세션이 유효한지 확인하고 인증 에러 발생 시 로그인 화면으로 유도
-    const token = true; //await getKeycloakToken();
+    // 4. 토큰 발급 및 스토어 저장
+    const token = await issueTokenAndCache();
     if (!token) return INIT_STATE.AUTH_ERROR;
 
     // 5. 주소 정보 확인

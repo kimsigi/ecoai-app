@@ -11,7 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackParamList } from '@/app/app.type';
 import { ROUTES } from '@/app/app.route';
-import { FALLBACK } from '@/shared/core/config/env';
+import { FALLBACK } from '@/shared/core/config';
 
 export function useLocationPicker(params: Partial<LocationCoordinate>) {
     const navigation =

@@ -7,7 +7,19 @@ import React, {
 } from 'react';
 import { WebView, WebViewMessageEvent } from 'react-native-webview';
 import { createKakaoMapHtml } from './kakaoMapHtml';
-import { MapHandle, MapViewProps } from './kakaoMap.type';
+
+export interface Coordinate {
+    lat: number;
+    lng: number;
+}
+
+interface MapViewProps extends Coordinate {
+    onCenterChange?: (coordinate: Coordinate) => void;
+}
+
+export interface MapHandle {
+    moveTo: (lat: number, lng: number) => void;
+}
 
 const KakaoMapView = forwardRef<MapHandle, MapViewProps>(
     ({ lat, lng, onCenterChange }, ref) => {
@@ -52,7 +64,6 @@ const KakaoMapView = forwardRef<MapHandle, MapViewProps>(
                     const data = JSON.parse(event.nativeEvent.data);
                     switch (data.type) {
                         case 'MAP_READY':
-                            console.log('###레ㅐ디!');
                             isMapReadyRef.current = true;
 
                             // 최초 center 세팅
