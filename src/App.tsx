@@ -1,5 +1,4 @@
 import AppInitializer from "@/app/AppInitializer";
-import AppNavigation from "@/app/AppNavigation";
 import { PaperProvider } from "react-native-paper";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AlertProvider } from "./shared/ui/component/alert";
@@ -13,9 +12,7 @@ export default function App() {
         <AlertProvider>
           <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
           <AppLayout>
-            <AppInitializer>
-              <AppNavigation />
-            </AppInitializer>
+            <AppInitializer />
           </AppLayout>
         </AlertProvider>
       </PaperProvider>

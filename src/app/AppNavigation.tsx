@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ROUTES } from './app.route';
-import { StackParamList } from './app.type';
+import { AppNavigationProps, StackParamList } from './app.type';
 import LocationPickerScreen from '@/features/location/ui/LocationPickerScreen';
 import ShowcaseScreen from '@/features/showcase/ShowcaseScreen';
 import AiChatScreen from '@/features/aichat/AiChatScreen';
@@ -13,10 +13,11 @@ import { HomeScreen } from '@/features/home/HomeScreen';
 /* ---------- Stack ---------- */
 const Stack = createNativeStackNavigator<StackParamList>();
 
-export default function AppNavigation() {
+export default function AppNavigation({initialRouteName}: AppNavigationProps) {
     return (
         <NavigationContainer>
             <Stack.Navigator
+                initialRouteName={initialRouteName}
                 screenOptions={{ headerTitleAlign: 'center' }}
             >
                 <Stack.Screen

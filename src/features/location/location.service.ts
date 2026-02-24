@@ -63,7 +63,7 @@ export async function resolveRegion(
 /**
  * 위치정보 저장
  */
-export function saveLocation({ lat, lng, address }: LocationCoordinate): void {
+export function setLocation({ lat, lng, address }: LocationCoordinate): void {
     mmkv.set(LAT_KEY, lat);
     mmkv.set(LNG_KEY, lng);
     mmkv.set(ADDRESS_KEY, address ?? '');

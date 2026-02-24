@@ -16,3 +16,15 @@ export type StackParamList = {
     [ROUTES.HOME]: undefined;
     [ROUTES.AI_CHAT]: undefined;
 };
+
+export type AppNavigationProps = {
+    initialRouteName?: keyof StackParamList;
+};
+
+/**
+ * API 서버의 건강 상태 응답 타입
+ */
+export interface ApiHealthResponse {
+    status: 'UP' | 'DOWN';
+    groups: string[]; // ["liveness", "readiness"] 등
+}
