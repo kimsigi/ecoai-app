@@ -1,9 +1,8 @@
-import { StackParamList } from '@/app/app.type';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { UserType } from './usertype.type';
-import { ROUTES } from '@/app/app.route';
+import { ROUTES, StackParamList } from '@/app/app.route';
 import { getUserType, setUserType } from './usertype.service';
 
 export function useUserType() {

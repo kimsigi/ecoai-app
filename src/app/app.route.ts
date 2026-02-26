@@ -1,3 +1,8 @@
+import {
+    LocationAddressSearchParams,
+    LocationPickerParams,
+} from '@/features/location';
+
 /**
  * Main Routes
  *
@@ -13,3 +18,17 @@ export const ROUTES = {
     HOME: 'Home',
     AI_CHAT: 'AiChat',
 } as const;
+
+export type StackParamList = {
+    [ROUTES.SHOWCASE]: undefined;
+    [ROUTES.PERMISSION]: undefined;
+    [ROUTES.LOCATION_PICKER]: LocationPickerParams | undefined;
+    [ROUTES.LOCATION_ADDRESS_SEARCH]: LocationAddressSearchParams | undefined;
+    [ROUTES.USER_TYPE]: undefined;
+    [ROUTES.HOME]: undefined;
+    [ROUTES.AI_CHAT]: undefined;
+};
+
+export type AppNavigationProps = {
+    initialRouteName?: keyof StackParamList;
+};

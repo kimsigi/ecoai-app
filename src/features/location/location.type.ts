@@ -4,7 +4,11 @@ export interface Coordinate {
 }
 
 export interface LocationCoordinate extends Coordinate {
-    address?: string;
+    addressName?: string;
+    region1DepthName?: string;
+    region2DepthName?: string;
+    region3DepthName?: string;
+    code?: string;
 }
 
 export type LocationPickerParams = Partial<LocationCoordinate>;
@@ -23,13 +27,17 @@ export interface KakaoRegionCodeResponse {
  * 행정구역 상세 정보 문서
  */
 export interface KakaoRegionCodeDocument {
-    region_type: 'H' | 'B'; // H(행정동) 또는 B(법정동)
-    address_name: string; // 전체 지역 명칭
-    region_1depth_name: string; // 지역 1Depth, 시도 단위 (바다 영역 없음)
-    region_2depth_name: string; // 지역 2Depth, 구 단위 (바다 영역 없음)
-    region_3depth_name: string; // 지역 3Depth, 동 단위 (바다 영역 없음)
-    region_4depth_name: string; // 지역 4Depth (B타입 리 영역인 경우만 존재)
+    addressName: string; // 전체 지역 명칭
+    region1DepthName: string; // 지역 1Depth, 시도 단위 (바다 영역 없음)
+    region2DepthName: string; // 지역 2Depth, 구 단위 (바다 영역 없음)
+    region3DepthName: string; // 지역 3Depth, 동 단위 (바다 영역 없음)
     code: string; // region 코드 (행정동 또는 법정동 코드)
-    x: number; // X 좌표값, 경위도인 경우 경도(longitude)
-    y: number; // Y 좌표값, 경위도인 경우 위도(latitude)
+}
+
+export interface LocationRegionResponse {
+    addressName: string; // 전체 지역 명칭
+    region1DepthName: string; // 지역 1Depth, 시도 단위 (바다 영역 없음)
+    region2DepthName: string; // 지역 2Depth, 구 단위 (바다 영역 없음)
+    region3DepthName: string; // 지역 3Depth, 동 단위 (바다 영역 없음)
+    code: string; // region 코드 (행정동 또는 법정동 코드)
 }

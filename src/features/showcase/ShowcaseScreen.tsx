@@ -1,5 +1,4 @@
-import { ROUTES } from '@/app/app.route';
-import { StackParamList } from '@/app/app.type';
+import { ROUTES, StackParamList } from '@/app/app.route';
 import { useAlert } from '@/shared/ui/component/alert';
 import DefaultButton from '@/shared/ui/component/button/AppButton';
 import { useNavigation } from '@react-navigation/native';

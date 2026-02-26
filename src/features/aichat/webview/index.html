@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>내 손안의 AI 폐기물 처리 도우미</title>
+        <link rel="shortcut icon" href="../images/common/favicon.ico" />
+
+        <link type="text/css" rel="stylesheet" href="../css/common.css" />
+        <link type="text/css" rel="stylesheet" href="../css/commonLayout.css" />
+        <script src="../js/common.js"></script>
+        <script src="../js/contents.js"></script>
+        <script>
+            function dispatcher(type, params) {
+                console.log('#### type: ', type);
+                console.log('#### type: ', params);
+                if (type === 'URL') {
+                    commandURL(params);
+                } else if (type === 'MORE') {
+                    commandMORE(params);
+                } else if (type === 'EXIT') {
+                    commandEXIT(params);
+                } else if (type === 'ASK') {
+                    commandASK(params);
+                } else if (type === 'MAP_RL') {
+                    commandMAP_RL(params);
+                } else if (type === 'MAP_SL') {
+                    commandMAP_SL(params);
+                } else if (type === 'TEL') {
+                    commandTEL(params);
+                } else if (type === 'COPY') {
+                    commandCOPY(params);
+                } else if (type === 'DIRECTIONS_TO') {
+                    commandDIRECTIONS_TO(params);
+                }
+            }
+
+            function commandURL(params) {
+                if (params?.value) {
+                    window.open(params.value, '_blank');
+                }
+            }
+
+            function commandMORE(params) {
+                const text = params?.value;
+                if (text) {
+                    // 1. 대상이 되는 부모 요소를 찾습니다!
+                    const chatbotWrap = document.querySelector('.chatbotWrap');
+
+                    // 2. 추가할 HTML 내용을 변수에 담습니다! (가독성을 위해 백틱 사용)
+                    const newUserMessage = `
+						<div class="chatBubble user">
+							<div class="message">${text}</div>
+						</div>
+					`;
+
+                    chatbotWrap.insertAdjacentHTML('beforeend', newUserMessage);
+                }
+            }
+            function commandEXIT() {
+                alert('채팅종료!');
+            }
+
+            function commandASK(params) {
+                const text = params?.value;
+                if (text) {
+                    // 1. 대상이 되는 부모 요소를 찾습니다!
+                    const chatbotWrap = document.querySelector('.chatbotWrap');
+
+                    // 2. 추가할 HTML 내용을 변수에 담습니다! (가독성을 위해 백틱 사용)
+                    const newUserMessage = `
+						<div class="chatBubble user">
+							<div class="message">${text}</div>
+						</div>
+					`;
+
+                    chatbotWrap.insertAdjacentHTML('beforeend', newUserMessage);
+                }
+            }
+
+            function commandMAP_RL(params) {
+                alert(
+                    `주소(임의, MAP_RL) - LAT: ${params.lat}, LNG: ${params.lng}, LABEL: ${params.label}`,
+                );
+            }
+            function commandMAP_SL(params) {
+                alert(
+                    `주소(지정, MAP_SL) - LAT: ${params.lat}, LNG: ${params.lng}, LABEL: ${params.label}`,
+                );
+            }
+
+            function commandTEL(params) {
+                alert(`전화걸기(${params.value})`);
+            }
+
+            function commandCOPY(params) {
+                alert(`복사하기(${params.value})`);
+            }
+
+            function commandDIRECTIONS_TO(params) {
+                alert(
+                    `길찾기(현재→목적지, DIRECTIONS_TO) - LAT: ${params.lat}, LNG: ${params.lng}, LABEL: ${params.label}`,
+                );
+            }
+        </script>
+    </head>
+    <body>
+        <div class="containerFrame">
+            <div class="mainContent">
+                <!-- chatbot -->
+                <link
+                    type="text/css"
+                    rel="stylesheet"
+                    href="../css/chatbot.css"
+                />
+                <div class="chatbotWrap">
+                    <div class="chatBubble user">
+                        <div class="message">
+                            무상수거서비스를 이용하기 어려운 경우에 대해서
+                            알려줘
+                        </div>
+                    </div>
+
+                    <div class="chatBubble ai">
+                        <div class="message">
+                            더 편리한 방법은
+                            <button
+                                type="button"
+                                class="textLink"
+                                onClick='dispatcher("URL", {"value": "https://www.gjcity.go.kr/portal/bbs/view.do?bIdx=294427&ptIdx=1&mId=0201010000"});'
+                            >
+                                대형폐기물 스티커 판매처 ↗</button
+                            >를 찾아갈 필요 없이
+                            <button
+                                type="button"
+                                class="textLink"
+                                onClick='dispatcher("URL", {"value": "https://smartclean.nowon.kr/"});'
+                            >
+                                "스마트클린 노원" ↗
+                            </button>
+                            홈페이지를 이용하면 즉시 배출이 가능합니다.
+                        </div>
+                    </div>
+
+                    <div class="chatBubble ai">
+                        <div class="selectCard">
+                            <p class="cardText">
+                                더 자세한 정보나 다른 배출 방법을 확인할까요?
+                            </p>
+                            <div class="btnGroup">
+                                <button
+                                    type="button"
+                                    class="btnDefault"
+                                    onClick='dispatcher("EXIT");'
+                                >
+                                    아니오
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btnPrimary"
+                                    onClick='dispatcher("MORE", {"value": "전환질문 텍스트!!!"});'
+                                >
+                                    예
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DQ 유형은 앞의 모든 유형들이 나올 수 있음. -->
+                    <div class="selectCard">
+                        <button type="button" class="closeBtn">닫기</button>
+                        <p class="cardText">
+                            냉장고 뒷면의 냉각기(컴프레셔)가 파손되었거나,
+                            임의로 떼어낸 적이 있으신가요?
+                        </p>
+                        <div class="btnGroup vertical">
+                            <button
+                                type="button"
+                                class="btnOutline"
+                                onClick='dispatcher("ASK", {"value": "네, 파손·분실 되었습니다."});'
+                            >
+                                네, 파손·분실 되었습니다.
+                            </button>
+                            <button
+                                type="button"
+                                class="btnPrimary"
+                                onClick='dispatcher("ASK", {"value": "아니요, 정상 작동 합니다."});'
+                            >
+                                아니요, 정상 작동 합니다.
+                            </button>
+                            <button
+                                type="button"
+                                class="btnOutline"
+                                onClick='dispatcher("URL", {"value": "https://15990903.or.kr/portal/main/main.do"});'
+                            >
+                                온라인으로 무상 수거 예약하기
+                            </button>
+                            <button
+                                type="button"
+                                class="btnPrimary"
+                                onClick='dispatcher("ASK", {"value": "다른 배출 방법에 대해 알려줘!"});'
+                            >
+                                다른 배출 방법 보기
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="infoYellowCard">
+                        <strong class="infoTitle"
+                            >가장 가까운 방문 구매처(행정복지센터)</strong
+                        >
+                        <ul class="infoList">
+                            <li>
+                                <button
+                                    type="button"
+                                    class="textLink"
+                                    onClick='dispatcher("MAP_SL", {"lat": "37.654165", "lng": "127.056531", "label": "상계6·7동 주민센터"});'
+                                >
+                                    상계6·7동 주민센터</button
+                                >(행정복지센터)
+                            </li>
+                            <li>
+                                <button
+                                    type="button"
+                                    class="textLink"
+                                    onClick='dispatcher("TEL", {"value": "0221162861"});'
+                                >
+                                    02-2116-2861
+                                </button>
+                            </li>
+                            <li>운영 시간: 평일 09:00~18:00</li>
+                        </ul>
+                    </div>
+
+                    <div class="companyCard">
+                        <h3 class="companyName">도성환경</h3>
+                        <div class="companyTop">
+                            <div class="companyTopItem">
+                                <span class="phoneNum">02-593-9283</span>
+                                <div class="alignRight">
+                                    <button
+                                        type="button"
+                                        class="btnCopy"
+                                        onClick='dispatcher("COPY", {"value": "02-593-9283"});'
+                                    >
+                                        <i class="ico copy"></i>복사하기
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btnAction blue"
+                                        onClick='dispatcher("TEL", {"value": "025939283"});'
+                                    >
+                                        <i class="ico tel"></i>전화걸기
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="companyTopItem">
+                                <span class="address"
+                                    >서울 성동구 청호대로 440, 인원빌딩
+                                    3층</span
+                                >
+                                <div class="alignRight">
+                                    <button
+                                        type="button"
+                                        class="btnAction blue"
+                                        onClick='dispatcher("MAP_RL", {"lat": "37.5623081", "lng": "127.0544521", "label": "인원빌딩"});'
+                                    >
+                                        <i class="ico map"></i>지도보기
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="companyTopItem">
+                                <p class="distance">
+                                    거리 <span class="bold big">22km</span>
+                                </p>
+                                <div class="alignRight">
+                                    <button
+                                        type="button"
+                                        class="btnAction"
+                                        onClick='dispatcher("DIRECTIONS_TO", {"lat": "37.5623081", "lng": "127.0544521", "label": "인원빌딩"});'
+                                    >
+                                        <i class="ico map2"></i>길찾기
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- // chatbot -->
+            </div>
+        </div>
+    </body>
+</html>

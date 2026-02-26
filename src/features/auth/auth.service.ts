@@ -25,11 +25,14 @@ const deviceAttestModule = NativeModules.DeviceAttest as
  * - SAFE_MARGIN_SECONDS(60초) 만큼의 여유를 두어, 토큰이 곧 만료될 경우에도 expired로 간주
  */
 export function isTokenExpired(token: string): boolean {
-    const decoded = jwtDecode<JwtPayload>(token);
-
-    const now = Math.floor(Date.now() / 1000);
-
-    return decoded.exp <= now + SAFE_MARGIN_SECONDS;
+    try {
+        const decoded = jwtDecode<JwtPayload>(token);
+        const now = Math.floor(Date.now() / 1000);
+        return decoded.exp <= now + SAFE_MARGIN_SECONDS;
+    } catch (error) {
+        console.log('Failed to decode token:', error);
+        return true; // 디코딩 실패 시 안전하게 만료된 것으로 간주
+    }
 }
 
 async function requestAttestedToken(nonce: string): Promise<string> {
@@ -98,4 +101,15 @@ export async function issueTokenAndCache(): Promise<string | null> {
         useAuthStore.getState().setToken(token);
     }
     return token;
+}
+
+/**
+ * 초기화용 토큰 확보: 기존 유효 토큰 우선 사용, 없거나 만료된 경우 신규 발급
+ */
+export async function ensureInitToken(): Promise<string | null> {
+    const cached = useAuthStore.getState().accessToken;
+    if (cached && !isTokenExpired(cached)) {
+        return cached;
+    }
+    return issueTokenAndCache();
 }
