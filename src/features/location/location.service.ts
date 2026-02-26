@@ -1,9 +1,10 @@
 import { mmkv } from '@/shared/core/storage/mmkv';
-import { coord2regioncode } from './location.api';
+import { locationRegionH } from './location.api';
 import {
     Coordinate,
     KakaoRegionCodeDocument,
     LocationCoordinate,
+    LocationRegionResponse,
 } from './location.type';
 import Geolocation from 'react-native-geolocation-service';
 import { ADDRESS_KEY, LAT_KEY, LNG_KEY } from './location.constant';
@@ -42,15 +43,10 @@ export function getCurrentPosition(): Promise<LocationCoordinate> {
 export async function resolveRegion(
     coord: Coordinate,
     regionType: 'H' | 'B' = 'H',
-): Promise<KakaoRegionCodeDocument | null> {
+): Promise<LocationRegionResponse | null> {
     try {
-        const response = await coord2regioncode(coord);
-        const documents = response?.documents || [];
-        const kakaoRegion = documents.find(
-            document => document.region_type === regionType,
-        );
-
-        return kakaoRegion || null;
+        const response = await locationRegionH(coord);
+        return response || null;
     } catch (error) {
         console.error('Error resolving address:', error);
         return null;
@@ -63,7 +59,14 @@ export async function resolveRegion(
 /**
  * 위치정보 저장
  */
-export function setLocation({ lat, lng, address }: LocationCoordinate): void {
+export function setLocation({
+    lat,
+    lng,
+    addressName,
+    region1DepthName,
+    region2DepthName,
+    region3DepthName,
+}: LocationCoordinate): void {
     mmkv.set(LAT_KEY, lat);
     mmkv.set(LNG_KEY, lng);
     mmkv.set(ADDRESS_KEY, address ?? '');

@@ -1,108 +1,108 @@
+import { AxiosError, InternalAxiosRequestConfig } from 'axios';
+import { getApiAuthProvider } from './provider';
 import { http } from './http';
-import EncryptedStorage from 'react-native-encrypted-storage';
 
-/* ===============================
-   토큰 관리
-================================= */
+type RetryableRequestConfig = InternalAxiosRequestConfig & { _retry?: boolean };
+type InterceptorState = { requestId: number; responseId: number };
 
-const ACCESS_TOKEN_KEY = 'ACCESS_TOKEN';
-
-async function getToken(): Promise<string | null> {
-    return EncryptedStorage.getItem(ACCESS_TOKEN_KEY);
+declare global {
+    // [추가] HMR에서도 유지되는 전역 등록 상태
+    var __ECOAI_HTTP_INTERCEPTOR_STATE__: InterceptorState | undefined;
 }
 
-async function setToken(token: string): Promise<void> {
-    await EncryptedStorage.setItem(ACCESS_TOKEN_KEY, token);
-}
+let issueTokenInFlight: Promise<string | null> | null = null;
 
-async function clearToken(): Promise<void> {
-    await EncryptedStorage.removeItem(ACCESS_TOKEN_KEY);
-}
+/**
+ * single-flight로 토큰 재발급 1회 보장
+ * */
+async function issueTokenSingleFlight(
+    forceClear: boolean,
+): Promise<string | null> {
+    const provider = getApiAuthProvider();
+    if (!provider) return null;
 
-/* ===============================
-   재 Attestation 로그인
-================================= */
-
-async function reAuthenticate(): Promise<string> {
-    // TODO: 네이티브 Attestation 토큰 생성 연결
-    const attestationToken = 'ATT_TOKEN_SAMPLE';
-
-    const { data } = await http.post('/auth/attestation', {
-        attestationToken,
-    });
-
-    const newToken: string = data.accessToken;
-
-    await setToken(newToken);
-
-    return newToken;
-}
-
-/* ===============================
-   401 큐 처리
-================================= */
-
-let isRefreshing = false;
-let subscribers: Array<(token: string) => void> = [];
-
-function subscribe(callback: (token: string) => void) {
-    subscribers.push(callback);
-}
-
-function notifySubscribers(token: string) {
-    subscribers.forEach(cb => cb(token));
-    subscribers = [];
-}
-
-/* ===============================
-   요청 인터셉터
-================================= */
-
-http.interceptors.request.use(async config => {
-    const token = await getToken();
-
-    if (token && config.headers) {
-        config.headers.Authorization = `Bearer ${token}`;
+    if (issueTokenInFlight) {
+        return issueTokenInFlight;
     }
 
-    return config;
-});
+    issueTokenInFlight = (async () => {
+        if (forceClear && provider.clearAccessToken) {
+            await provider.clearAccessToken();
+        }
+        return provider.issueAccessToken();
+    })().finally(() => {
+        issueTokenInFlight = null;
+    });
 
-/* ===============================
-   응답 인터셉터
-================================= */
+    return issueTokenInFlight;
+}
 
-http.interceptors.response.use(
-    response => response,
-    async error => {
-        const originalRequest = error.config;
+/**
+ * 유효한 액세스 토큰 확보
+ * */
+async function getValidAccessToken(
+    forceReissue: boolean,
+): Promise<string | null> {
+    const provider = getApiAuthProvider();
+    if (!provider) return null;
 
-        if (error.response?.status === 401) {
-            await clearToken();
+    if (!forceReissue) {
+        const currentToken = await provider.getAccessToken();
+        if (currentToken && !provider.isTokenExpired(currentToken)) {
+            return currentToken;
+        }
+    }
 
-            if (!isRefreshing) {
-                isRefreshing = true;
+    // 만료/미보유/401 모두 single-flight 발급 경로로 통일
+    return issueTokenSingleFlight(forceReissue);
+}
 
-                try {
-                    const newToken = await reAuthenticate();
-                    isRefreshing = false;
-                    notifySubscribers(newToken);
-                } catch (err) {
-                    isRefreshing = false;
-                    return Promise.reject(err);
-                }
+/**
+ * API 인터셉터 등록 보장.
+ * - 중복 등록 방지
+ */
+export function ensureApiInterceptorsRegistered(): void {
+    // 이미 등록되어 있으면 중복 등록하지 않음
+    if (globalThis.__ECOAI_HTTP_INTERCEPTOR_STATE__) {
+        return;
+    }
+
+    const requestId = http.interceptors.request.use(async config => {
+        if (config.headers?.Authorization) return config;
+
+        const token = await getValidAccessToken(false);
+        if (token) {
+            config.headers = config.headers ?? {};
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    });
+
+    const responseId = http.interceptors.response.use(
+        response => response,
+        async (error: AxiosError) => {
+            const originalRequest = error.config as
+                | RetryableRequestConfig
+                | undefined;
+
+            if (
+                error.response?.status === 401 &&
+                originalRequest &&
+                !originalRequest._retry
+            ) {
+                originalRequest._retry = true;
+
+                const newToken = await getValidAccessToken(true);
+                if (!newToken) return Promise.reject(error);
+
+                originalRequest.headers = originalRequest.headers ?? {};
+                originalRequest.headers.Authorization = `Bearer ${newToken}`;
+                return http(originalRequest);
             }
 
-            return new Promise(resolve => {
-                subscribe((token: string) => {
-                    if (originalRequest.headers) {
-                        originalRequest.headers.Authorization = `Bearer ${token}`;
-                    }
-                    resolve(http(originalRequest));
-                });
-            });
-        }
+            return Promise.reject(error);
+        },
+    );
 
-        return Promise.reject(error);
-    },
-);
+    globalThis.__ECOAI_HTTP_INTERCEPTOR_STATE__ = { requestId, responseId };
+}

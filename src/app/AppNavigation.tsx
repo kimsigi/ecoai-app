@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ROUTES } from './app.route';
-import { AppNavigationProps, StackParamList } from './app.type';
+import { AppNavigationProps, ROUTES, StackParamList } from './app.route';
+
 import LocationPickerScreen from '@/features/location/ui/LocationPickerScreen';
 import ShowcaseScreen from '@/features/showcase/ShowcaseScreen';
 import AiChatScreen from '@/features/aichat/AiChatScreen';

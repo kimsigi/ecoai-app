@@ -88,10 +88,6 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        // react-native-app-auth 라이브러리땜에 별도 추가함
-        manifestPlaceholders = [
-            appAuthRedirectScheme: "com.kyolimsoft.rnd.ecoai.app"
-        ]
     }
     signingConfigs {
         debug {

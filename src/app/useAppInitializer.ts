@@ -7,20 +7,37 @@ import { getLocation } from '@/features/location';
 import { getUserType } from '@/features/usertype';
 import { hasRequiredPermissions } from '@/features/permission';
 import { initDeviceId } from '@/shared/core/device';
-import { issueTokenAndCache } from '@/features/auth/auth.service';
+import { ensureInitToken, registerAuthProvider } from '@/features/auth';
+import { ensureApiInterceptorsRegistered } from '@/shared/core/api';
 
 export function useAppInitializer() {
     const [state, setState] = useState<InitState>(INIT_STATE.CHECKING);
-    //const nativeSplashHidden = useRef(false);
+
+    // single-flight 보장
+    const initInFlightRef = useRef<Promise<InitState> | null>(null);
+
+    /** initApp을 single-flight로 실행 */
+    const runInitSingleFlight = useCallback(async (): Promise<InitState> => {
+        if (!initInFlightRef.current) {
+            initInFlightRef.current = (async () => {
+                try {
+                    return await initApp();
+                } finally {
+                    initInFlightRef.current = null;
+                }
+            })();
+        }
+        return initInFlightRef.current;
+    }, []);
 
     /** -------------------------------
      * 초기화 엔트리 포인트
      * ------------------------------- */
     const entryPoint = useCallback(async () => {
         setState(INIT_STATE.CHECKING);
-        const result = await initApp();
+        const result = await runInitSingleFlight();
         setState(result);
-    }, []);
+    }, [runInitSingleFlight]);
 
     /* -------------------------------
      * 초기화 시작
@@ -31,19 +48,6 @@ export function useAppInitializer() {
         entryPoint();
     }, [entryPoint]);
 
-    /* -------------------------------
-     * BootSplash 제어
-     * ------------------------------- */
-    /*
-    useEffect(() => {
-        if (!nativeSplashHidden.current) {
-            if (state !== INIT_STATE.CHECKING) {
-                BootSplash.hide({ fade: true });
-                nativeSplashHidden.current = true;
-            }
-        }
-    }, [state]);
-    */
     return {
         state,
         entryPoint,
@@ -58,31 +62,27 @@ async function initApp(): Promise<InitState> {
     // 디바이스 ID 초기화 (없으면 생성 후 저장)
     initDeviceId();
 
-    /* 1. OTA 업데이트 및 앱 버전 체크 (현재 비활성)
-     최신 버전이 아니거나 강제 업데이트가 필요한 경우 진입 차단 */
-    /*
-  const ota = {forceUpdate: null};//await checkOtaAndVersion();
-  if (ota.forceUpdate) return INIT_STATE.FORCE_UPDATE;
-  */
+    // 인증 Provider 등록 (core/api에서 토큰 발급/만료 체크 시 auth feature의 로직 사용)
+    ensureApiInterceptorsRegistered(); // 인터셉터 등록 보장
+    registerAuthProvider();
 
-    // 2. 네트워크 연결 상태 확인
-    // 인터넷 미연결 시 오프라인 안내 화면으로 유도
+    // 네트워크 연결 상태 확인
     const network = await checkNetwork();
     if (!network) return INIT_STATE.NETWORK_ERROR;
 
-    // 3. 필수 권한 체크 + 순차 요청 */
+    // 필수 권한 체크 + 순차 요청 */
     const hasPermission = await hasRequiredPermissions();
     if (!hasPermission) return INIT_STATE.PERMISSION_REQUIRED;
 
-    // 4. 토큰 발급 및 스토어 저장
-    const token = await issueTokenAndCache();
+    // 토큰 발급 및 스토어 저장
+    const token = await ensureInitToken();
     if (!token) return INIT_STATE.AUTH_ERROR;
 
-    // 5. 주소 정보 확인
+    // 주소 정보 확인
     const location = getLocation();
     if (!location) return INIT_STATE.ADDRESS_REQUIRED;
 
-    // 6. 사용자 유형 체크 (예: 일반/사업자)
+    // 사용자 유형 체크 (예: 일반/사업자)
     const userType = getUserType();
     if (!userType) return INIT_STATE.USER_TYPE_REQUIRED;
 

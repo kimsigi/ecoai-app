@@ -9,9 +9,9 @@ import {
 } from './location.service';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { StackParamList } from '@/app/app.type';
-import { ROUTES } from '@/app/app.route';
+import { ROUTES, StackParamList } from '@/app/app.route';
 import { FALLBACK } from '@/shared/core/config';
+import { useAuthStore } from '../auth/auth.store';
 
 export function useLocationPicker(params: Partial<LocationCoordinate>) {
     const navigation =
@@ -70,7 +70,7 @@ export function useLocationPicker(params: Partial<LocationCoordinate>) {
                 setCoordinate({
                     lat: gps.lat,
                     lng: gps.lng,
-                    address: response?.address_name,
+                    address: response?.addressName,
                 });
 
                 mapRef.current?.moveTo(gps.lat, gps.lng);
@@ -116,6 +116,10 @@ export function useLocationPicker(params: Partial<LocationCoordinate>) {
      * --------------------------------- */
     const confirmLocation = useCallback(async () => {
         try {
+            console.log('### lat: ', coordinate.lat);
+            console.log('### lng: ', coordinate.lng);
+            console.log(useAuthStore.getState().accessToken);
+
             const response = await resolveRegion({
                 lat: coordinate.lat,
                 lng: coordinate.lng,
@@ -124,7 +128,7 @@ export function useLocationPicker(params: Partial<LocationCoordinate>) {
             const finalCoordinate: LocationCoordinate = {
                 lat: coordinate.lat,
                 lng: coordinate.lng,
-                address: response?.address_name,
+                address: response?.addressName,
             };
 
             setLocation(finalCoordinate);

@@ -31,7 +31,6 @@ export async function requestToken(params: {
     // TODO. 개발용 더미 , IF문 개발 완료 후 제거 필요
     if (true) {
         body.append('client_secret', 'test-1111'); // 개발용 고정 시크릿
-        console.log('### 빠디: ', body.toString());
         return await authPost<KeycloakTokenResponse>(
             AUTH_ENDPOINTS.TOKEN,
             body.toString(),
