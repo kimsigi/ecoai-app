@@ -47,6 +47,17 @@ export default function ShowcaseScreen() {
                     <Text>퍼미션</Text>
                 </TouchableOpacity>
             </View>
+            
+            {/* 카메라 캡쳐 */}
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.CAMERA_CAPTURE)}
+                >
+                    <Text>카메라 캡쳐</Text>
+                </TouchableOpacity>
+            </View>
 
             {/* 👇 구분선 추가 */}
             <View style={styles.separator} />

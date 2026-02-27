@@ -18,6 +18,7 @@ import LocationAddressSearchScreen from "@/features/location/ui/LocationAddressS
 import UserTypeScreen from "@/features/usertype/UserTypeScreen";
 import { HomeScreen } from "@/features/home/HomeScreen";
 import { HeaderProps, ScreenScaffold } from "@/shared/ui/component/layout";
+import CameraCaptureScreen from "@/features/camera/CameraCaptureScreen";
 
 const Stack = createNativeStackNavigator<StackParamList>();
 
@@ -170,6 +171,18 @@ const ROUTES_CONFIG: RouteConfig[] = [
       header: { variant: "none" },
       backgroundColor: "#2186e8",
       statusBarStyle: "light-content",
+    },
+  },
+  {
+    name: ROUTES.CAMERA_CAPTURE,
+    component: CameraCaptureScreen,
+    layout: {
+      mode: "overlay",
+      header: { variant: "none" },
+      backgroundColor: "#000000", // [수정]
+      statusBarStyle: "light-content", // [수정]
+      statusBarBackgroundColor: "transparent", // [수정]
+      protectBottomInset: false, // [수정]
     },
   },
   {

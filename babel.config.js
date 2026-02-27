@@ -12,5 +12,7 @@ module.exports = {
                 extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.svg'],
             },
         ],
+        // 반드시 마지막!
+        'react-native-reanimated/plugin',
     ],
 };

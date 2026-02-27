@@ -17,6 +17,7 @@ export const ROUTES = {
     LOCATION_ADDRESS_SEARCH: 'LocationAddressSearch',
     USER_TYPE: 'UserType',
     HOME: 'Home',
+    CAMERA_CAPTURE: 'CameraCapture',
     AI_CHAT: 'AiChat',
 } as const;
 
@@ -27,6 +28,7 @@ export type StackParamList = {
     [ROUTES.LOCATION_ADDRESS_SEARCH]: LocationAddressSearchParams | undefined;
     [ROUTES.USER_TYPE]: undefined;
     [ROUTES.HOME]: undefined;
+    [ROUTES.CAMERA_CAPTURE]: undefined;
     [ROUTES.AI_CHAT]: undefined;
 };
 

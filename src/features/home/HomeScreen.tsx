@@ -1,5 +1,9 @@
+import { ROUTES, StackParamList } from '@/app/app.route';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
 import {
+    Alert,
     Pressable,
     ScrollView,
     StatusBar,
@@ -10,6 +14,10 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export function HomeScreen() {
+
+    const route = useRoute();
+    const navigation = useNavigation<NativeStackNavigationProp<StackParamList>>();
+
     return (
         <SafeAreaView style={styles.safeArea}>
             <StatusBar barStyle="light-content" backgroundColor="#2186e8" />
@@ -58,7 +66,9 @@ export function HomeScreen() {
                         이제 AI에게 한컷 스마트하게 실천하세요
                     </Text>
 
-                    <Pressable style={styles.ctaCard}>
+                    <Pressable 
+                        style={styles.ctaCard} 
+                        onPress={() => navigation.push(ROUTES.CAMERA_CAPTURE)}>
                         <View style={styles.ctaCircle}>
                             <Text style={styles.ctaIcon}>♻️</Text>
                         </View>
