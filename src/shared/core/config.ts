@@ -27,6 +27,8 @@ export const KAKAO = {
  * FALLBACK 값
  * --------------------------------- */
 export const FALLBACK = {
-    MAP_LAT: 37.486083617117,
-    MAP_LNG: 126.894651701587,
+    //MAP_LAT: '37.486083617117',
+    //MAP_LNG: '126.894651701587',
+    MAP_LAT: '37.5662952',
+    MAP_LNG: '126.9779451',
 };

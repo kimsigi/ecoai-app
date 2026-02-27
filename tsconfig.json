@@ -22,8 +22,7 @@
         "types": ["node"]
     },
 
-    // src 내부 파일만 감시 대상
-    "include": ["src/**/*.ts", "src/**/*.tsx"],
+    "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts"],
     // 쓸데없는 폴더 제외
     "exclude": ["node_modules", "android", "ios"]
 }

@@ -1,5 +1,4 @@
-import { API } from '../config';
-import { authHttp, http, kakaoHttp } from './http';
+import { authHttp, http } from './http';
 
 /**
  * GET
@@ -52,16 +51,5 @@ export async function authGet<T>(
  */
 export async function authPost<T>(url: string, body?: unknown): Promise<T> {
     const { data } = await authHttp.post<T>(url, body);
-    return data;
-}
-
-/**
- * KAKAO GET
- */
-export async function kakaoGet<T>(
-    url: string,
-    params?: Record<string, unknown>,
-): Promise<T> {
-    const { data } = await kakaoHttp.get<T>(url, { params });
     return data;
 }

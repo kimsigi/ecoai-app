@@ -1,8 +1,8 @@
 import { FALLBACK, KAKAO } from '@/shared/core/config';
 
 const jsKey = KAKAO.JAVASCRIPT_KEY;
-const fallbackMapLat = FALLBACK.MAP_LAT;
-const fallbackMapLng = FALLBACK.MAP_LNG;
+const fallbackMapLat: number = Number(FALLBACK.MAP_LAT);
+const fallbackMapLng: number = Number(FALLBACK.MAP_LNG);
 
 export const createKakaoMapHtml = () => {
     return `
@@ -284,8 +284,8 @@ export const createKakaoMapHtml = () => {
                     loadingBarDelayTimer = setTimeout(function () {
                         html2App({
                             type: "MAP_DRAG_END",
-                            latitude: lat,
-                            longitude: lng
+                            latitude: lat?.toString() ?? '',
+                            longitude: lng?.toString() ?? '',
                         });
 
                         customMakerOverlay.setContent(overlayMarker1);

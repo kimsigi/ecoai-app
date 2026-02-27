@@ -13,8 +13,6 @@
         <script src="../js/contents.js"></script>
         <script>
             function dispatcher(type, params) {
-                console.log('#### type: ', type);
-                console.log('#### type: ', params);
                 if (type === 'URL') {
                     commandURL(params);
                 } else if (type === 'MORE') {

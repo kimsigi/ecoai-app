@@ -1,24 +1,37 @@
 import { mmkv } from '@/shared/core/storage/mmkv';
-import { locationRegionH } from './location.api';
 import {
     Coordinate,
-    KakaoRegionCodeDocument,
-    LocationCoordinate,
+    LocationApiParams,
+    LocationData,
     LocationRegionResponse,
 } from './location.type';
 import Geolocation from 'react-native-geolocation-service';
-import { ADDRESS_KEY, LAT_KEY, LNG_KEY } from './location.constant';
+import { locationRegion } from './location.api';
+import {
+    ADDRESS_NAME_KEY,
+    ADDRESS_TYPE_KEY,
+    CATEGORY_NAME_KEY,
+    DISTANCE_KEY,
+    LAT_KEY,
+    LNG_KEY,
+    PLACE_NAME_KEY,
+    REGION_1DEPTH_NAME_KEY,
+    REGION_2DEPTH_NAME_KEY,
+    REGION_3DEPTH_NAME_KEY,
+    REGION_CODE_KEY,
+    ROAD_ADDRESS_NAME_KEY,
+} from './location.constant';
 
 /**
  * 현재 GPS 위치 조회
  */
-export function getCurrentPosition(): Promise<LocationCoordinate> {
+export function getCurrentPosition(): Promise<Coordinate> {
     return new Promise((resolve, reject) => {
         Geolocation.getCurrentPosition(
             position => {
                 resolve({
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
+                    lat: position.coords.latitude?.toString() ?? '',
+                    lng: position.coords.longitude?.toString() ?? '',
                 });
             },
             error => reject(error),
@@ -37,15 +50,14 @@ export function getCurrentPosition(): Promise<LocationCoordinate> {
 }
 
 /**
- * 좌표로 행정구역정보 변환
- *  - x, y 좌표값을 받아 해당 좌표에 부합하는 행정동, 법정동 정보 조회
+ * 좌표로 행정구역 조회
+ *  - 위도(lat), 경도(lng)를 이용하여 행정구역 정보를 조회합니다.
  */
 export async function resolveRegion(
-    coord: Coordinate,
-    regionType: 'H' | 'B' = 'H',
+    params: LocationApiParams,
 ): Promise<LocationRegionResponse | null> {
     try {
-        const response = await locationRegionH(coord);
+        const response = await locationRegion(params);
         return response || null;
     } catch (error) {
         console.error('Error resolving address:', error);
@@ -59,28 +71,92 @@ export async function resolveRegion(
 /**
  * 위치정보 저장
  */
-export function setLocation({
-    lat,
-    lng,
-    addressName,
-    region1DepthName,
-    region2DepthName,
-    region3DepthName,
-}: LocationCoordinate): void {
+export function setLocation(locationData: LocationData): void {
+    const {
+        // 좌표 별칭 지정 (x -> lng, y -> lat)
+        y: lat = '',
+        x: lng = '',
+
+        // 기본 필드 및 기본값 설정
+        addressName = '',
+        region1DepthName = '',
+        region2DepthName = '',
+        region3DepthName = '',
+        code = '',
+        type = '', // LocationSearchType
+        placeName = '',
+        roadAddressName = '',
+        distance = 0,
+        categoryName = '',
+    } = locationData || {};
+
+    // 기존 위치정보 초기화
+    clearLocation();
+
+    /* ---------- MMKV Storage 저장 ---------- */
+
+    // 1. 좌표 및 주요 주소 정보
     mmkv.set(LAT_KEY, lat);
     mmkv.set(LNG_KEY, lng);
-    mmkv.set(ADDRESS_KEY, address ?? '');
+    mmkv.set(ADDRESS_NAME_KEY, addressName);
+
+    // 2. 행정구역 상세 정보
+    mmkv.set(REGION_1DEPTH_NAME_KEY, region1DepthName);
+    mmkv.set(REGION_2DEPTH_NAME_KEY, region2DepthName);
+    mmkv.set(REGION_3DEPTH_NAME_KEY, region3DepthName);
+    mmkv.set(REGION_CODE_KEY, code);
+
+    // 3. 장소 및 카테고리 정보
+    mmkv.set(ADDRESS_TYPE_KEY, type);
+    mmkv.set(PLACE_NAME_KEY, placeName);
+    mmkv.set(ROAD_ADDRESS_NAME_KEY, roadAddressName);
+    mmkv.set(DISTANCE_KEY, distance);
+    mmkv.set(CATEGORY_NAME_KEY, categoryName);
+}
+
+/**
+ * 위치정보 초기화
+ */
+function clearLocation(): void {
+    // 1. 좌표 및 주요 주소 정보 삭제
+    mmkv.remove(LAT_KEY);
+    mmkv.remove(LNG_KEY);
+    mmkv.remove(ADDRESS_NAME_KEY);
+
+    // 2. 행정구역 상세 정보 삭제
+    mmkv.remove(REGION_1DEPTH_NAME_KEY);
+    mmkv.remove(REGION_2DEPTH_NAME_KEY);
+    mmkv.remove(REGION_3DEPTH_NAME_KEY);
+    mmkv.remove(REGION_CODE_KEY);
+
+    // 3. 장소 및 카테고리 정보 삭제
+    mmkv.remove(ADDRESS_TYPE_KEY);
+    mmkv.remove(PLACE_NAME_KEY);
+    mmkv.remove(ROAD_ADDRESS_NAME_KEY);
+    mmkv.remove(DISTANCE_KEY);
+    mmkv.remove(CATEGORY_NAME_KEY);
 }
 
 /**
  * 위치정보 조회
  */
-export function getLocation(): LocationCoordinate | null {
-    const lat = mmkv.getNumber(LAT_KEY);
-    const lng = mmkv.getNumber(LNG_KEY);
-    const address = mmkv.getString(ADDRESS_KEY);
+export function getLocation(): LocationData | null {
+    const y = mmkv.getString(LAT_KEY) ?? '';
+    const x = mmkv.getString(LNG_KEY) ?? '';
+    if (!y || !x) return null;
 
-    if (!lat || !lng) return null;
-
-    return { lat, lng, address };
+    return {
+        y,
+        x,
+        addressName: mmkv.getString(ADDRESS_NAME_KEY) ?? '',
+        region1DepthName: mmkv.getString(REGION_1DEPTH_NAME_KEY) ?? '',
+        region2DepthName: mmkv.getString(REGION_2DEPTH_NAME_KEY) ?? '',
+        region3DepthName: mmkv.getString(REGION_3DEPTH_NAME_KEY) ?? '',
+        code: mmkv.getString(REGION_CODE_KEY) ?? '',
+        type: mmkv.getString(ADDRESS_TYPE_KEY) as any, // enum 타입인 경우 캐스팅
+        placeName: mmkv.getString(PLACE_NAME_KEY) ?? '',
+        roadAddressName: mmkv.getString(ROAD_ADDRESS_NAME_KEY) ?? '',
+        distance: mmkv.getNumber(DISTANCE_KEY) ?? 0,
+        categoryName: mmkv.getString(CATEGORY_NAME_KEY) ?? '',
+    };
 }

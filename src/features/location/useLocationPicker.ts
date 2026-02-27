@@ -7,13 +7,14 @@ import {
     resolveRegion,
     setLocation,
 } from './location.service';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ROUTES, StackParamList } from '@/app/app.route';
 import { FALLBACK } from '@/shared/core/config';
-import { useAuthStore } from '../auth/auth.store';
 
-export function useLocationPicker(params: Partial<LocationCoordinate>) {
+export function useLocationPicker() {
+    const route = useRoute();
+    const routeParams = route.params as Partial<LocationCoordinate>;
     const navigation =
         useNavigation<NativeStackNavigationProp<StackParamList>>();
     const mapRef = useRef<MapHandle>(null);
@@ -21,20 +22,20 @@ export function useLocationPicker(params: Partial<LocationCoordinate>) {
 
     const [coordinate, setCoordinate] = useState<LocationCoordinate>(() => {
         // 1️. route param
-        if (params?.lat && params?.lng) {
+        if (routeParams?.lat && routeParams?.lng) {
             return {
-                lat: params.lat,
-                lng: params.lng,
+                lat: routeParams.lat,
+                lng: routeParams.lng,
             };
         }
 
         // 2️. mmkv
         const saved = getLocation();
-        if (saved?.lat && saved?.lng) {
+        if (saved?.x && saved?.y) {
             return {
-                lat: saved.lat,
-                lng: saved.lng,
-                address: saved.address,
+                lat: saved.y,
+                lng: saved.x,
+                addressName: saved.addressName,
             };
         }
 
@@ -45,13 +46,16 @@ export function useLocationPicker(params: Partial<LocationCoordinate>) {
         };
     });
 
+    const [isResolvingAddress, setIsResolvingAddress] = useState(false);
+    const skipNextResolveRef = useRef(false);
+
     useEffect(() => {
         // 1️. route param
-        if (params?.lat && params?.lng) return;
+        if (routeParams?.lat && routeParams?.lng) return;
 
         // 2️. mmkv
         const saved = getLocation();
-        if (saved?.lat && saved?.lng) return;
+        if (saved?.x && saved?.y) return;
 
         mountedRef.current = true;
 
@@ -70,7 +74,7 @@ export function useLocationPicker(params: Partial<LocationCoordinate>) {
                 setCoordinate({
                     lat: gps.lat,
                     lng: gps.lng,
-                    address: response?.addressName,
+                    addressName: response?.addressName,
                 });
 
                 mapRef.current?.moveTo(gps.lat, gps.lng);
@@ -84,21 +88,23 @@ export function useLocationPicker(params: Partial<LocationCoordinate>) {
         return () => {
             mountedRef.current = false;
         };
-    }, [params?.lat, params?.lng]);
+    }, [routeParams?.lat, routeParams?.lng]);
 
     /* ---------------------------------
      * 주소 검색 이동
      * --------------------------------- */
     const goToAddressSearch = useCallback(() => {
         navigation.push(ROUTES.LOCATION_ADDRESS_SEARCH, {
+            addressName: coordinate.addressName ?? '',
             callback: (coord: LocationCoordinate) => {
                 if (coord?.lat && coord?.lng) {
+                    skipNextResolveRef.current = true; // 검색 선택값 우선
                     setCoordinate(coord);
                     mapRef.current?.moveTo(coord.lat, coord.lng);
                 }
             },
         });
-    }, [navigation]);
+    }, [navigation, coordinate.addressName]);
 
     /* ---------------------------------
      * 지도 중심 변경
@@ -111,31 +117,68 @@ export function useLocationPicker(params: Partial<LocationCoordinate>) {
         }));
     }, []);
 
+    useEffect(() => {
+        if (!coordinate.lat || !coordinate.lng) return;
+
+        if (skipNextResolveRef.current) {
+            skipNextResolveRef.current = false;
+            return; // 이번 1회는 resolveRegion 생략
+        }
+
+        let cancelled = false;
+        setIsResolvingAddress(true);
+
+        const timer = setTimeout(async () => {
+            try {
+                const response = await resolveRegion({
+                    lat: coordinate.lat,
+                    lng: coordinate.lng,
+                });
+
+                if (cancelled) return;
+
+                setCoordinate(prev => ({
+                    ...prev,
+                    addressName: response?.addressName ?? '',
+                }));
+            } catch (e) {
+                if (!cancelled) {
+                    console.warn('resolveRegion 실패:', e);
+                }
+            } finally {
+                if (!cancelled) {
+                    setIsResolvingAddress(false);
+                }
+            }
+        }, 200);
+
+        return () => {
+            cancelled = true;
+            clearTimeout(timer);
+        };
+    }, [coordinate.lat, coordinate.lng]);
+
     /* ---------------------------------
      * 위치 확정
      * --------------------------------- */
     const confirmLocation = useCallback(async () => {
         try {
-            console.log('### lat: ', coordinate.lat);
-            console.log('### lng: ', coordinate.lng);
-            console.log(useAuthStore.getState().accessToken);
-
+            setIsResolvingAddress(true);
             const response = await resolveRegion({
                 lat: coordinate.lat,
                 lng: coordinate.lng,
             });
-
-            const finalCoordinate: LocationCoordinate = {
-                lat: coordinate.lat,
-                lng: coordinate.lng,
-                address: response?.addressName,
-            };
-
-            setLocation(finalCoordinate);
+            setLocation({
+                y: coordinate.lat,
+                x: coordinate.lng,
+                addressName: coordinate.addressName,
+            });
 
             navigation.push(ROUTES.USER_TYPE);
         } catch (error) {
             console.warn('위치 확정 실패:', error);
+        } finally {
+            setIsResolvingAddress(false);
         }
     }, [coordinate, navigation]);
 
@@ -145,5 +188,6 @@ export function useLocationPicker(params: Partial<LocationCoordinate>) {
         goToAddressSearch,
         handleCenterChange,
         confirmLocation,
+        isResolvingAddress,
     };
 }

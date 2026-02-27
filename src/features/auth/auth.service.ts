@@ -30,7 +30,7 @@ export function isTokenExpired(token: string): boolean {
         const now = Math.floor(Date.now() / 1000);
         return decoded.exp <= now + SAFE_MARGIN_SECONDS;
     } catch (error) {
-        console.log('Failed to decode token:', error);
+        console.error('Failed to decode token:', error);
         return true; // 디코딩 실패 시 안전하게 만료된 것으로 간주
     }
 }
@@ -87,7 +87,7 @@ export async function issueToken(): Promise<string | null> {
         });
         return access_token || null;
     } catch (error) {
-        console.log('Failed to issue access token:', error);
+        console.error('Failed to issue access token:', error);
         return null;
     }
 }

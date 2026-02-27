@@ -1,24 +1,19 @@
 import { View, Text, TouchableOpacity } from 'react-native';
-import { useRoute } from '@react-navigation/native';
 import { KakaoMap } from '@/shared/sdk/map/kakao';
-import { LocationCoordinate } from '../location.type';
 import { styles } from '../location.style';
 import { useLocationPicker } from '../useLocationPicker';
+import SearchNavHeader from '@/shared/ui/component/header/SearchNavHeader';
 
 export default function LocationPickerScreen() {
-    const route = useRoute();
-    const params = route.params as Partial<LocationCoordinate>;
-
+    
     const {
         mapRef,
         coordinate,
         goToAddressSearch,
         handleCenterChange,
         confirmLocation,
-    } = useLocationPicker({
-        lat: params?.lat,
-        lng: params?.lng,
-    });
+        isResolvingAddress,
+    } = useLocationPicker();
 
     return (
         <View style={styles.container}>
@@ -29,24 +24,32 @@ export default function LocationPickerScreen() {
                 lng={coordinate.lng}
                 onCenterChange={handleCenterChange}
             />
-
+            
             {/* 상단 검색바 */}
             <View style={styles.topContainer}>
-                <TouchableOpacity
-                    style={styles.searchBar}
-                    onPress={goToAddressSearch}
-                >
-                    <Text style={styles.searchText}>주소를 검색하세요</Text>
-                </TouchableOpacity>
+                <SearchNavHeader
+                    showBack={false}
+                    mode="trigger"
+                    value={coordinate.addressName ?? ""}
+                    placeholder="검색할 주소를 입력하세요"
+                    onBackPress={() => {/* 필요 시 뒤로가기 */}}
+                    onPressField={goToAddressSearch}
+                />
             </View>
 
             {/* 하단 버튼 */}
             <View style={styles.bottomContainer}>
                 <TouchableOpacity
-                    style={styles.confirmButton}
+                    style={[
+                        styles.confirmButton,
+                        isResolvingAddress && { opacity: 0.8 },
+                    ]}
                     onPress={confirmLocation}
+                    disabled={isResolvingAddress}
                 >
-                    <Text style={styles.confirmText}>이 위치로 설정</Text>
+                    <Text style={styles.confirmText}>
+                        {isResolvingAddress ? '주소 확인 중...' : '이 위치로 설정'}
+                    </Text>
                 </TouchableOpacity>
             </View>
         </View>

@@ -2,6 +2,7 @@ import {
     LocationAddressSearchParams,
     LocationPickerParams,
 } from '@/features/location';
+import { ReactNode } from 'react';
 
 /**
  * Main Routes
@@ -31,4 +32,33 @@ export type StackParamList = {
 
 export type AppNavigationProps = {
     initialRouteName?: keyof StackParamList;
+};
+
+export type ScreenLayoutMode = 'fixed' | 'overlay';
+
+export type HeaderConfig =
+    | { variant: 'none' }
+    | { variant: 'back'; backgroundColor?: string }
+    | { variant: 'back-title'; title: string; backgroundColor?: string }
+    | {
+          variant: 'back-actions';
+          title?: string;
+          actions: ReactNode | ReactNode[];
+          backgroundColor?: string;
+      }
+    | {
+          variant: 'custom';
+          // 검색 헤더 같은 완전 커스텀 용도
+          render: (ctx: { navigation: unknown; route: unknown }) => ReactNode;
+          backgroundColor?: string;
+      };
+
+export type ScreenLayoutOptions = {
+    mode?: ScreenLayoutMode;
+    header?: HeaderConfig;
+
+    backgroundColor?: string;
+    statusBarStyle?: 'light-content' | 'dark-content';
+    statusBarBackgroundColor?: string;
+    protectBottomInset?: boolean;
 };

@@ -31,7 +31,6 @@
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
-		<!--<false/> 운영시 HTTP 허용 안함-->
 		<true/>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
@@ -52,5 +51,10 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Pretendard-Regular.ttf</string>
+		<string>Pretendard-SemiBold.ttf</string>
+	</array>
 </dict>
 </plist>

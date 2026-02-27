@@ -9,8 +9,8 @@ import { WebView, WebViewMessageEvent } from 'react-native-webview';
 import { createKakaoMapHtml } from './kakaoMapHtml';
 
 export interface Coordinate {
-    lat: number;
-    lng: number;
+    lat: string;
+    lng: string;
 }
 
 interface MapViewProps extends Coordinate {
@@ -18,7 +18,7 @@ interface MapViewProps extends Coordinate {
 }
 
 export interface MapHandle {
-    moveTo: (lat: number, lng: number) => void;
+    moveTo: (lat: string, lng: string) => void;
 }
 
 const KakaoMapView = forwardRef<MapHandle, MapViewProps>(
@@ -34,7 +34,7 @@ const KakaoMapView = forwardRef<MapHandle, MapViewProps>(
         /**
          * RN -> HTML center 이동
          */
-        const moveTo = useCallback((lat: number, lng: number) => {
+        const moveTo = useCallback((lat: string, lng: string) => {
             if (!isMapReadyRef.current) return;
 
             const payload = {
@@ -72,8 +72,8 @@ const KakaoMapView = forwardRef<MapHandle, MapViewProps>(
 
                         case 'MAP_DRAG_END':
                             onCenterChange?.({
-                                lat: data.latitude,
-                                lng: data.longitude,
+                                lat: data?.latitude?.toString() ?? '',
+                                lng: data?.longitude?.toString() ?? '',
                             });
                             break;
                     }

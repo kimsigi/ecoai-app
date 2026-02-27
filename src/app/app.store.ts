@@ -3,23 +3,51 @@ import { create } from 'zustand';
 /* ------------------------------------------------------------------ */
 /* App Store                                                          */
 /* ------------------------------------------------------------------ */
+interface AppStoreState {
+    /* ---------------- Layout Policy ---------------- */
+    /** 상태바 뒤 포함 전체 배경 */
+    rootBackground: string | null;
 
-interface AppState {
+    /** SafeArea 내부(children 영역) 배경 */
+    contentBackground: string | null;
 
-  /** 앱이 MainFlow로 진입 가능한 상태인지 */
-  isAppReady: boolean;
+    /** 상태바 스타일 */
+    statusBarStyle: 'light-content' | 'dark-content' | null;
+    statusBarBackground: string | null; // Android용
+    statusBarTranslucent: boolean | null;
 
-  /** Init 완료 → Main 진입 */
-  setAppReady: (ready: boolean) => void;
+    setRootBackground: (color: string | null) => void;
+    setContentBackground: (color: string | null) => void;
+    setStatusBarStyle: (style: 'light-content' | 'dark-content' | null) => void;
+    setStatusBarBackground: (color: string | null) => void;
+    setStatusBarTranslucent: (value: boolean | null) => void;
 
-  /** 앱 완전 초기화 (권한 철회, 로그아웃 등) */
-  resetApp: () => void;
+    resetLayout: () => void;
 }
 
-const useAppStore = create<AppState>(set => ({
-    isAppReady: false,
+const useAppStore = create<AppStoreState>(set => ({
+    /* ---------------- Layout ---------------- */
+    rootBackground: null,
+    contentBackground: null,
 
-    setAppReady: ready => set({isAppReady: ready}),
-    
-    resetApp: () => set({isAppReady: false,}),
+    statusBarStyle: null,
+    statusBarBackground: null,
+    statusBarTranslucent: null,
+
+    setRootBackground: color => set({ rootBackground: color }),
+    setContentBackground: color => set({ contentBackground: color }),
+    setStatusBarStyle: style => set({ statusBarStyle: style }),
+    setStatusBarBackground: color => set({ statusBarBackground: color }),
+    setStatusBarTranslucent: value => set({ statusBarTranslucent: value }),
+
+    resetLayout: () =>
+        set({
+            rootBackground: null,
+            contentBackground: null,
+            statusBarStyle: null,
+            statusBarBackground: null,
+            statusBarTranslucent: null,
+        }),
 }));
+
+export default useAppStore;
