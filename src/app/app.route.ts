@@ -2,7 +2,6 @@ import {
     LocationAddressSearchParams,
     LocationPickerParams,
 } from '@/features/location';
-import { ReactNode } from 'react';
 
 /**
  * Main Routes
@@ -12,6 +11,11 @@ import { ReactNode } from 'react';
  */
 export const ROUTES = {
     SHOWCASE: 'Showcase',
+    SAMPLESCR1: 'SampleScreen1',
+    SAMPLESCR2: 'SampleScreen2',
+    SAMPLESCR3: 'SampleScreen3',
+    SAMPLESCR4: 'SampleScreen4',
+    SAMPLESCR5: 'SampleScreen5',
     PERMISSION: 'Permission',
     LOCATION_PICKER: 'LocationPicker',
     LOCATION_ADDRESS_SEARCH: 'LocationAddressSearch',
@@ -23,6 +27,13 @@ export const ROUTES = {
 
 export type StackParamList = {
     [ROUTES.SHOWCASE]: undefined;
+
+    [ROUTES.SAMPLESCR1]: undefined;
+    [ROUTES.SAMPLESCR2]: undefined;
+    [ROUTES.SAMPLESCR3]: undefined;
+    [ROUTES.SAMPLESCR4]: undefined;
+    [ROUTES.SAMPLESCR5]: undefined;
+
     [ROUTES.PERMISSION]: undefined;
     [ROUTES.LOCATION_PICKER]: LocationPickerParams | undefined;
     [ROUTES.LOCATION_ADDRESS_SEARCH]: LocationAddressSearchParams | undefined;
@@ -34,33 +45,4 @@ export type StackParamList = {
 
 export type AppNavigationProps = {
     initialRouteName?: keyof StackParamList;
-};
-
-export type ScreenLayoutMode = 'fixed' | 'overlay';
-
-export type HeaderConfig =
-    | { variant: 'none' }
-    | { variant: 'back'; backgroundColor?: string }
-    | { variant: 'back-title'; title: string; backgroundColor?: string }
-    | {
-          variant: 'back-actions';
-          title?: string;
-          actions: ReactNode | ReactNode[];
-          backgroundColor?: string;
-      }
-    | {
-          variant: 'custom';
-          // 검색 헤더 같은 완전 커스텀 용도
-          render: (ctx: { navigation: unknown; route: unknown }) => ReactNode;
-          backgroundColor?: string;
-      };
-
-export type ScreenLayoutOptions = {
-    mode?: ScreenLayoutMode;
-    header?: HeaderConfig;
-
-    backgroundColor?: string;
-    statusBarStyle?: 'light-content' | 'dark-content';
-    statusBarBackgroundColor?: string;
-    protectBottomInset?: boolean;
 };

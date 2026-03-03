@@ -1,272 +1,274 @@
-import { ROUTES, StackParamList } from '@/app/app.route';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React from 'react';
-import {
-    Alert,
-    Pressable,
-    ScrollView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    View,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useState } from "react";
+import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+import { ROUTES, StackParamList } from "@/app/app.route";
+import { PageLayout } from "@/shared/ui/component/layout";
+import ICON_NotificationDefault from "@/shared/ui/assets/icon/notification-default.svg";
+import ICON_NotificationActive from "@/shared/ui/assets/icon/notification-active.svg";
+import ICON_Search from "@/shared/ui/assets/icon/search.svg";
+import ICON_WINKING_FACE from "@/shared/ui/assets/icon/winking-face.svg";
+
+import MenuIcon from "@/shared/ui/assets/icon/menu.svg";
+import CameraEntryIcon from "@/shared/ui/assets/icon/camera-entry.svg";
+import GovSymbol from "@/shared/ui/assets/icon/gov-symbol.svg";
+import KecoSymbol from "@/shared/ui/assets/icon/keco-symbol.svg";
+import KyolimSymbol from "@/shared/ui/assets/icon/kyolim-symbol.svg";
+
+import { Color } from "@/shared/ui/assets/style/color";
 
 export function HomeScreen() {
-
-    const route = useRoute();
     const navigation = useNavigation<NativeStackNavigationProp<StackParamList>>();
+    const [notification, setNotification] = useState(true);
 
-    return (
-        <SafeAreaView style={styles.safeArea}>
-            <StatusBar barStyle="light-content" backgroundColor="#2186e8" />
-            <ScrollView
-                contentContainerStyle={styles.screen}
-                showsVerticalScrollIndicator={false}
-            >
-                <View style={styles.header}>
-                    <Pressable style={styles.menuButton}>
-                        <Text style={styles.menuIcon}>☰</Text>
-                    </Pressable>
+    const handleNotificationPress = () => {
+        if (notification) {
+            Alert.alert("### 공지있음!");
+        } else {
+            Alert.alert("### 공지없음!");
+        }
+        setNotification((prev) => !prev);
+    };
 
-                    <Text style={styles.logoTitle}>Eco-i</Text>
-                    <Text style={styles.logoSubTitle}>
-                        내 손안의 AI 폐기물 처리 도우미
-                    </Text>
+    const handleMenuPress = () => {
+        Alert.alert("햄버거클릭!");
+    };
 
-                    <View style={styles.heroCard}>
-                        <View style={styles.badgeRow}>
-                            <Text style={styles.badge}>플라스틱류 배출</Text>
-                            <Text style={styles.badge}>종이류 배출</Text>
-                        </View>
+    const takePhoto = () => {
+        navigation.push(ROUTES.CAMERA_CAPTURE);
+    }
 
-                        <View style={styles.heroObjects}>
-                            <View style={styles.bottle} />
-                            <View style={styles.bin}>
-                                <Text style={styles.recycle}>♻️</Text>
-                            </View>
-                            <View style={styles.boxOne} />
-                            <View style={styles.boxTwo} />
-                            <View style={styles.battery} />
-                        </View>
-                    </View>
+  return (
+    <PageLayout
+        statusBarAreaStyle={styles.statusBarArea}
+        headerContainerStyle={styles.headerContainer}
+        contentContainerStyle={styles.contentContainer}
+        statusBarStyle="light-content"
+        rightItems={[
+            {
+                key: "notification",
+                icon: notification ? (
+                    <ICON_NotificationActive width={24} height={24} />
+                ) : (
+                    <ICON_NotificationDefault width={24} height={24} />
+                ),
+                onPress: handleNotificationPress,
+            },
+            {
+                key: "menu",
+                icon: <MenuIcon width={24} height={24} />,
+                onPress: handleMenuPress,
+            },
+        ]}
+    >
+        <View style={styles.screen}>
+            <Pressable style={styles.searchButton}>
+                <View>
+                    <ICON_Search width={24} height={24} />
+                </View>
+                
+                <Text style={styles.searchPlaceholder}>AI에게 궁금한 폐기물을 물어보세요.</Text>
+                
+                <View style={styles.winkingIconFix}>
+                    <ICON_WINKING_FACE width={24} height={24} />
+                </View>
+            </Pressable>
+
+            <View style={styles.heroTitleBox}>
+                <Text style={styles.heroTitleLine1}>Eco-I</Text>
+                <Text style={styles.heroTitleLine2}>AI로 쉬워지는</Text>
+                <Text style={styles.heroTitleLine3}>폐기물 배출</Text>
+            </View>
+
+            <View style={styles.area1Wrap}>
+                <Image
+                    source={require("@/shared/ui/assets/image/home-ax.png")}
+                    style={styles.area1Image}
+                    resizeMode="cover"
+                />
+            </View>
+            
+            <View style={styles.infoCard}>
+                <Text style={styles.mainCopy}>
+                    가장 똑똑한 자원순환의 시작.{"\n"}
+                    복잡한 분리배출 가이드,{"\n"}
+                    이제 AI 에코이와 함께 스마트하게 실천하세요.
+                </Text>
+
+                <Pressable style={styles.ctaCircle} onPress={takePhoto}>
+                    <CameraEntryIcon width={60} height={60} />
+                </Pressable>
+
+                <Text style={styles.ctaLabel}>
+                찰칵! <Text style={styles.ctaLabelSub}>AI가 알려드려요.</Text>
+                </Text>
+
+                <View style={styles.partnerRow}>
+                    <GovSymbol style={styles.partnerLogo} />
+                    <KecoSymbol style={styles.partnerLogo} />
+                    <KyolimSymbol style={styles.partnerLogo} />
                 </View>
 
-                <View style={styles.searchWrap}>
-                    <Text style={styles.searchPlaceholder}>
-                        🔍 AI에게 궁금한 폐기물을 물어보세요
-                    </Text>
-                </View>
-
-                <View style={styles.body}>
-                    <Text style={styles.mainCopy}>
-                        찰칵! 가장 똑똑한 자원순환의 시작.{'\n'}
-                        복잡한 분리배출 가이드,{'\n'}
-                        이제 AI에게 한컷 스마트하게 실천하세요
-                    </Text>
-
-                    <Pressable 
-                        style={styles.ctaCard} 
-                        onPress={() => navigation.push(ROUTES.CAMERA_CAPTURE)}>
-                        <View style={styles.ctaCircle}>
-                            <Text style={styles.ctaIcon}>♻️</Text>
-                        </View>
-                    </Pressable>
-
-                    <Text style={styles.ctaLabel}>찰칵! AI가 알려드려요</Text>
-
-                    <View style={styles.partnerRow}>
-                        <Text style={styles.partner}>기후에너지환경원</Text>
-                        <Text style={styles.partner}>한국환경공단</Text>
-                        <Text style={styles.partner}>대기코퍼스마트</Text>
-                    </View>
-                </View>
-            </ScrollView>
-        </SafeAreaView>
-    );
+            </View>
+        </View>
+    </PageLayout>
+  );
 }
 
 const styles = StyleSheet.create({
-    safeArea: {
-        flex: 1,
-        backgroundColor: '#2186e8',
+    statusBarArea: {
+        backgroundColor: Color.Home.background,
     },
+    headerContainer: {
+        backgroundColor: Color.Home.background,
+    },
+    contentContainer: {
+        backgroundColor: Color.Home.background,
+    },
+
     screen: {
-        backgroundColor: '#c5daf1',
+        flex: 1, // [수정]
     },
-    header: {
-        backgroundColor: '#2186e8',
-        paddingTop: 8,
-        paddingHorizontal: 14,
-        paddingBottom: 12,
-        alignItems: 'center',
-    },
-    menuButton: {
-        position: 'absolute',
-        top: 10,
-        right: 12,
-        width: 44,
-        height: 34,
-        borderWidth: 3,
-        borderColor: '#111',
-        backgroundColor: '#1e6fc6',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    menuIcon: {
-        color: '#fff',
-        fontSize: 18,
-        fontWeight: '800',
-    },
-    logoTitle: {
-        marginTop: 6,
-        color: '#fff',
-        fontSize: 38,
-        fontWeight: '900',
-        letterSpacing: 0.5,
-    },
-    logoSubTitle: {
-        marginTop: 2,
-        color: '#d9ecff',
-        fontSize: 16,
-        fontWeight: '700',
-    },
-    heroCard: {
-        width: '100%',
-        marginTop: 10,
-        borderRadius: 8,
-        paddingHorizontal: 8,
-        paddingVertical: 10,
-        backgroundColor: 'rgba(255,255,255,0.08)',
-    },
-    badgeRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 8,
-    },
-    badge: {
-        color: '#fff',
-        fontSize: 12,
-        fontWeight: '800',
-        paddingHorizontal: 8,
-        paddingVertical: 3,
-        borderRadius: 12,
+
+    searchButton: {
+        flexDirection: "row",
+        marginTop: 20,
+        marginHorizontal: 20,
+        height: 48,
+        borderRadius: 20,
+        backgroundColor: Color.Home.Search.background,
         borderWidth: 1,
-        borderColor: '#dff2ff',
-        backgroundColor: '#2f8de8',
-    },
-    heroObjects: {
-        height: 108,
-        flexDirection: 'row',
-        alignItems: 'flex-end',
-        justifyContent: 'center',
+        borderColor: Color.Home.Search.border,
+        alignItems: "center",
+        paddingHorizontal: 20,
         gap: 8,
     },
-    bottle: {
-        width: 18,
-        height: 70,
-        borderRadius: 8,
-        backgroundColor: '#8ec7f1',
+
+    winkingIconFix: { // [추가]
+        transform: [{ translateY: -4 }],
     },
-    bin: {
-        width: 84,
-        height: 86,
-        borderRadius: 10,
-        backgroundColor: '#4bb0d3',
-        borderWidth: 3,
-        borderColor: '#5dd889',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    recycle: {
-        fontSize: 34,
-    },
-    boxOne: {
-        width: 44,
-        height: 36,
-        borderRadius: 4,
-        backgroundColor: '#d8aa73',
-    },
-    boxTwo: {
-        width: 34,
-        height: 48,
-        borderRadius: 4,
-        backgroundColor: '#c89962',
-    },
-    battery: {
-        width: 16,
-        height: 30,
-        borderRadius: 3,
-        backgroundColor: '#444',
-    },
-    searchWrap: {
-        marginHorizontal: 6,
-        marginTop: 2,
-        borderWidth: 2,
-        borderColor: '#adc7df',
-        backgroundColor: '#f2f8ff',
-        borderRadius: 4,
-        paddingVertical: 8,
-        paddingHorizontal: 10,
-    },
+  
     searchPlaceholder: {
-        color: '#7f92a8',
-        fontSize: 18,
-        fontWeight: '600',
+        flex: 1,
+        fontSize: 14,
+        color: "#4B5563",
     },
-    body: {
-        backgroundColor: '#c5daf1',
-        alignItems: 'center',
-        paddingTop: 16,
-        paddingBottom: 20,
-        paddingHorizontal: 18,
+
+    heroTitleBox: {
+        marginTop: 47,
+        width: 200,
+        minHeight: 106, // [추가]
+        alignSelf: "center",
+        alignItems: "center",
+        justifyContent: "center",
     },
+
+    heroTitleLine1: {
+        fontFamily: "Pretendard-SemiBold",
+        fontSize: 32,
+        lineHeight: 38,
+        color: "#FFFFFF",
+        textAlign: "center",
+        includeFontPadding: false,
+    },
+
+    heroTitleLine2: {
+        fontFamily: "Pretendard-SemiBold",
+        fontSize: 32,
+        lineHeight: 38,
+        color: "#FFFFFF",
+        textAlign: "center",
+        includeFontPadding: false,
+    },
+
+    heroTitleLine3: {
+        fontFamily: "Pretendard-SemiBold",
+        fontSize: 32,
+        lineHeight: 38,
+        color: "#FFFFFF",
+        textAlign: "center",
+        includeFontPadding: false,
+    },
+
+    area1Wrap: {
+        marginTop: 20,
+        width: "100%",
+        aspectRatio: 361 / 203, // 비율 고정
+        overflow: "hidden",
+    },
+    area1Image: {
+        width: "100%",
+        height: "100%",
+    },
+
+    infoCard: {
+        marginTop: 0,
+        width: "100%",
+        minHeight: 294,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        backgroundColor: Color.Home.Search.background,
+        borderWidth: 1,
+        borderColor: "#E4E4E4",
+        padding: 20,
+        alignItems: "center",
+    },
+
     mainCopy: {
-        textAlign: 'center',
-        color: '#0d4590',
-        fontSize: 34,
-        lineHeight: 44,
-        fontWeight: '900',
+        //width: 320,
+        minHeight: 66,
+        textAlign: "center",
+        color: "#3B3B3B",
+        fontFamily: "Pretendard-Regular",
+        fontSize: 16,
+        fontWeight: "400",
+        lineHeight: 22.4,
+        letterSpacing: 0,
+        marginBottom: 20,
     },
-    ctaCard: {
-        marginTop: 16,
-        width: 220,
-        height: 180,
-        borderWidth: 4,
-        borderColor: '#111',
-        backgroundColor: '#a8c7e6',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
+
     ctaCircle: {
-        width: 118,
-        height: 118,
-        borderRadius: 60,
-        backgroundColor: '#2a86cf',
-        borderWidth: 4,
-        borderColor: '#8ed0ff',
-        alignItems: 'center',
-        justifyContent: 'center',
+        width: 80,
+        height: 80,
+        borderRadius: 100,
+        backgroundColor: Color.Home.background,
+        padding: 10,
+        alignItems: "center",
+        justifyContent: "center",
+        marginBottom: 20,
     },
-    ctaIcon: {
-        fontSize: 44,
-    },
+
     ctaLabel: {
-        marginTop: 10,
-        color: '#001835',
-        fontSize: 24,
-        fontWeight: '900',
+        width: 320,
+        height: 20,
+        textAlign: "center",
+        color: "#2C2C2C",
+        fontFamily: "Pretendard-Bold",
+        fontSize: 20,
+        lineHeight: 20, // 100%
+        letterSpacing: 0,
     },
+
+    ctaLabelSub: {
+        color: "#2C2C2C",
+        fontFamily: "Pretendard-SemiBold",
+        fontSize: 16,
+        lineHeight: 16, // 100%
+        letterSpacing: 0,
+    },
+
     partnerRow: {
-        marginTop: 18,
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        marginTop: 20,
+        marginHorizontal: 20, // 양옆 20
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 30,
     },
-    partner: {
-        color: '#2f4f73',
-        fontSize: 11,
-        fontWeight: '700',
-    },
+
+    partnerLogo: {
+        width: 90, 
+        height: 30
+    }
+    
 });

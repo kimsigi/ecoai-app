@@ -63,5 +63,5 @@ export default function AppInitializer() {
   }
 */
     // 초기화 완료
-    return <AppNavigation initialRouteName={ROUTES.HOME} />;
+    return <AppNavigation initialRouteName={ROUTES.SHOWCASE} />;
 }

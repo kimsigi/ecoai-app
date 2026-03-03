@@ -15,12 +15,14 @@ interface AppStoreState {
     statusBarStyle: 'light-content' | 'dark-content' | null;
     statusBarBackground: string | null; // Android용
     statusBarTranslucent: boolean | null;
+    statusBarHidden: boolean | null;
 
     setRootBackground: (color: string | null) => void;
     setContentBackground: (color: string | null) => void;
     setStatusBarStyle: (style: 'light-content' | 'dark-content' | null) => void;
     setStatusBarBackground: (color: string | null) => void;
     setStatusBarTranslucent: (value: boolean | null) => void;
+    setStatusBarHidden: (value: boolean | null) => void;
 
     resetLayout: () => void;
 }
@@ -33,12 +35,14 @@ const useAppStore = create<AppStoreState>(set => ({
     statusBarStyle: null,
     statusBarBackground: null,
     statusBarTranslucent: null,
+    statusBarHidden: null,
 
     setRootBackground: color => set({ rootBackground: color }),
     setContentBackground: color => set({ contentBackground: color }),
     setStatusBarStyle: style => set({ statusBarStyle: style }),
     setStatusBarBackground: color => set({ statusBarBackground: color }),
     setStatusBarTranslucent: value => set({ statusBarTranslucent: value }),
+    setStatusBarHidden: value => set({ statusBarHidden: value }),
 
     resetLayout: () =>
         set({
@@ -47,6 +51,7 @@ const useAppStore = create<AppStoreState>(set => ({
             statusBarStyle: null,
             statusBarBackground: null,
             statusBarTranslucent: null,
+            statusBarHidden: null,
         }),
 }));
 

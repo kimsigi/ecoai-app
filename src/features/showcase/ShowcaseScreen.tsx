@@ -24,6 +24,63 @@ export default function ShowcaseScreen() {
                 <TouchableOpacity
                     style={styles.button}
                     activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.HOME)}
+                >
+                    <Text>홈</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.SAMPLESCR1)}
+                >
+                    <Text>샘플1</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.SAMPLESCR2)}
+                >
+                    <Text>샘플2</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.SAMPLESCR3)}
+                >
+                    <Text>샘플3</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.SAMPLESCR4)}
+                >
+                    <Text>샘플4</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.SAMPLESCR5)}
+                >
+                    <Text>샘플5</Text>
+                </TouchableOpacity>
+            </View>
+
+
+
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
                     onPress={() => navigation.push(ROUTES.LOCATION_PICKER)}
                 >
                     <Text>위치선택</Text>
