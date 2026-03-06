@@ -10,8 +10,9 @@ import {
   View,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import ArrowLeft from "@/shared/ui/assets/icon/arrow-left.svg";
+//import ArrowLeft from "@/shared/ui/assets/icon/arrow-left.svg";
 import { PageLayout } from "@/shared/ui/component/layout";
+import { AppIcon } from "@/shared/ui/component/icon";
 
 const CHIPS = [
   "공기청정기",
@@ -47,7 +48,7 @@ export default function SampleScreen1() {
   return (
     <PageLayout
       headerState="content"
-      topInsetMode="header"
+      //topInsetMode="header"
       showBack={false}
       protectBottomInset
       headerHeight={52}
@@ -59,7 +60,7 @@ export default function SampleScreen1() {
             style={styles.backButton}
             hitSlop={8}
           >
-            <ArrowLeft width={24} height={24} />
+            <AppIcon name="arrowLeft" size={24} />
           </Pressable>
 
           <View style={styles.searchBox}>

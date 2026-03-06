@@ -7,7 +7,27 @@ declare module '*.svg' {
     export default content;
 }
 
-declare module '*.{png,jpg,jpeg,webp,gif}' {
+declare module '*.png' {
+    const value: RNImageSource;
+    export default value;
+}
+
+declare module '*.jpg' {
+    const value: RNImageSource;
+    export default value;
+}
+
+declare module '*.jpeg' {
+    const value: RNImageSource;
+    export default value;
+}
+
+declare module '*.webp' {
+    const value: RNImageSource;
+    export default value;
+}
+
+declare module '*.gif' {
     const value: RNImageSource;
     export default value;
 }

@@ -13,13 +13,15 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Camera, useCameraDevice, useCameraPermission } from "react-native-vision-camera";
 import { ROUTES, StackParamList } from "@/app/app.route";
-import IconAiAssistant from "@/shared/ui/assets/icon/ai-assistant.svg";
+import { AppIcon } from "@/shared/ui/component/icon";
+import { AppImage } from "@/shared/ui/component/image";
+//import IconAiAssistant from "@/shared/ui/assets/icon/ai-assistant.svg";
 type YoloDetection = {
   label: string;
   score: number;
 };
 
-const previewFallback = require("@/shared/ui/assets/image/BackgoundMap.png");
+const previewFallback = require("@/shared/ui/assets/image/backgoundMap.png");
 
 
 async function requestYoloDetection(cacheImageUri: string): Promise<YoloDetection[]> {
@@ -179,7 +181,7 @@ export default function CameraCaptureScreen() {
             />
           </Pressable>
           <Pressable style={styles.aiButton} onPress={handlePressAiHelper}>
-            <IconAiAssistant width={66} height={70} />
+            <AppImage name="aiAssistant" width={66} height={70} />
           </Pressable>
         </View>
       </View>

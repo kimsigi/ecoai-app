@@ -8,8 +8,8 @@ import {
   View,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import ArrowLeft from "@/shared/ui/assets/icon/arrow-left.svg";
 import { PageLayout } from "@/shared/ui/component/layout";
+import { AppIcon } from "@/shared/ui/component/icon";
 
 export default function SampleScreen5() {
   const navigation = useNavigation();
@@ -17,7 +17,7 @@ export default function SampleScreen5() {
   return (
     <PageLayout
       headerState="hidden"
-      topInsetMode="none" // [핵심] 지도 배경이 상태바까지 침범
+      //topInsetMode="none" // [핵심] 지도 배경이 상태바까지 침범
       protectBottomInset
       contentContainerStyle={styles.contentContainer}
     >
@@ -39,7 +39,7 @@ export default function SampleScreen5() {
               style={styles.backButton}
               hitSlop={8}
             >
-              <ArrowLeft width={24} height={24} />
+              <AppIcon name="arrowLeft" size={24} />
             </Pressable>
             <Text style={styles.headerText} numberOfLines={1}>
               디지털로 33길 27

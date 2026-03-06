@@ -46,8 +46,10 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+        <!-- 앱 전체 세로 고정
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+        -->
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>

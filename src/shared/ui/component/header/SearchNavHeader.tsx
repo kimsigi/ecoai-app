@@ -1,6 +1,7 @@
 import React from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import ArrowLeft from "@/shared/ui/assets/icon/arrow-left.svg";
+import { AppIcon } from "../icon";
 type Mode = "trigger" | "input";
 
 interface Props {
@@ -39,7 +40,7 @@ export default function SearchNavHeader({
     <View style={styles.wrap}>
       {canShowBack ? (
         <Pressable onPress={onBackPress} style={styles.backBtn}>
-          <ArrowLeft width={24} height={24} />
+            <AppIcon name="arrowLeft" size={24} />
         </Pressable>
       ) : (
         <View style={styles.backSpacer} /> // 버튼 없을 때 공간만 유지

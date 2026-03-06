@@ -61,7 +61,7 @@ export function useAppInitializer() {
 async function initApp(): Promise<InitState> {
     // 디바이스 ID 초기화 (없으면 생성 후 저장)
     initDeviceId();
-    return INIT_STATE.READY;
+    //return INIT_STATE.READY;
     // 인증 Provider 등록 (core/api에서 토큰 발급/만료 체크 시 auth feature의 로직 사용)
     ensureApiInterceptorsRegistered(); // 인터셉터 등록 보장
     registerAuthProvider();

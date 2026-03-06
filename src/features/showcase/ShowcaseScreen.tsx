@@ -33,6 +33,42 @@ export default function ShowcaseScreen() {
                 <TouchableOpacity
                     style={styles.button}
                     activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.BOTTOMSHEET)}
+                >
+                    <Text>바텀시트</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.MENULAYEROVERLAY)}
+                >
+                    <Text>메뉴레이어(햄버거)</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.SAMPLEMAPOVERLAY)}
+                >
+                    <Text>맵오버레이</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.SUBITEM)}
+                >
+                    <Text>배출품목분류</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
                     onPress={() => navigation.push(ROUTES.SAMPLESCR1)}
                 >
                     <Text>샘플1</Text>

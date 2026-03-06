@@ -9,8 +9,8 @@ import {
   View,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import ArrowLeft from "@/shared/ui/assets/icon/arrow-left.svg";
 import { PageLayout } from "@/shared/ui/component/layout";
+import { AppIcon } from "@/shared/ui/component/icon";
 
 export default function SampleScreen4() {
   const navigation = useNavigation();
@@ -18,20 +18,20 @@ export default function SampleScreen4() {
   return (
     <PageLayout
       headerState="hidden"
-      topInsetMode="content" // [핵심] 상태바는 보호, 헤더는 콘텐츠 위 오버레이로 직접 구현
+      //topInsetMode="content" // [핵심] 상태바는 보호, 헤더는 콘텐츠 위 오버레이로 직접 구현
       protectBottomInset
       contentContainerStyle={styles.contentContainer}
     >
       <View style={styles.container}>
         <ImageBackground
-          source={require("@/shared/ui/assets/image/home-ax.png")}
+          source={require("@/shared/ui/assets/image/backgoundMap.png")}
           style={styles.preview}
           resizeMode="cover"
         >
           {/* [핵심] 헤더는 존재하지만 카메라 프리뷰 위에 오버레이 */}
           <View style={styles.headerOverlay}>
             <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
-              <ArrowLeft width={22} height={22} />
+              <AppIcon name="arrowLeft" size={24} />
             </Pressable>
           </View>
 

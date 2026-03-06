@@ -16,6 +16,10 @@ export const ROUTES = {
     SAMPLESCR3: 'SampleScreen3',
     SAMPLESCR4: 'SampleScreen4',
     SAMPLESCR5: 'SampleScreen5',
+    MENULAYEROVERLAY: 'MenuLayerOverlay',
+    BOTTOMSHEET: 'BottomSheet',
+    SAMPLEMAPOVERLAY: 'SampleMapOverlay',
+    SUBITEM: 'SubItem',
     PERMISSION: 'Permission',
     LOCATION_PICKER: 'LocationPicker',
     LOCATION_ADDRESS_SEARCH: 'LocationAddressSearch',
@@ -33,7 +37,10 @@ export type StackParamList = {
     [ROUTES.SAMPLESCR3]: undefined;
     [ROUTES.SAMPLESCR4]: undefined;
     [ROUTES.SAMPLESCR5]: undefined;
-
+    [ROUTES.MENULAYEROVERLAY]: undefined;
+    [ROUTES.BOTTOMSHEET]: undefined;
+    [ROUTES.SAMPLEMAPOVERLAY]: undefined;
+    [ROUTES.SUBITEM]: undefined;
     [ROUTES.PERMISSION]: undefined;
     [ROUTES.LOCATION_PICKER]: LocationPickerParams | undefined;
     [ROUTES.LOCATION_ADDRESS_SEARCH]: LocationAddressSearchParams | undefined;

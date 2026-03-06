@@ -1,0 +1,11 @@
+export const SPACING = {
+    xxs: 2,
+    xs: 4,
+    xsSm: 6,
+    sm: 8,
+    smMd: 10,
+    md: 12,
+    mdLg: 14,
+    lg: 16,
+    xl: 20,
+} as const;
