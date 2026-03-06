@@ -31,7 +31,7 @@ export default function SampleScreen4() {
           {/* [핵심] 헤더는 존재하지만 카메라 프리뷰 위에 오버레이 */}
           <View style={styles.headerOverlay}>
             <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
-              <AppIcon name="arrowLeft" size={24} />
+              <AppIcon name="chevronLeft" size={24} />
             </Pressable>
           </View>
 

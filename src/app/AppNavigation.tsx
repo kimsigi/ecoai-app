@@ -20,6 +20,19 @@ import { MenuLayerOverlay } from "@/features/showcase/MenuLayerOverlay";
 import BottomSheet from "@/features/showcase/BottomSheet";
 import SampleMapOverlayScreen from "@/features/showcase/SampleMapOverlayScreen";
 import SubItemScreen from "@/features/showcase/SubItemScreen";
+import NotificationScreen from "@/features/notification/NotificationScreen";
+import SettingScreen from "@/features/setting/SettingScreen";
+import DisposalHistoryScreen from "@/features/disposal/ui/DisposalHistoryScreen";
+import FaqScreen from "@/features/faq/FaqScreen";
+import AppinfoScreen from "@/features/appinfo/AppinfoScreen";
+import CategoryScreen from "@/features/category/CategoryScreen";
+import HomeSearchScreen from "@/features/home/HomeSearchScreen";
+import PaymentCartScreen from "@/features/payment/ui/PaymentCartScreen";
+import DisposalOwnerVerifyScreen from "@/features/disposal/ui/DisposalOwnerVerifyScreen";
+import DisposalStatusScreen from "@/features/disposal/ui/DisposalStatusScreen";
+import DisposalStatusListScreen from "@/features/disposal/ui/DisposalStatusListScreen";
+import DisposalDetailScreen from "@/features/disposal/ui/DisposalDetailScreen";
+import DisposalRequestScreen from "@/features/disposal/ui/DisposalRequestScreen";
 
 const Stack = createNativeStackNavigator<StackParamList>();
 
@@ -47,9 +60,28 @@ export default function AppNavigation({ initialRouteName }: AppNavigationProps) 
         <Stack.Screen name={ROUTES.LOCATION_ADDRESS_SEARCH} component={LocationAddressSearchScreen} />
         <Stack.Screen name={ROUTES.USER_TYPE} component={UserTypeScreen} />
         <Stack.Screen name={ROUTES.HOME} component={HomeScreen} />
+        <Stack.Screen name={ROUTES.HOMESEARCH} component={HomeSearchScreen} />
         <Stack.Screen name={ROUTES.CAMERA_CAPTURE} component={CameraCaptureScreen} />
+
+
+        <Stack.Screen name={ROUTES.SETTING} component={SettingScreen} />
+        <Stack.Screen name={ROUTES.DISPOSALHISTORY} component={DisposalHistoryScreen} />
+        <Stack.Screen name={ROUTES.FAQ} component={FaqScreen} />
+        <Stack.Screen name={ROUTES.NOTIFICATION} component={NotificationScreen} />
+        <Stack.Screen name={ROUTES.APPINFO} component={AppinfoScreen} />
+        <Stack.Screen name={ROUTES.CATEGORY} component={CategoryScreen} />
+
+
+
         <Stack.Screen name={ROUTES.AI_CHAT} component={AiChatScreen} />
 
+        <Stack.Screen name={ROUTES.PAYMENTCART} component={PaymentCartScreen} />
+        <Stack.Screen name={ROUTES.DISPOSALOWNERVERIFY} component={DisposalOwnerVerifyScreen} />
+        <Stack.Screen name={ROUTES.DISPOSALSTATUS} component={DisposalStatusScreen} />
+        <Stack.Screen name={ROUTES.DISPOSALSTATUSLIST} component={DisposalStatusListScreen} />
+        <Stack.Screen name={ROUTES.DISPOSALDETAIL} component={DisposalDetailScreen} />
+        <Stack.Screen name={ROUTES.DISPOSALREQUEST} component={DisposalRequestScreen} />
+    
       </Stack.Navigator>
     </NavigationContainer>
   );

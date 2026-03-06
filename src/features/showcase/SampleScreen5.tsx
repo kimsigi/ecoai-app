@@ -39,7 +39,7 @@ export default function SampleScreen5() {
               style={styles.backButton}
               hitSlop={8}
             >
-              <AppIcon name="arrowLeft" size={24} />
+              <AppIcon name="chevronLeft" size={24} />
             </Pressable>
             <Text style={styles.headerText} numberOfLines={1}>
               디지털로 33길 27

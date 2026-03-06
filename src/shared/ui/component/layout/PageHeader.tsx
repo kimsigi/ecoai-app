@@ -14,7 +14,7 @@ export default function PageHeader({ config, layout }: PageHeaderProps) {
 
     return (
       <Pressable onPress={layout.onBackPress} style={styles.backButton} hitSlop={8}>
-        <AppIcon name="arrowLeft" size={24} />
+        <AppIcon name="chevronLeft" size={24} />
       </Pressable>
     );
   }

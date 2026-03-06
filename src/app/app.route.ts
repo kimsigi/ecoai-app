@@ -25,8 +25,21 @@ export const ROUTES = {
     LOCATION_ADDRESS_SEARCH: 'LocationAddressSearch',
     USER_TYPE: 'UserType',
     HOME: 'Home',
+    HOMESEARCH: 'HomeSearch',
     CAMERA_CAPTURE: 'CameraCapture',
+    SETTING: 'Setting',
+    DISPOSALHISTORY: 'DisposalHistory',
+    FAQ: 'Faq',
+    NOTIFICATION: 'Notification',
+    APPINFO: 'Appinfo',
+    CATEGORY: 'Category',
     AI_CHAT: 'AiChat',
+    PAYMENTCART: 'PaymentCart',
+    DISPOSALOWNERVERIFY: 'DisposalOwnerVerify',
+    DISPOSALSTATUS: 'DisposalStatus',
+    DISPOSALSTATUSLIST: 'DisposalStatusList',
+    DISPOSALDETAIL: 'DisposalDetail',
+    DISPOSALREQUEST: 'DisposalRequest',
 } as const;
 
 export type StackParamList = {
@@ -46,8 +59,22 @@ export type StackParamList = {
     [ROUTES.LOCATION_ADDRESS_SEARCH]: LocationAddressSearchParams | undefined;
     [ROUTES.USER_TYPE]: undefined;
     [ROUTES.HOME]: undefined;
+    [ROUTES.HOMESEARCH]: undefined;
     [ROUTES.CAMERA_CAPTURE]: undefined;
+    [ROUTES.SETTING]: undefined;
+    [ROUTES.DISPOSALHISTORY]: undefined;
+    [ROUTES.FAQ]: undefined;
+    [ROUTES.NOTIFICATION]: undefined;
+    [ROUTES.APPINFO]: undefined;
+    [ROUTES.CATEGORY]: undefined;
     [ROUTES.AI_CHAT]: undefined;
+
+    [ROUTES.PAYMENTCART]: undefined;
+    [ROUTES.DISPOSALOWNERVERIFY]: undefined;
+    [ROUTES.DISPOSALSTATUS]: undefined;
+    [ROUTES.DISPOSALSTATUSLIST]: undefined;
+    [ROUTES.DISPOSALDETAIL]: undefined;
+    [ROUTES.DISPOSALREQUEST]: undefined;
 };
 
 export type AppNavigationProps = {

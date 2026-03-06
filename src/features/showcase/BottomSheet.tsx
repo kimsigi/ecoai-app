@@ -76,7 +76,7 @@ export default function BottomSheet() {
         <View style={styles.preview}>
           <View style={styles.topOverlay}>
             <Pressable style={styles.backBtn}>
-                <AppIcon name="arrowLeft" size={22} />
+                <AppIcon name="chevronLeft" size={22} />
             </Pressable>
           </View>
 

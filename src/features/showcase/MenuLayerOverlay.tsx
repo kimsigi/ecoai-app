@@ -10,10 +10,10 @@ import { ROUTES, StackParamList } from "@/app/app.route";
 import { AppIcon } from "@/shared/ui/component/icon";
 
 const TOP_MENUS = [
-  { key: "setting", label: "설정", icon: "setting" },
-  { key: "faq", label: "FAQ", icon: "faq"},
-  { key: "notice", label: "알림", icon: "notice"},
-  { key: "appinfo", label: "앱정보", icon: "appinfo"},
+  { key: "setting", label: "설정", icon: "setting", link: ROUTES.SETTING },
+  { key: "faq", label: "FAQ", icon: "faq", link: ROUTES.FAQ},
+  { key: "notice", label: "알림", icon: "notice", link: ROUTES.NOTIFICATION},
+  { key: "appinfo", label: "앱정보", icon: "appinfo", link: ROUTES.APPINFO},
 ] as const;
 
 const SUB_MENUS = ["재활용폐기물", "음식물류폐기물", "일반공정폐기물"];
@@ -61,7 +61,7 @@ export function MenuLayerOverlay() {
             </View>
 
             {TOP_MENUS.map((menu) => (
-              <Pressable key={menu.key} style={styles.topRow}>
+              <Pressable key={menu.key} style={styles.topRow} onPress={() => navigation.push(menu.link)}>
                 <AppIcon name={menu.icon} style={styles.dot} />
                 <Text style={styles.topRowTxt}>{menu.label}</Text>
               </Pressable>

@@ -10,9 +10,10 @@ export function HomeScreen() {
     const {
         notification,
         isMenuOpen,
+        setIsMenuOpen,
         onNotificationPress,
         onMenuPress,
-        onAiSearchPress,
+        onKeywordSearchPress,
         onCameraPress,
     } = useHome();
   return (
@@ -40,7 +41,7 @@ export function HomeScreen() {
         protectBottomInset={false}
     >
         {/* 헤더 영역 */}
-        <Pressable style={styles.searchArea} onPress={onAiSearchPress} hitSlop={8}>
+        <Pressable style={styles.searchArea} onPress={onKeywordSearchPress} hitSlop={8}>
             <AppIcon name="search" size={24} />
             <Text style={styles.searchAreaPlaceholder}>AI에게 궁금한 폐기물을 물어보세요.</Text>
             <AppLottie name="winkingFace" size={24} />
@@ -86,6 +87,55 @@ export function HomeScreen() {
                 <AppIcon name="symbolKyolim" width={88} height={28} />
             </View>
         </View>
+
+        {isMenuOpen && (
+            <View style={styles.overlayRoot}>
+            <Pressable style={styles.backdrop} onPress={() => setIsMenuOpen(false)} />
+
+            <View style={styles.menuPanel}>
+                <View style={styles.menuTopBar}>
+                <Pressable style={styles.closeBtn} onPress={() => setIsMenuOpen(false)}>
+                    <Text style={styles.closeTxt}>×</Text>
+                </Pressable>
+                </View>
+
+                {TOP_MENUS.map((menu) => (
+                <Pressable key={menu.key} style={styles.topRow}>
+                    <AppIcon name={menu.icon} style={styles.dot} />
+                    <Text style={styles.topRowTxt}>{menu.label}</Text>
+                </Pressable>
+                ))}
+
+                <Pressable style={styles.categoryRow} onPress={() => setIsCategoryOpen((p) => !p)}>
+                <View style={styles.categoryLeft}>
+                    <View style={[styles.dot, { backgroundColor: "#8AD39C" }]} />
+                    <Text style={styles.categoryTxt}>배출 품목 분류</Text>
+                </View>
+                <Text style={styles.chevron}>{chevron}</Text>
+                </Pressable>
+
+                {isCategoryOpen && (
+                <View style={styles.subWrap}>
+                    {SUB_MENUS.map((item) => {
+                    const active = activeSubMenu === item;
+                    return (
+                        <Pressable
+                        key={item}
+                        style={[styles.subRow, active && styles.subRowActive]}
+                        onPress={() => onPressSubMenu(item)}
+                        >
+                        <Text style={[styles.subTxt, active && styles.subTxtActive]}>{item}</Text>
+                        <Text style={[styles.subArrow, active && styles.subArrowActive]}>
+                            {active ? "✓" : "→"}
+                        </Text>
+                        </Pressable>
+                    );
+                    })}
+                </View>
+                )}
+            </View>
+            </View>
+        )}
     </PageLayout>
   );
 }

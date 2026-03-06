@@ -1,6 +1,9 @@
 import appinfo from '@/shared/ui/assets/icon/appinfo.svg';
-import arrowLeft from '@/shared/ui/assets/icon/arrowLeft.svg';
+import arrowRight from '@/shared/ui/assets/icon/arrowRight.svg';
 
+import chevronUp from '@/shared/ui/assets/icon/chevronUp.svg';
+import chevronDown from '@/shared/ui/assets/icon/chevronDown.svg';
+import chevronLeft from '@/shared/ui/assets/icon/chevronLeft.svg';
 import cameraEntry from '@/shared/ui/assets/icon/cameraEntry.svg';
 import category from '@/shared/ui/assets/icon/category.svg';
 import close from '@/shared/ui/assets/icon/close.svg';
@@ -21,8 +24,11 @@ import symbolKyolim from '@/shared/ui/assets/icon/symbolKyolim.svg';
 
 export const ICON_MAP = {
     appinfo,
-    arrowLeft,
+    arrowRight,
 
+    chevronUp,
+    chevronDown,
+    chevronLeft,
     cameraEntry,
     category,
     close,

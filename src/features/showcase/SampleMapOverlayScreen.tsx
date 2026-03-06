@@ -30,7 +30,7 @@ export default function SampleMapOverlayScreen() {
           {/* 검색 헤더 */}
           <View style={styles.searchHeader}>
             <Pressable style={styles.backBtn}>
-                <AppIcon name="arrowLeft" size={24} />
+                <AppIcon name="chevronLeft" size={24} />
             </Pressable>
             <Text style={styles.searchText} numberOfLines={1}>
               디지털로 33길 27

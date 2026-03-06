@@ -10,7 +10,6 @@ import {
   View,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-//import ArrowLeft from "@/shared/ui/assets/icon/arrow-left.svg";
 import { PageLayout } from "@/shared/ui/component/layout";
 import { AppIcon } from "@/shared/ui/component/icon";
 
@@ -60,7 +59,7 @@ export default function SampleScreen1() {
             style={styles.backButton}
             hitSlop={8}
           >
-            <AppIcon name="arrowLeft" size={24} />
+            <AppIcon name="chevronLeft" size={24} />
           </Pressable>
 
           <View style={styles.searchBox}>

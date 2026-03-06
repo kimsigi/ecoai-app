@@ -33,6 +33,114 @@ export default function ShowcaseScreen() {
                 <TouchableOpacity
                     style={styles.button}
                     activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.SETTING)}
+                >
+                    <Text>설정</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.DISPOSALOWNERVERIFY)}
+                >
+                    <Text>내 배출 정보 확인</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.FAQ)}
+                >
+                    <Text>FAQ</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.NOTIFICATION)}
+                >
+                    <Text>알림</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.APPINFO)}
+                >
+                    <Text>앱정보</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.CATEGORY)}
+                >
+                    <Text>배출 품목 관리</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.PAYMENTCART)}
+                >
+                    <Text>배출카트</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.DISPOSALOWNERVERIFY)}
+                >
+                    <Text>배출자정보확인</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.DISPOSALREQUEST)}
+                >
+                    <Text>대형폐기물배출신청</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.DISPOSALSTATUS)}
+                >
+                    <Text>내 배출 정보</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.DISPOSALSTATUSLIST)}
+                >
+                    <Text>배출정보목록</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.DISPOSALDETAIL)}
+                >
+                    <Text>배출정보상세</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
                     onPress={() => navigation.push(ROUTES.BOTTOMSHEET)}
                 >
                     <Text>바텀시트</Text>
