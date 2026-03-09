@@ -2,6 +2,14 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "src/shared/ui/assets/font/Pretendard-Bold.ttf",
+      "sha1": "8b18979f6f40eb8a5d6844b6b942d9d6f38c8452"
+    },
+    {
+      "path": "src/shared/ui/assets/font/Pretendard-ExtraBold.ttf",
+      "sha1": "8d2598c7631f7b7de63e0a5fc3900f6bc43fb29e"
+    },
+    {
       "path": "src/shared/ui/assets/font/Pretendard-Regular.ttf",
       "sha1": "7ffb63ee6866a1b34c348ace76d6529416f1e131"
     },

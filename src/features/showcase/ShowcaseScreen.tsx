@@ -1,8 +1,10 @@
 import { ROUTES, StackParamList } from '@/app/app.route';
 import { useAlert } from '@/shared/ui/component/alert';
 import DefaultButton from '@/shared/ui/component/button/AppButton';
+import SplashView from '@/shared/ui/component/splash/SplashView';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useState } from 'react';
 import {
     Alert,
     ScrollView,
@@ -17,7 +19,10 @@ export default function ShowcaseScreen() {
         useNavigation<NativeStackNavigationProp<StackParamList>>();
 
     const { alert, confirm } = useAlert();
-
+    const [splash, setSplash] = useState(false);
+    if ( splash ) {
+        return <SplashView />;
+    }
     return (
         <ScrollView contentContainerStyle={styles.scrollContent}>
             <View style={styles.buttonWrapper}>
@@ -27,6 +32,15 @@ export default function ShowcaseScreen() {
                     onPress={() => navigation.push(ROUTES.HOME)}
                 >
                     <Text>홈</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => setSplash(true)}
+                >
+                    <Text>스플래시</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.buttonWrapper}>

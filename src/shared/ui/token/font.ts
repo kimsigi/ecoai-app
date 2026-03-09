@@ -3,6 +3,7 @@ export const FONT_FACE = {
         regular: 'Pretendard-Regular',
         semibold: 'Pretendard-SemiBold',
         bold: 'Pretendard-Bold',
+        extraBold: 'Pretendard-ExtraBold',
     },
 } as const;
 

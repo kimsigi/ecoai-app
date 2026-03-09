@@ -10,6 +10,9 @@ import close from '@/shared/ui/assets/icon/close.svg';
 
 import faq from '@/shared/ui/assets/icon/faq.svg';
 
+import kyolimsoftCI from '@/shared/ui/assets/icon/kyolimsoftCI.svg';
+import logo from '@/shared/ui/assets/icon/logo.svg';
+
 import menu from '@/shared/ui/assets/icon/menu.svg';
 
 import notice from '@/shared/ui/assets/icon/notice.svg';
@@ -34,6 +37,10 @@ export const ICON_MAP = {
     close,
 
     faq,
+
+    kyolimsoftCI,
+
+    logo,
 
     menu,
 
