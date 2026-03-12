@@ -1,119 +1,120 @@
-﻿// src/features/camera/CameraCaptureScreen.tsx
-import React, { useEffect, useState } from "react";
-import { ActivityIndicator, StyleSheet, Text, View, useColorScheme } from "react-native";
-import { useIsFocused } from "@react-navigation/native";
-import { Camera, useCameraDevice } from "react-native-vision-camera";
+﻿import React from "react";
+import { Image, Pressable, Text, View } from "react-native";
+import { Camera } from "react-native-vision-camera";
 import { PageLayout } from "@/shared/ui/component/layout";
-import { COLOR } from "@/shared/ui/token";
-
-const HEADER_HEIGHT = 48;
+import { AppLottie } from "@/shared/ui/component/lottie";
+import { styles } from "./camera.style";
+import { useCameraCapture } from "./useCameraCapture";
+import CameraCaptureResultSheet from "./CameraCaptureResultSheet";
 
 export default function CameraCaptureScreen() {
-  const isFocused = useIsFocused();
-  const scheme = useColorScheme();
-  const isDark = scheme === "dark";
+    const {
+        device,
+        isFocused,
+        cameraRef,
+        isCapturing,
+        previewUri,
+        isCameraActive,
+        onRetakePress,
+        onShutterPress,
+        onAiAssistantPress,
 
-  const device = useCameraDevice("back");
-  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+        isResultSheetVisible,
+        onConfirmResultPress,
+    } = useCameraCapture();
 
-  useEffect(() => {
-    let mounted = true;
+    return (
+        <PageLayout
+            back
+            useStatusBarOffset={false}
+            useHeaderOffset={false}
+            headerStyle={styles.header}
+        >
+            <View style={styles.container}>
+                {
+                    device ? (
+                        <Camera
+                            ref={cameraRef}
+                            style={styles.cameraContainer}
+                            device={device}
+                            isActive={isCameraActive}
+                            photo
+                            androidPreviewViewType="texture-view"
+                            enableZoomGesture
+                            //format={format} // 카메라 해상도 / 픽셀 포맷 설정(1920X1080, 1280X720, 640X480 ...)
+                        />
+                    ) : null
+                }
 
-    const run = async () => {
-      const current = await Camera.getCameraPermissionStatus();
-      if (current === "granted") {
-        if (mounted) setHasPermission(true);
-        return;
-      }
-      const requested = await Camera.requestCameraPermission();
-      if (mounted) setHasPermission(requested === "granted");
-    };
+                {/* 촬영본 고정 표시 */}
+                {
+                    previewUri ? (
+                        <Image
+                            source={{ uri: previewUri }}
+                            style={styles.cameraContainer}
+                            resizeMode="cover"
+                        />
+                    ) : null
+                }
+                
+                {/* 헤더~하단컨테이너 전체 오버레이 레이어 */}
+                <View pointerEvents="box-none" style={styles.overlayContainer}>
+                    {/* 카메라 가이드라인 영역 */}
+                    <View pointerEvents="none" style={styles.guideFrameArea}>
+                        <View style={[styles.guideCorner, styles.guideCornerTopLeft]} />
+                        <View style={[styles.guideCorner, styles.guideCornerTopRight]} />
+                        <View style={[styles.guideCorner, styles.guideCornerBottomLeft]} />
+                        <View style={[styles.guideCorner, styles.guideCornerBottomRight]} />
+                    </View>
+                
+                    {/* 바텀 컨테이너 */}
+                    <View style={styles.bottomContainer}>
+                        {/* 하단 컨트롤 위 안내 문구 */}
+                        <View style={styles.guideMessageContainer}>
+                            <Text style={styles.guideMessageText}>
+                                배출 물품을 가능한 화면 중심에 위치시키면{"\n"}
+                                더 정확한 이미지 인식이 가능합니다.
+                            </Text>
+                        </View>
+                        
+                        {/* 바텀 그룹 */}
+                        <View style={styles.bottomGroup}>
+                            {/* 카메라 촬영 버튼 */}
+                            <Pressable
+                                accessibilityLabel={previewUri ? "재촬영" : "촬영"}
+                                onPress={previewUri ? onRetakePress : onShutterPress}
+                                disabled={isCapturing}
+                                style={[
+                                    styles.shutterOuter,
+                                    isCapturing && styles.shutterOuterDisabled,
+                                ]}
+                            >
+                                <View style={styles.shutterInner} />
+                            </Pressable>
+                            {/* AI 도우미 버튼 영역 */}
+                            <Pressable
+                                accessibilityLabel="AI 도우미"
+                                onPress={onAiAssistantPress}
+                                style={styles.aiAssistantButton}
+                            >
+                                    <View style={styles.aiCircle}>
+                                        <AppLottie name="winkingFace" size={59} />
+                                    </View>
+                                    <View style={styles.aiBadge}>
+                                        <Text style={styles.aiBadgeText}>AI 도우미</Text>
+                                    </View>
+                            </Pressable>
+                        </View>
+                    </View>
+                </View>
 
-    run();
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
-  const isActive = isFocused && hasPermission === true && !!device;
-  const themeBg = isDark ? "#000000" : "#FFFFFF";
-
-  return (
-    <PageLayout
-      back
-      // 상태바 존재상태
-      statusBarLight={true}
-      headerStyle={styles.header} // 헤더 투명
-      useHeaderOffset={false}
-
-      // 상태바 먹은상태
-      //useStatusBarOffset={false}
-      //useHeaderOffset={false}
-      //headerStyle={{ backgroundColor: "transparent"}}
-
-      //statusBarLight={false}
-    >
-      <View style={styles.container}>
-        <View style={styles.cameraUnderHeader}>
-          {hasPermission === null && (
-            <View style={[styles.center, { backgroundColor: themeBg }]}>
-              <ActivityIndicator size="large" color={isDark ? "#FFFFFF" : "#111111"} />
+                {/* 촬영 후 바텀시트 오픈 */}
+                <CameraCaptureResultSheet
+                    visible={isResultSheetVisible}
+                    onRetakePress={onRetakePress}
+                    onConfirmPress={onConfirmResultPress}
+                />
             </View>
-          )}
-
-          {hasPermission === false && (
-            <View style={[styles.center, { backgroundColor: themeBg }]}>
-              <Text style={[styles.message, { color: isDark ? "#FFFFFF" : "#111111" }]}>
-                카메라 권한이 필요합니다.
-              </Text>
-            </View>
-          )}
-
-          {hasPermission === true && !device && (
-            <View style={[styles.center, { backgroundColor: themeBg }]}>
-              <Text style={[styles.message, { color: isDark ? "#FFFFFF" : "#111111" }]}>
-                카메라 장치를 찾을 수 없습니다.
-              </Text>
-            </View>
-          )}
-
-          {hasPermission === true && device && (
-            <Camera
-              style={StyleSheet.absoluteFill}
-              device={device}
-              isActive={isActive}
-              photo
-              androidPreviewViewType="texture-view"
-            />
-          )}
-        </View>
-      </View>
-    </PageLayout>
-  );
+        </PageLayout>
+    );
 }
-
-const styles = StyleSheet.create({
-  header: {
-    backgroundColor: COLOR.transparent
-  },
-  contentTransparent: {
-    backgroundColor: "transparent",
-  },
-  container: {
-    flex: 1,
-    overflow: "hidden",
-  },
-  // content는 header 아래에서 시작하므로, header 높이만큼 위로 올려 헤더 뒤에 카메라가 보이게 처리
-  cameraUnderHeader: {
-    ...StyleSheet.absoluteFillObject,
-    //top: -HEADER_HEIGHT,
-  },
-  center: {
-    ...StyleSheet.absoluteFillObject,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  message: {
-    fontSize: 15,
-  },
-});

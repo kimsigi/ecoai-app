@@ -19,6 +19,7 @@ export const COLOR = {
     gray800: '#585858',
     gray900: '#4A4A4A',
     gray925: '#3B3B3B',
+    gray940: '#2D2D2D',
     gray950: '#2C2C2C',
     gray980: '#111827',
 
