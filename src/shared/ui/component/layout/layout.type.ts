@@ -13,6 +13,8 @@ export type PageLayoutProps = {
 
     // 헤더 사용 여부
     header?: boolean;
+    // 헤더 바텀라인 설정
+    headerBottomLine?: boolean;
     // 커스텀 헤더 사용시 설정
     customHeader?: ReactNode;
 
@@ -46,5 +48,6 @@ export type PageHeaderProps = {
     title?: string;
     back?: boolean;
     right?: HeaderAction[];
+    bottomLine?: boolean;
     style?: StyleProp<ViewStyle>;
 };

@@ -10,11 +10,12 @@ export default function PageHeader({
     title,
     back,
     right = [],
+    bottomLine,
     style,
 }: PageHeaderProps) {
 
     const navigation = useNavigation();
-
+    
     return (
         <View
             style={[
@@ -22,6 +23,7 @@ export default function PageHeader({
                     height: DEFAULT_HEADER_HEIGHT,
                 },
                 styles.pageHeaderContainer,
+                bottomLine && styles.pageHeaderBottomLine,
                 style,
             ]}
         >

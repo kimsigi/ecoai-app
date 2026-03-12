@@ -18,6 +18,10 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: COLOR.white,
     },
+    pageHeaderBottomLine: {
+        borderBottomWidth: 1,
+        borderBottomColor: COLOR.gray300,
+    },
     pageHeaderLeft: {
         alignItems: 'flex-start',
         justifyContent: 'center',

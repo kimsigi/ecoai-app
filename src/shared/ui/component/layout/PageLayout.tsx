@@ -9,8 +9,9 @@ export default function PageLayout({
     children,
 
     header = true,
+    headerBottomLine = false,
     customHeader,
-
+    
     title,
     back = false,
     right = [],
@@ -89,6 +90,7 @@ export default function PageLayout({
                             back={back}
                             right={right}
                             style={headerStyle}
+                            bottomLine={headerBottomLine}
                         />
                     )}
                 </View>
