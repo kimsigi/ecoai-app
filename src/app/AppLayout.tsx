@@ -1,21 +1,22 @@
+import { COLOR } from "@/shared/ui/token";
 import { ReactNode } from "react";
 import { StatusBar, useColorScheme, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function AppLayout({ children }: {children: ReactNode}) {
     const scheme = useColorScheme();
     const isDark = scheme === "dark";
+    const inset = useSafeAreaInsets();
 
     return (
-        <View style={{ flex: 1, backgroundColor: isDark ? "#000000" : "#FFFFFF" }}>
-            <StatusBar
-                barStyle={isDark ? "light-content" : "dark-content"}
-                translucent
-                backgroundColor="transparent"
-            />
-            <SafeAreaView style={{ flex: 1 }} edges={["bottom"]}>
-                {children}
-            </SafeAreaView>
+        <View style={{ 
+            flex: 1, 
+            backgroundColor: isDark ? COLOR.black : COLOR.white,
+            paddingBottom: inset.bottom,
+        }}>
+            {/* App Content */}
+            {children}
+
         </View>
   );
 }

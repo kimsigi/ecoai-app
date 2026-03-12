@@ -29,17 +29,14 @@ const STATUS_ROWS: StatusRow[] = [
 export default function DisposalStatusScreen() {
   return (
     <PageLayout
-      headerState="content"
-      headerHeight={56}
-      headerContainerStyle={styles.headerContainer}
-      headerCenter={<Text style={styles.headerTitle}>내 배출 정보</Text>}
-      headerRight={
-        <Pressable hitSlop={8} style={styles.headerClose}>
-          <AppIcon name="close" size={20} />
-        </Pressable>
-      }
-      contentContainerStyle={styles.contentContainer}
-      protectBottomInset
+      back
+      title="내 배출 정보"
+      right={[
+                {
+                    icon: <AppIcon name="close" size={24} />,
+                    //onPress: 
+                },
+            ]}
     >
       <View style={styles.container}>
         {/* [ADD] 사용자 정보 박스 */}

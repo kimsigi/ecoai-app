@@ -1,37 +1,98 @@
-import React from "react";
-import { StatusBar, View } from "react-native";
-import { PageHeaderConfig, PageLayoutProps } from "./layout.type";
-import usePageLayout from "./usePageLayout";
+﻿import { View, StatusBar, useColorScheme } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import PageHeader from "./PageHeader";
 import { styles } from "./layout.style";
+import { PageLayoutProps } from "./layout.type";
+import { DEFAULT_HEADER_HEIGHT } from "./layout.constant";
 
-export default function PageLayout(props: PageLayoutProps) {
-  const layout = usePageLayout(props);
+export default function PageLayout({
+    children,
 
-  const headerConfig: PageHeaderConfig = {
-    state: props.headerState ?? "content",
-    height: props.headerHeight ?? 48,
-    containerStyle: props.headerContainerStyle,
-    center: props.headerCenter,
-    custom: props.customHeader,
-  };
+    header = true,
+    customHeader,
 
-  return (
-    <View style={styles.container}>
-      <StatusBar
-        hidden={props.statusBarHidden ?? false}
-        barStyle={props.statusBarStyle ?? "dark-content"}
-        translucent={props.statusBarTranslucent ?? true}
-        backgroundColor={props.statusBarBackgroundColor ?? "transparent"}
-      />
+    title,
+    back = false,
+    right = [],
 
-      <View style={[{ height: layout.topInset }, props.statusBarAreaStyle]} />
+    statusBarLight,
 
-      <PageHeader config={headerConfig} layout={layout.header} />
+    statusBarStyle,
+    headerStyle,
+    contentStyle,
 
-      <View style={[styles.content, { paddingBottom: layout.bottomInset }, props.contentContainerStyle]}>
-        {props.children}
-      </View>
-    </View>
-  );
+    useStatusBarOffset = true,
+    useHeaderOffset = true,
+
+}: PageLayoutProps) {
+
+    const inset = useSafeAreaInsets();
+    const scheme = useColorScheme();
+    const isDark = scheme === "dark";
+
+    const topInset = inset.top || StatusBar.currentHeight || 0;
+    const statusBarInset = useStatusBarOffset ? topInset : 0;
+    const barStyle = (statusBarLight ?? isDark) ? "light-content" : "dark-content";
+    const contentPaddingTop = !header
+                            ? statusBarInset
+                            : useHeaderOffset
+                            ? statusBarInset + DEFAULT_HEADER_HEIGHT
+                            : statusBarInset;
+
+    return (
+        <View style={{ flex: 1 }}>
+        
+            {/* StatusBar style */}
+            <StatusBar 
+                translucent 
+                backgroundColor="transparent" 
+                barStyle={barStyle} 
+            />
+        
+            {/* StatusBar background */}
+            <View
+                style={[
+                    { 
+                        height: topInset 
+                    },  
+                    styles.statusBarBackgroundPosition, 
+                    statusBarStyle
+                ]}
+            />
+        
+            {/* Content */}
+            <View
+                style={[
+                    {
+                        flex: 1,
+                        paddingTop: contentPaddingTop,
+                    },
+                    contentStyle,
+                ]}
+            >
+                {children}
+            </View>
+
+            {/* Header */}
+            {header && (
+                <View
+                    style={[
+                        { 
+                            top: topInset 
+                        },
+                        styles.headerOverlayPosition
+                    ]}
+                >
+                    {customHeader ?? (
+                        <PageHeader
+                            title={title}
+                            back={back}
+                            right={right}
+                            style={headerStyle}
+                        />
+                    )}
+                </View>
+            )}
+        </View>
+    );
 }

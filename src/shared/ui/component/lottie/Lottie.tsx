@@ -11,6 +11,7 @@ interface LottieProps {
   loop?: boolean;
   speed?: number;
   style?: StyleProp<ViewStyle>;
+  scale?: number; 
 }
 
 function AppLottie({ 
@@ -20,6 +21,7 @@ function AppLottie({
     loop = true,
     speed = 1,
     style,
+    scale = 1,
 }: LottieProps) 
 {
     const source = LOTTIE_MAP[name];
@@ -33,6 +35,7 @@ function AppLottie({
             style={[
                 styles.lottie,
                 size != null ? { width: size, height: size } : undefined,
+                { transform: [{ scale }] },
                 style
             ]}
         />

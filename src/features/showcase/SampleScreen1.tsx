@@ -46,12 +46,14 @@ export default function SampleScreen1() {
 
   return (
     <PageLayout
-      headerState="content"
-      //topInsetMode="header"
-      showBack={false}
-      protectBottomInset
-      headerHeight={52}
-      headerContainerStyle={styles.headerArea}
+      back
+      title="샘플1111"
+      right={[
+                {
+                    icon: <AppIcon name="close" size={24} />,
+                    //onPress: 
+                },
+            ]}
       customHeader={
         <View style={styles.customHeaderWrap}>
           <Pressable

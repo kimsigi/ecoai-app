@@ -54,17 +54,13 @@ export default function PaymentCartScreen() {
 
   return (
     <PageLayout
-      headerState="content"
-      headerHeight={56}
-      headerContainerStyle={styles.headerContainer}
-      headerCenter={<Text style={styles.headerTitle}>배출카트</Text>}
-      headerRight={
-        <Pressable hitSlop={8} style={styles.headerClose}>
-          <AppIcon name="close" size={20} />
-        </Pressable>
-      }
-      contentContainerStyle={styles.contentContainer}
-      protectBottomInset
+        title="배출카트"
+        right={[
+            {
+                icon: <AppIcon name="close" size={24} />,
+                //onPress: 
+            },
+        ]}
     >
       <View style={styles.container}>
         <View style={styles.listWrap}>

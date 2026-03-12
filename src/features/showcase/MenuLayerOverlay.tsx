@@ -34,16 +34,15 @@ export function MenuLayerOverlay() {
 
   return (
     <PageLayout
-      headerState="content"
-      showBack
-      headerCenter={<Text style={styles.headerTitle}>메뉴 오버레이 샘플</Text>}
-      headerRight={
-        <Pressable style={styles.headerIconBtn} onPress={() => setIsMenuOpen(true)}>
-            <AppIcon name="menu" size={24} />
-        </Pressable>
-      }
-      statusBarStyle="dark-content"
-      contentContainerStyle={styles.screen}
+      back
+      title="메뉴 오버레이 샘플"
+      right={[
+                {
+                    icon: <AppIcon name="menu" size={24} />,
+                    onPress: () => setIsMenuOpen(true)
+                },
+            ]}
+        headerStyle={{backgroundColor: '#345AE4'}}
     >
       <View style={styles.screen}>
         <Text style={styles.bodyText}>헤더 햄버거를 누르면 메뉴가 뜹니다.</Text>

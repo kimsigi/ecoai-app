@@ -1,54 +1,42 @@
 import { StyleSheet } from 'react-native';
-import { SPACING } from '@/shared/ui/token';
+import { COLOR, FONT_FACE, FONT_SIZE, SPACING } from '@/shared/ui/token';
 
 export const styles = StyleSheet.create({
-    container: {
-        flex: 1,
+    statusBarBackgroundPosition: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
     },
-    headerBody: {
-        width: '100%',
+    headerOverlayPosition: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
     },
-    defaultHeaderRow: {
-        width: '100%',
+    pageHeaderContainer: {
         flexDirection: 'row',
         alignItems: 'center',
+        backgroundColor: COLOR.white,
     },
-    side: {
-        width: 56,
+    pageHeaderLeft: {
+        alignItems: 'flex-start',
         justifyContent: 'center',
+        paddingLeft: SPACING.xl,
     },
-    sideSpacer: {
-        width: 36,
-        height: 36,
-    },
-    right: {
-        alignItems: 'flex-end',
-    },
-    center: {
+    pageHeaderCenter: {
         flex: 1,
+        minWidth: 0,
         alignItems: 'center',
         justifyContent: 'center',
     },
-    backButton: {
-        width: 36,
-        height: 36,
-        alignItems: 'center',
-        justifyContent: 'center',
+    pageHeaderTitle: {
+        fontFamily: FONT_FACE.pretendard.bold,
+        fontSize: FONT_SIZE.xxl,
     },
-    rightIconRow: {
+    pageHeaderRight: {
         flexDirection: 'row',
         alignItems: 'center',
-        gap: SPACING.sm,
+        justifyContent: 'flex-end',
         paddingRight: SPACING.xl,
-    },
-    rightIconButton: {
-        width: 24,
-        height: 24,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    content: {
-        flex: 1,
-        //paddingHorizontal: spacingRaw.sp1 - 1, // 0 유지 의도 (토큰 참조 형태 유지용, 싫으면 0으로 바꿔도 됨)
     },
 });

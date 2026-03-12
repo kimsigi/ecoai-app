@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 import { PageLayout } from "@/shared/ui/component/layout";
+import { AppIcon } from "@/shared/ui/component/icon";
 
 type UserType = "개인" | "사업자";
 
@@ -18,14 +19,14 @@ export default function SampleScreen3() {
 
   return (
     <PageLayout
-      headerState="content"
-      topInsetMode="header"
-      protectBottomInset
-      showBack
-      headerHeight={44}
-      headerContainerStyle={styles.headerContainer}
-      headerCenter={<Text style={styles.headerTitle}>설정</Text>}
-      contentContainerStyle={styles.contentContainer}
+      back
+      title="설정"
+      right={[
+                {
+                    icon: <AppIcon name="close" size={24} />,
+                    //onPress: 
+                },
+            ]}
     >
       <View style={styles.container}>
         <View style={styles.section}>

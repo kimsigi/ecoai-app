@@ -16,13 +16,8 @@ export default function SettingScreen() {
 
   return (
     <PageLayout
-      headerState="content"
-      protectBottomInset
-      showBack
-      headerHeight={44}
-      headerContainerStyle={styles.headerContainer}
-      headerCenter={<Text style={styles.headerTitle}>설정</Text>}
-      contentContainerStyle={styles.contentContainer}
+        back
+        title="설정"
     >
       <View style={styles.container}>
         <View style={styles.section}>

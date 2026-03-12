@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { PageLayout } from "@/shared/ui/component/layout";
+import { AppIcon } from "@/shared/ui/component/icon";
 
 type TopItem = {
   label: string;
@@ -38,18 +39,14 @@ export default function SampleScreen2() {
 
   return (
     <PageLayout
-      headerState="content"
-      topInsetMode="header"
-      showBack={false}
-      protectBottomInset
-      headerHeight={44}
-      headerContainerStyle={styles.headerContainer}
-      headerRight={
-        <Pressable onPress={() => navigation.goBack()} style={styles.closeButton}>
-          <Text style={styles.closeText}>×</Text>
-        </Pressable>
-      }
-      contentContainerStyle={styles.contentContainer}
+        back
+        title="샘플2"
+        right={[
+                    {
+                        icon: <AppIcon name="close" size={24} />,
+                        //onPress: 
+                    },
+                ]}
     >
       <ScrollView
         style={styles.container}

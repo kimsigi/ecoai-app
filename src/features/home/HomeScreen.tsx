@@ -5,6 +5,7 @@ import { AppIcon } from "@/shared/ui/component/icon";
 import { AppLottie } from "@/shared/ui/component/lottie";
 import { styles } from "./home.style";
 import { useHome } from "./useHome";
+import { COLOR } from "@/shared/ui/token";
 
 export function HomeScreen() {
     const {
@@ -18,27 +19,23 @@ export function HomeScreen() {
     } = useHome();
   return (
     <PageLayout
-        statusBarAreaStyle={styles.statusBar}
-        headerContainerStyle={styles.header}
-        contentContainerStyle={styles.content}
-        statusBarStyle={isMenuOpen ? "dark-content" : "light-content"}
-        rightItems={[
+        statusBarStyle={styles.statusBar}
+        headerStyle={styles.header}
+        contentStyle={styles.content}
+        right={[
             {
-                key: "notification",
                 icon: notification ? (
-                    <AppLottie name="notificationActive" size={24} />
+                    <AppLottie name="notificationActive" size={24} scale={1.2} />
                 ) : (
                     <AppIcon name="notificationInactive" size={24} />
                 ),
                 onPress: onNotificationPress,
             },
             {
-                key: "menu",
                 icon: <AppIcon name="menu" size={24} />,
                 onPress: onMenuPress,
             },
         ]}
-        protectBottomInset={false}
     >
         {/* 헤더 영역 */}
         <Pressable style={styles.searchArea} onPress={onKeywordSearchPress} hitSlop={8}>
@@ -88,54 +85,6 @@ export function HomeScreen() {
             </View>
         </View>
 
-        {isMenuOpen && (
-            <View style={styles.overlayRoot}>
-            <Pressable style={styles.backdrop} onPress={() => setIsMenuOpen(false)} />
-
-            <View style={styles.menuPanel}>
-                <View style={styles.menuTopBar}>
-                <Pressable style={styles.closeBtn} onPress={() => setIsMenuOpen(false)}>
-                    <Text style={styles.closeTxt}>×</Text>
-                </Pressable>
-                </View>
-
-                {TOP_MENUS.map((menu) => (
-                <Pressable key={menu.key} style={styles.topRow}>
-                    <AppIcon name={menu.icon} style={styles.dot} />
-                    <Text style={styles.topRowTxt}>{menu.label}</Text>
-                </Pressable>
-                ))}
-
-                <Pressable style={styles.categoryRow} onPress={() => setIsCategoryOpen((p) => !p)}>
-                <View style={styles.categoryLeft}>
-                    <View style={[styles.dot, { backgroundColor: "#8AD39C" }]} />
-                    <Text style={styles.categoryTxt}>배출 품목 분류</Text>
-                </View>
-                <Text style={styles.chevron}>{chevron}</Text>
-                </Pressable>
-
-                {isCategoryOpen && (
-                <View style={styles.subWrap}>
-                    {SUB_MENUS.map((item) => {
-                    const active = activeSubMenu === item;
-                    return (
-                        <Pressable
-                        key={item}
-                        style={[styles.subRow, active && styles.subRowActive]}
-                        onPress={() => onPressSubMenu(item)}
-                        >
-                        <Text style={[styles.subTxt, active && styles.subTxtActive]}>{item}</Text>
-                        <Text style={[styles.subArrow, active && styles.subArrowActive]}>
-                            {active ? "✓" : "→"}
-                        </Text>
-                        </Pressable>
-                    );
-                    })}
-                </View>
-                )}
-            </View>
-            </View>
-        )}
     </PageLayout>
   );
 }

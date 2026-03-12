@@ -19,7 +19,6 @@ export const ROUTES = {
     MENULAYEROVERLAY: 'MenuLayerOverlay',
     BOTTOMSHEET: 'BottomSheet',
     SAMPLEMAPOVERLAY: 'SampleMapOverlay',
-    SUBITEM: 'SubItem',
     PERMISSION: 'Permission',
     LOCATION_PICKER: 'LocationPicker',
     LOCATION_ADDRESS_SEARCH: 'LocationAddressSearch',
@@ -35,11 +34,11 @@ export const ROUTES = {
     CATEGORY: 'Category',
     AI_CHAT: 'AiChat',
     PAYMENTCART: 'PaymentCart',
-    DISPOSALOWNERVERIFY: 'DisposalOwnerVerify',
     DISPOSALSTATUS: 'DisposalStatus',
     DISPOSALSTATUSLIST: 'DisposalStatusList',
     DISPOSALDETAIL: 'DisposalDetail',
     DISPOSALREQUEST: 'DisposalRequest',
+    PAGETEST: 'PageTest',
 } as const;
 
 export type StackParamList = {
@@ -53,7 +52,6 @@ export type StackParamList = {
     [ROUTES.MENULAYEROVERLAY]: undefined;
     [ROUTES.BOTTOMSHEET]: undefined;
     [ROUTES.SAMPLEMAPOVERLAY]: undefined;
-    [ROUTES.SUBITEM]: undefined;
     [ROUTES.PERMISSION]: undefined;
     [ROUTES.LOCATION_PICKER]: LocationPickerParams | undefined;
     [ROUTES.LOCATION_ADDRESS_SEARCH]: LocationAddressSearchParams | undefined;
@@ -70,11 +68,12 @@ export type StackParamList = {
     [ROUTES.AI_CHAT]: undefined;
 
     [ROUTES.PAYMENTCART]: undefined;
-    [ROUTES.DISPOSALOWNERVERIFY]: undefined;
     [ROUTES.DISPOSALSTATUS]: undefined;
     [ROUTES.DISPOSALSTATUSLIST]: undefined;
     [ROUTES.DISPOSALDETAIL]: undefined;
     [ROUTES.DISPOSALREQUEST]: undefined;
+
+    [ROUTES.PAGETEST]: undefined;
 };
 
 export type AppNavigationProps = {

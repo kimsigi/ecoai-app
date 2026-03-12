@@ -16,10 +16,7 @@ export default function SampleScreen5() {
 
   return (
     <PageLayout
-      headerState="hidden"
-      //topInsetMode="none" // [핵심] 지도 배경이 상태바까지 침범
-      protectBottomInset
-      contentContainerStyle={styles.contentContainer}
+        header={false}
     >
       <View style={styles.container}>
         {/* [대체] 지도 대신 배경 블록(실제 프로젝트에서는 MapView로 교체) */}

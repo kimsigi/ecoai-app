@@ -63,13 +63,8 @@ export default function BottomSheet() {
 
   return (
     <PageLayout
-      headerState="hidden"
-      statusBarStyle="dark-content"
-      statusBarTranslucent
-      statusBarBackgroundColor="transparent"
-      statusBarAreaStyle={{ backgroundColor: "rgba(255,255,255,0.9)" }}
-      contentContainerStyle={styles.root}
-      protectBottomInset
+        back
+        title="바텀시트"
     >
       <View style={styles.root}>
         {/* 카메라 프리뷰 목업 */}

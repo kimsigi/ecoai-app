@@ -69,13 +69,8 @@ export default function NotificationScreen() {
 
   return (
     <PageLayout
-      headerState="content"
-      showBack
-      headerHeight={44}
-      headerContainerStyle={styles.headerContainer}
-      headerCenter={<Text style={styles.headerTitle}>알림</Text>}
-      contentContainerStyle={styles.contentContainer}
-      protectBottomInset
+      back
+      title="알림"
     >
       <View style={styles.container}>
         <View style={styles.listWrap}>

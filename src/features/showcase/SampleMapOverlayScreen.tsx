@@ -6,13 +6,14 @@ import { AppIcon } from "@/shared/ui/component/icon";
 export default function SampleMapOverlayScreen() {
   return (
     <PageLayout
-      headerState="hidden"
-      statusBarStyle="dark-content"
-      statusBarTranslucent
-      statusBarBackgroundColor="transparent"
-      statusBarAreaStyle={{ backgroundColor: "rgba(255,255,255,0.88)" }}
-      contentContainerStyle={styles.container}
-      protectBottomInset={false}
+      back
+      title="맵오버레이"
+      right={[
+                {
+                    icon: <AppIcon name="close" size={24} />,
+                    //onPress: 
+                },
+            ]}
     >
       <View style={styles.container}>
         {/* 지도 배경(샘플) */}

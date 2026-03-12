@@ -17,10 +17,7 @@ export default function SampleScreen4() {
 
   return (
     <PageLayout
-      headerState="hidden"
-      //topInsetMode="content" // [핵심] 상태바는 보호, 헤더는 콘텐츠 위 오버레이로 직접 구현
-      protectBottomInset
-      contentContainerStyle={styles.contentContainer}
+        header={false}
     >
       <View style={styles.container}>
         <ImageBackground

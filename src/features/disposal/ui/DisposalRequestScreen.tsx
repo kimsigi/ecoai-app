@@ -55,18 +55,8 @@ export default function DisposalRequestScreen() {
 
   return (
     <PageLayout
-      headerState="content"
-      showBack
-      headerHeight={56}
-      headerContainerStyle={styles.headerContainer}
-      headerCenter={<Text style={styles.headerTitle}>대형폐기물 배출 신청</Text>}
-      headerRight={
-        <Pressable hitSlop={8} style={styles.headerClose}>
-          <AppIcon name="close" size={20} />
-        </Pressable>
-      }
-      contentContainerStyle={styles.contentContainer}
-      protectBottomInset
+      back
+      title="대형폐기물 배출 신청"
     >
       <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>

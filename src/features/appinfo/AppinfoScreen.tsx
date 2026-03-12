@@ -15,13 +15,8 @@ import {
 export default function AppinfoScreen() {
   return (
     <PageLayout
-      headerState="content"
-      showBack
-      headerHeight={44}
-      headerContainerStyle={styles.headerContainer}
-      headerCenter={<Text style={styles.headerTitle}>앱 정보</Text>}
-      contentContainerStyle={styles.contentContainer}
-      protectBottomInset
+        back
+        title="앱 정보"
     >
       <View style={styles.container}>
         {/* [ADD] 섹션 타이틀 */}

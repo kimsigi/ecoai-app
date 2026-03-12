@@ -10,8 +10,9 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { PageLayout } from "@/shared/ui/component/layout";
-import { Color } from "@/shared/ui/assets/style/color";
 import { AppIcon } from "@/shared/ui/component/icon";
+import { AppLottie } from "@/shared/ui/component/lottie";
+import { COLOR } from "@/shared/ui/token";
 
 const CATEGORIES = [
   "일반쓰레기",
@@ -43,6 +44,8 @@ export default function CategoryScreen() {
   const [keyword, setKeyword] = useState("");
   const [selectedItemId, setSelectedItemId] = useState("1");
 
+  const [notification] = useState(true);
+
   const filteredItems = useMemo(() => {
     const q = keyword.trim();
     if (!q) return ITEMS;
@@ -51,27 +54,24 @@ export default function CategoryScreen() {
 
   return (
     <PageLayout
-      headerState="content"
-      showBack
-      onBackPress={() => navigation.goBack()}
-      statusBarStyle="light-content"
-      statusBarTranslucent
-      statusBarBackgroundColor="transparent"
-      statusBarAreaStyle={styles.statusBarArea}
-      headerContainerStyle={styles.headerContainer}
-      contentContainerStyle={styles.contentContainer}
-      headerCenter={<Text style={styles.headerTitle}>생활폐기물</Text>}
-      headerRight={
-        <View style={styles.headerRightRow}>
-          <Pressable style={styles.headerIconBtn}>
-            <AppIcon name="notificationInactive" size={20} />
-          </Pressable>
-          <Pressable style={styles.headerIconBtn}>
-            <AppIcon name="menu" size={20} />
-          </Pressable>
-        </View>
-      }
-      protectBottomInset
+        back      
+        title="생활폐기물"
+        right={[
+                {
+                    icon: notification ? (
+                        <AppLottie name="notificationActive" size={24} scale={1.2} />
+                    ) : (
+                        <AppIcon name="notificationInactive" size={24} />
+                    ),
+                    //onPress: onNotificationPress,
+                },
+                {
+                    icon: <AppIcon name="menu" size={24} />,
+                    //onPress: onMenuPress,
+                },
+            ]}
+        statusBarStyle={{backgroundColor: COLOR.blue500}}
+        headerStyle={{backgroundColor: COLOR.blue500}}
     >
       <View style={styles.screen}>
         <ScrollView
@@ -160,18 +160,18 @@ export default function CategoryScreen() {
 
 const styles = StyleSheet.create({
   statusBarArea: {
-    backgroundColor: Color.Home.background,
+    backgroundColor: COLOR.blue500,
   },
   headerContainer: {
-    backgroundColor: Color.Home.background,
+    backgroundColor: COLOR.blue500,
   },
   contentContainer: {
-    backgroundColor: Color.Home.background,
+    backgroundColor: COLOR.blue500,
   },
 
   screen: {
     flex: 1,
-    backgroundColor: Color.Home.background,
+    backgroundColor: COLOR.blue500,
   },
   scrollContent: {
     paddingTop: 8,
