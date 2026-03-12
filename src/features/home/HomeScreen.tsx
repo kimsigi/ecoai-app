@@ -104,6 +104,7 @@ export function HomeScreen() {
         onDismiss={onCloseMenuPress} 
         containerStyle={styles.menuPanel}
         presentation={presentation} 
+        fillContent
     >
         {
             SIDE_MENUS.map((menu) => {

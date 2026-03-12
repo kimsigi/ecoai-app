@@ -12,16 +12,17 @@ export default function Dialog({
     onDismiss,
     children,
     containerStyle,
-    dimColor = COLOR.blackA18,
+    dimColor = COLOR.blackA20,
     dismissable = true,
     dismissableBackButton = true,
     presentation = "screen",
     showCloseHeader = true,
     headerTitle,
-    fillContent = true,
+    fillContent = false,
 }: DialogProps) {
 
     const insets = useSafeAreaInsets();
+    const bottomInset = fillContent ? 0 : insets.bottom;
 
     const content = (
         <>
@@ -58,7 +59,7 @@ export default function Dialog({
                     styles.overlayRoot,
                     {
                     marginTop: insets.top,
-                    marginBottom: insets.bottom,
+                    marginBottom: bottomInset,
                     },
                 ]}
                 >
@@ -83,7 +84,7 @@ export default function Dialog({
                         styles.portalRoot,
                         {
                             marginTop: insets.top, // 상태바 아래부터
-                            marginBottom: insets.bottom, // 바텀 safe 전까지
+                            marginBottom: bottomInset,
                         },
                     ]}
                 >

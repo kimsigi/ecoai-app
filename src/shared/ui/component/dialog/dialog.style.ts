@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { DEFAULT_HEADER_HEIGHT } from '@/shared/ui/component/layout';
-import { COLOR, SPACING } from '@/shared/UI/token';
+import { COLOR, SPACING } from '@/shared/ui/token';
 
 export const styles = StyleSheet.create({
     modal: {
