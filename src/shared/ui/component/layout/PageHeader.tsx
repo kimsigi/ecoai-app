@@ -1,6 +1,6 @@
 import { View, Text, Pressable, StyleProp, ViewStyle } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { COLOR, SPACING } from "@/shared/ui/token";
+import { SPACING } from "@/shared/ui/token";
 import { AppIcon } from "@/shared/ui/component/icon";
 import { PageHeaderProps } from "./layout.type";
 import { DEFAULT_HEADER_HEIGHT, DEFAULT_SIDE_WIDTH } from "./layout.constant";

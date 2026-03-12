@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API, KAKAO } from '@/shared/core/config';
+import { API } from '@/shared/core/config';
 
 export const http = axios.create({
     baseURL: API.BASE_URL,

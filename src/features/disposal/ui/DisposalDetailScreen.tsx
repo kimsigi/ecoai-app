@@ -2,7 +2,6 @@ import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { PageLayout } from '@/shared/ui/component/layout';
-import { AppIcon } from '@/shared/ui/component/icon';
 import {
   COLOR,
   FONT_FACE,
@@ -15,17 +14,8 @@ import {
 export default function DisposalDetailScreen() {
   return (
     <PageLayout
-      headerState="content"
-      headerHeight={56}
-      headerContainerStyle={styles.headerContainer}
-      headerCenter={<Text style={styles.headerTitle}>배출 정보 상세</Text>}
-      headerRight={
-        <Pressable hitSlop={8} style={styles.headerClose}>
-          <AppIcon name="close" size={20} />
-        </Pressable>
-      }
-      contentContainerStyle={styles.contentContainer}
-      protectBottomInset
+        back
+        title="배출 정보 상세"
     >
       <View style={styles.container}>
         {/* [ADD] 상태/요청정보 */}

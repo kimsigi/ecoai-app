@@ -8,9 +8,12 @@ import cameraEntry from '@/shared/ui/assets/icon/cameraEntry.svg';
 import category from '@/shared/ui/assets/icon/category.svg';
 import close from '@/shared/ui/assets/icon/close.svg';
 
+import disposal from '@/shared/ui/assets/icon/disposal.svg';
+
 import faq from '@/shared/ui/assets/icon/faq.svg';
 
 import kyolimsoftCI from '@/shared/ui/assets/icon/kyolimsoftCI.svg';
+
 import logo from '@/shared/ui/assets/icon/logo.svg';
 
 import menu from '@/shared/ui/assets/icon/menu.svg';
@@ -20,7 +23,6 @@ import notificationInactive from '@/shared/ui/assets/icon/notificationInactive.s
 
 import search from '@/shared/ui/assets/icon/search.svg';
 import setting from '@/shared/ui/assets/icon/setting.svg';
-
 import symbolGov from '@/shared/ui/assets/icon/symbolGov.svg';
 import symbolKeco from '@/shared/ui/assets/icon/symbolKeco.svg';
 import symbolKyolim from '@/shared/ui/assets/icon/symbolKyolim.svg';
@@ -36,6 +38,8 @@ export const ICON_MAP = {
     category,
     close,
 
+    disposal,
+
     faq,
 
     kyolimsoftCI,
@@ -49,7 +53,6 @@ export const ICON_MAP = {
 
     search,
     setting,
-
     symbolGov,
     symbolKeco,
     symbolKyolim,

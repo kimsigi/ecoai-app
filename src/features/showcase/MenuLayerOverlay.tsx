@@ -29,7 +29,7 @@ export function MenuLayerOverlay() {
   const onPressSubMenu = (item: string) => {
     setActiveSubMenu(item); // [추가] 선택한 서브메뉴 active
     // 필요하면 여기서 페이지 이동 추가
-    navigation.push(ROUTES.SUBITEM);
+    //navigation.push(ROUTES.SUBITEM);
   };
 
   return (

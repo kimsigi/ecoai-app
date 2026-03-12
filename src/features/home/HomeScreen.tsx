@@ -5,21 +5,34 @@ import { AppIcon } from "@/shared/ui/component/icon";
 import { AppLottie } from "@/shared/ui/component/lottie";
 import { styles } from "./home.style";
 import { useHome } from "./useHome";
+import { AppDialog } from "@/shared/ui/component/dialog";
+import { SIDE_MENUS } from "./home.model";
 import { COLOR } from "@/shared/ui/token";
 
 export function HomeScreen() {
     const {
         notification,
         isMenuOpen,
-        setIsMenuOpen,
+        openMenuKey,
+        activeSubMenuKey,
+        presentation,
+        onCloseMenuPress,
         onNotificationPress,
         onMenuPress,
         onKeywordSearchPress,
         onCameraPress,
+        onSideMenuPress,
+        onSubMenuPress,
     } = useHome();
+
   return (
+    <>
     <PageLayout
-        statusBarStyle={styles.statusBar}
+        statusBarLight={!isMenuOpen}
+        statusBarStyle={[
+            styles.statusBar,
+            isMenuOpen && { backgroundColor: COLOR.white },
+        ]}
         headerStyle={styles.header}
         contentStyle={styles.content}
         right={[
@@ -33,7 +46,7 @@ export function HomeScreen() {
             },
             {
                 icon: <AppIcon name="menu" size={24} />,
-                onPress: onMenuPress,
+            onPress: onMenuPress,
             },
         ]}
     >
@@ -84,7 +97,70 @@ export function HomeScreen() {
                 <AppIcon name="symbolKyolim" width={88} height={28} />
             </View>
         </View>
-
     </PageLayout>
+    
+    <AppDialog 
+        visible={isMenuOpen} 
+        onDismiss={onCloseMenuPress} 
+        containerStyle={styles.menuPanel}
+        presentation={presentation} 
+    >
+        {
+            SIDE_MENUS.map((menu) => {
+                const hasSubItems = "subitem" in menu && Array.isArray(menu.subitem);
+                const isOpen = openMenuKey === menu.key;
+                const chevron = isOpen 
+                                ? <AppIcon name="chevronUp" size={24} /> 
+                                : <AppIcon name="chevronDown" size={24} />;
+
+                return (
+                    <View key={menu.key}>
+                        <Pressable style={styles.menuItem} onPress={() => onSideMenuPress(menu)}>
+                            <AppIcon name={menu.icon} size={32} />
+                            <Text style={styles.menuItemText} numberOfLines={1} ellipsizeMode="tail">
+                                {menu.label}
+                            </Text>
+
+                            {
+                                hasSubItems ? chevron : null
+                            }
+
+                        </Pressable>
+                        
+                        {
+                            hasSubItems && isOpen ? (
+                                <View style={styles.subitemContainer}>
+                                    {
+                                        menu.subitem.map((sub) => (
+                                            <Pressable
+                                                key={sub.key}
+                                                style={[
+                                                    styles.subitem,
+                                                    activeSubMenuKey === sub.key && styles.subitemActive,
+                                                ]}
+                                                onPress={() => onSubMenuPress(sub)}
+                                            >
+                                                <Text
+                                                    style={[
+                                                        styles.subitemText,
+                                                        activeSubMenuKey === sub.key && styles.subitemTextActive,
+                                                    ]}
+                                                    numberOfLines={1}
+                                                    ellipsizeMode="tail"
+                                                >
+                                                    {sub.label}
+                                                </Text>
+                                                <AppIcon name="arrowRight" size={24} />
+                                            </Pressable>
+                                        ))
+                                    }
+                                </View>
+                            ) : null
+                        }
+                    </View>
+                );
+        })}
+      </AppDialog>
+    </>
   );
 }

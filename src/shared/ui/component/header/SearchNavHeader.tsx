@@ -1,6 +1,7 @@
 import React from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
-import { AppIcon } from "../icon";
+import { AppIcon } from "@/shared/ui/component/icon";
+
 type Mode = "trigger" | "input";
 
 interface Props {

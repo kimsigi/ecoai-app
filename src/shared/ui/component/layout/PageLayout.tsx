@@ -52,6 +52,7 @@ export default function PageLayout({
         
             {/* StatusBar background */}
             <View
+                pointerEvents="none"
                 style={[
                     { 
                         height: topInset 

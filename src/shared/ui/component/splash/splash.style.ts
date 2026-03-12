@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { COLOR, FONT_FACE, FONT_SIZE } from '../../token';
+import { COLOR, FONT_FACE, FONT_SIZE } from '@/shared/ui/token';
 
 export const styles = StyleSheet.create({
     container: {

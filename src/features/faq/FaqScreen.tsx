@@ -60,13 +60,8 @@ export default function FaqScreen() {
 
   return (
     <PageLayout
-      headerState="content"
-      showBack
-      headerHeight={44}
-      headerContainerStyle={styles.headerContainer}
-      headerCenter={<Text style={styles.headerTitle}>자주 묻는 질문</Text>}
-      contentContainerStyle={styles.contentContainer}
-      protectBottomInset
+        back
+        title="자주 묻는 질문"
     >
       <View style={styles.container}>
         {/* [ADD] 검색 바 */}

@@ -8,7 +8,7 @@ import { styles } from './usertype.style';
 import { useUserType } from './useUserType';
 
 export default function UserTypeScreen() {
-    const { selectedType, handleSelect, getUserType } = useUserType();
+    const { selectedType, handleSelect } = useUserType();
     const { width } = useWindowDimensions();
 
     return (
