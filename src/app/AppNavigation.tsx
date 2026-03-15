@@ -22,6 +22,7 @@ import SheetBasicScreen from "@/features/showcase/sheet/SheetBasicScreen";
 import SheetWebViewScreen from "@/features/showcase/sheet/SheetWebViewScreen";
 import SheetAsyncScreen from "@/features/showcase/sheet/SheetAsyncScreen";
 import SheetFixedScreen from "@/features/showcase/sheet/SheetFixedScreen";
+import SheetPlaygroundScreen from "@/features/showcase/sheet/SheetPlaygroundScreen";
 import SampleMapOverlayScreen from "@/features/showcase/SampleMapOverlayScreen";
 import SubItemScreen from "@/features/showcase/SubItemScreen";
 import NotificationScreen from "@/features/notification/NotificationScreen";
@@ -60,6 +61,7 @@ export default function AppNavigation({ initialRouteName }: AppNavigationProps) 
 <Stack.Screen name={ROUTES.SHEET_WEBVIEW} component={SheetWebViewScreen} />
 <Stack.Screen name={ROUTES.SHEET_ASYNC} component={SheetAsyncScreen} />
 <Stack.Screen name={ROUTES.SHEET_FIXED} component={SheetFixedScreen} />
+<Stack.Screen name={ROUTES.SHEET_PLAYGROUND} component={SheetPlaygroundScreen} />
 <Stack.Screen name={ROUTES.SAMPLEMAPOVERLAY} component={SampleMapOverlayScreen} />
 <Stack.Screen name={ROUTES.SUBITEM} component={SubItemScreen} />
 

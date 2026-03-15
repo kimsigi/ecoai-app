@@ -200,6 +200,15 @@ export default function ShowcaseScreen() {
                 <TouchableOpacity
                     style={styles.button}
                     activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.SHEET_PLAYGROUND)}
+                >
+                    <Text>Sheet Playground</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
                     onPress={() => navigation.push(ROUTES.MENULAYEROVERLAY)}
                 >
                     <Text>메뉴레이어(햄버거)</Text>

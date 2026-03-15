@@ -22,6 +22,7 @@ export const ROUTES = {
     SHEET_WEBVIEW: 'SheetWebView',
     SHEET_ASYNC: 'SheetAsync',
     SHEET_FIXED: 'SheetFixed',
+    SHEET_PLAYGROUND: 'SheetPlayground',
     SAMPLEMAPOVERLAY: 'SampleMapOverlay',
     SUBITEM: 'SubItem',
     PERMISSION: 'Permission',
@@ -60,6 +61,7 @@ export type StackParamList = {
     [ROUTES.SHEET_WEBVIEW]: undefined;
     [ROUTES.SHEET_ASYNC]: undefined;
     [ROUTES.SHEET_FIXED]: undefined;
+    [ROUTES.SHEET_PLAYGROUND]: undefined;
     [ROUTES.SAMPLEMAPOVERLAY]: undefined;
     [ROUTES.SUBITEM]: undefined;
     [ROUTES.PERMISSION]: undefined;

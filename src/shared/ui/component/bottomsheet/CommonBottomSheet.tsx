@@ -1,5 +1,11 @@
 import React, { useEffect, useMemo, useRef } from "react";
-import { Dimensions, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
+import {
+  Dimensions,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from "react-native";
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -128,7 +134,13 @@ export default function CommonBottomSheet({
           />
         )}
 
-        <View style={[styles.contentContainer, contentContainerStyle]}>
+        <View
+          style={[
+            styles.contentContainer,
+            { paddingBottom: Math.max(insets.bottom, 16) },
+            contentContainerStyle,
+          ]}
+        >
           {children}
         </View>
 
