@@ -164,6 +164,42 @@ export default function ShowcaseScreen() {
                 <TouchableOpacity
                     style={styles.button}
                     activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.SHEET_BASIC)}
+                >
+                    <Text>Sheet Basic</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.SHEET_WEBVIEW)}
+                >
+                    <Text>Sheet WebView</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.SHEET_ASYNC)}
+                >
+                    <Text>Sheet Async</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.SHEET_FIXED)}
+                >
+                    <Text>Sheet Fixed</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
                     onPress={() => navigation.push(ROUTES.MENULAYEROVERLAY)}
                 >
                     <Text>메뉴레이어(햄버거)</Text>

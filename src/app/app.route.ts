@@ -18,6 +18,10 @@ export const ROUTES = {
     SAMPLESCR5: 'SampleScreen5',
     MENULAYEROVERLAY: 'MenuLayerOverlay',
     BOTTOMSHEET: 'BottomSheet',
+    SHEET_BASIC: 'SheetBasic',
+    SHEET_WEBVIEW: 'SheetWebView',
+    SHEET_ASYNC: 'SheetAsync',
+    SHEET_FIXED: 'SheetFixed',
     SAMPLEMAPOVERLAY: 'SampleMapOverlay',
     SUBITEM: 'SubItem',
     PERMISSION: 'Permission',
@@ -52,6 +56,10 @@ export type StackParamList = {
     [ROUTES.SAMPLESCR5]: undefined;
     [ROUTES.MENULAYEROVERLAY]: undefined;
     [ROUTES.BOTTOMSHEET]: undefined;
+    [ROUTES.SHEET_BASIC]: undefined;
+    [ROUTES.SHEET_WEBVIEW]: undefined;
+    [ROUTES.SHEET_ASYNC]: undefined;
+    [ROUTES.SHEET_FIXED]: undefined;
     [ROUTES.SAMPLEMAPOVERLAY]: undefined;
     [ROUTES.SUBITEM]: undefined;
     [ROUTES.PERMISSION]: undefined;
