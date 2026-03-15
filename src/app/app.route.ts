@@ -23,6 +23,7 @@ export const ROUTES = {
     SHEET_ASYNC: 'SheetAsync',
     SHEET_FIXED: 'SheetFixed',
     SHEET_PLAYGROUND: 'SheetPlayground',
+    SHOWCASE_REACT_QUERY: 'ShowcaseReactQuery',
     SAMPLEMAPOVERLAY: 'SampleMapOverlay',
     SUBITEM: 'SubItem',
     PERMISSION: 'Permission',
@@ -62,6 +63,7 @@ export type StackParamList = {
     [ROUTES.SHEET_ASYNC]: undefined;
     [ROUTES.SHEET_FIXED]: undefined;
     [ROUTES.SHEET_PLAYGROUND]: undefined;
+    [ROUTES.SHOWCASE_REACT_QUERY]: undefined;
     [ROUTES.SAMPLEMAPOVERLAY]: undefined;
     [ROUTES.SUBITEM]: undefined;
     [ROUTES.PERMISSION]: undefined;
