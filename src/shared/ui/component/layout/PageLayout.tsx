@@ -4,6 +4,7 @@ import PageHeader from "./PageHeader";
 import { styles } from "./layout.style";
 import { PageLayoutProps } from "./layout.type";
 import { DEFAULT_HEADER_HEIGHT } from "./layout.constant";
+import { COLOR } from "../../token";
 
 export default function PageLayout({
     children,
@@ -68,6 +69,7 @@ export default function PageLayout({
                     {
                         flex: 1,
                         paddingTop: contentPaddingTop,
+                        backgroundColor: COLOR.white,
                     },
                     contentStyle,
                 ]}

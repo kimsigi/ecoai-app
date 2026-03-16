@@ -27,6 +27,11 @@ import symbolGov from '@/shared/ui/assets/icon/symbolGov.svg';
 import symbolKeco from '@/shared/ui/assets/icon/symbolKeco.svg';
 import symbolKyolim from '@/shared/ui/assets/icon/symbolKyolim.svg';
 
+import userTypePersonalActive from '@/shared/ui/assets/icon/userTypePersonalActive.svg';
+import userTypePersonalInactive from '@/shared/ui/assets/icon/userTypePersonalInactive.svg';
+import userTypeBusinessActive from '@/shared/ui/assets/icon/userTypeBusinessActive.svg';
+import userTypeBusinessInactive from '@/shared/ui/assets/icon/userTypeBusinessInactive.svg';
+
 export const ICON_MAP = {
     appinfo,
     arrowRight,
@@ -56,6 +61,11 @@ export const ICON_MAP = {
     symbolGov,
     symbolKeco,
     symbolKyolim,
+
+    userTypePersonalActive,
+    userTypePersonalInactive,
+    userTypeBusinessActive,
+    userTypeBusinessInactive,
 } as const;
 
 export type IconName = keyof typeof ICON_MAP;

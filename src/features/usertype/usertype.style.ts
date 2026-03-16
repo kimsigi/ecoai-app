@@ -1,60 +1,67 @@
+import {
+    COLOR,
+    FONT_FACE,
+    FONT_SIZE,
+    RADIUS,
+    SPACING,
+} from '@/shared/ui/token';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        paddingTop: 60,
+        justifyContent: 'center',
+        paddingHorizontal: SPACING.xl,
+        paddingBottom: 120,
+    },
+    section: {
+        alignItems: 'center',
     },
     title: {
-        fontSize: 18,
-        fontWeight: '600',
-        marginBottom: 80,
-        color: '#000',
+        fontFamily: FONT_FACE.pretendard.bold,
+        fontSize: FONT_SIZE.xxl,
+        color: COLOR.gray960,
+        textAlign: 'center',
+        marginBottom: SPACING.xl,
     },
-    description: {
-        fontSize: 16,
-        marginBottom: 24,
-        color: '#000',
-    },
-    buttonWrapper: {
-        gap: 16,
+    buttonGroup: {
+        width: '100%',
+        gap: SPACING.smMd,
     },
     button: {
-        height: 52,
-        borderRadius: 12,
-        justifyContent: 'center',
+        height: 46,
+        borderRadius: RADIUS.enormous,
+        flexDirection: 'row',
         alignItems: 'center',
-        borderWidth: 1.5,
+        paddingLeft: SPACING.xsSm,
+        paddingRight: SPACING.xl,
     },
     buttonActive: {
-        backgroundColor: '#1E6DEB',
-        borderColor: '#1E6DEB',
+        backgroundColor: COLOR.blue500,
     },
     buttonInactive: {
-        backgroundColor: '#FFFFFF',
-        borderColor: '#1E6DEB',
+        backgroundColor: COLOR.grayBlue200,
     },
-    buttonText: {
-        fontSize: 16,
-        fontWeight: '600',
+    badge: {
+        width: 40,
+        height: 40,
+        borderRadius: SPACING.xl,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 14,
     },
-    buttonTextActive: {
-        color: '#FFFFFF',
+    label: {
+        flex: 1,
+        fontFamily: FONT_FACE.pretendard.semibold,
+        fontSize: FONT_SIZE.xl,
+        textAlign: 'center',
+        marginRight: 34,
     },
-    buttonTextInactive: {
-        color: '#1E6DEB',
+    labelActive: {
+        color: COLOR.white,
     },
-    nextButton: {
-        marginTop: 40,
-        paddingHorizontal: 40,
-        paddingVertical: 14,
-        borderRadius: 10,
-        backgroundColor: '#1E6DEB',
-    },
-    nextButtonText: {
-        color: '#FFFFFF',
-        fontSize: 15,
-        fontWeight: '600',
+    labelInactive: {
+        color: COLOR.grayBlue300,
     },
 });

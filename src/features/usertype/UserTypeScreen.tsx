@@ -1,75 +1,75 @@
 import {
+    Pressable,
     Text,
-    TouchableOpacity,
-    useWindowDimensions,
     View,
 } from 'react-native';
+import { PageLayout } from '@/shared/ui/component/layout';
+import { AppIcon } from '@/shared/ui/component/icon';
 import { styles } from './usertype.style';
+import { UserTypeBadgeName } from './usertype.type';
+import { USER_TYPES } from './usertype.model';
 import { useUserType } from './useUserType';
 
 export default function UserTypeScreen() {
-    const { selectedType, handleSelect } = useUserType();
-    const { width } = useWindowDimensions();
+    const { 
+        contentWidth,
+        selectedType,
+        handleSelect,
+    } = useUserType();
 
     return (
-        <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+        <PageLayout
+            back
+            headerBottomLine
         >
             <View style={styles.container}>
-                {/* 안내 문구 */}
-                <Text style={styles.description}>
-                    배출자 유형을 선택해주세요.
-                </Text>
+                <View style={[styles.section, { width: contentWidth }]}>
+                    <Text style={styles.title}>배출자 유형을 선택해주세요.</Text>
 
-                {/* 버튼 영역 */}
-                <View style={[styles.buttonWrapper, { width: width * 0.85 }]}>
-                    {/* 개인 */}
-                    <TouchableOpacity
-                        activeOpacity={0.8}
-                        onPress={() => handleSelect('PERSONAL')}
-                        style={[
-                            styles.button,
-                            selectedType === 'PERSONAL'
-                                ? styles.buttonActive
-                                : styles.buttonInactive,
-                        ]}
-                    >
-                        <Text
-                            style={[
-                                styles.buttonText,
-                                selectedType === 'PERSONAL'
-                                    ? styles.buttonTextActive
-                                    : styles.buttonTextInactive,
-                            ]}
-                        >
-                            개인
-                        </Text>
-                    </TouchableOpacity>
+                    <View style={styles.buttonGroup}>
+                        {
+                            USER_TYPES.map((option) => {
+                                const isSelected = selectedType === option.type;
+                                const badgeName = `${option.badge}${isSelected ? 'Active' : 'Inactive'}` as UserTypeBadgeName;
 
-                    {/* 사업자 */}
-                    <TouchableOpacity
-                        activeOpacity={0.8}
-                        onPress={() => handleSelect('BUSINESS')}
-                        style={[
-                            styles.button,
-                            selectedType === 'BUSINESS'
-                                ? styles.buttonActive
-                                : styles.buttonInactive,
-                        ]}
-                    >
-                        <Text
-                            style={[
-                                styles.buttonText,
-                                selectedType === 'BUSINESS'
-                                    ? styles.buttonTextActive
-                                    : styles.buttonTextInactive,
-                            ]}
-                        >
-                            사업자
-                        </Text>
-                    </TouchableOpacity>
+                                return (
+                                    <Pressable
+                                        key={option.type}
+                                        accessibilityRole="button"
+                                        accessibilityLabel={`${option.label} 선택`}
+                                        onPress={() => handleSelect(option.type)}
+                                        style={[
+                                            styles.button,
+                                            isSelected
+                                                ? styles.buttonActive
+                                                : styles.buttonInactive,
+                                        ]}
+                                    >
+                                        <View
+                                            style={[
+                                                styles.badge,
+                                            ]}
+                                        >
+                                            <AppIcon name={badgeName} size={40} />
+                                        </View>
+
+                                        <Text
+                                            style={[
+                                                styles.label,
+                                                isSelected
+                                                    ? styles.labelActive
+                                                    : styles.labelInactive,
+                                            ]}
+                                        >
+                                            {option.label}
+                                        </Text>
+                                    </Pressable>
+                                );
+                            })
+                        }
+                    </View>
                 </View>
             </View>
-        </View>
+        </PageLayout>
     );
 }

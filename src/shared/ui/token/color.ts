@@ -21,6 +21,8 @@ export const COLOR = {
     gray925: '#3B3B3B',
     gray940: '#2D2D2D',
     gray950: '#2C2C2C',
+    gray960: '#262626',
+    gray970: '#1E1E1E',
     gray980: '#111827',
 
     // 블루 스케일

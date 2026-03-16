@@ -9,5 +9,9 @@ export const RADIUS = {
     xl: 10,
     xxl: 16,
     xxxl: 20,
+    huge: 24,
+    enormous: 28,
+    giant: 32,
+    max: 40,
     pill: 1000,
 } as const;

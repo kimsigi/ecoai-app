@@ -12,10 +12,10 @@ export default function AppInitializer() {
     /* -------------------------------
      * Render
      * ------------------------------- */
-    // 1. 커스텀 스플래시
+    // 커스텀 스플래시
     if (state === INIT_STATE.CHECKING) return <SplashView />;
 
-    // 2️. 네트워크 오류
+    // 네트워크 오류
     if (state === INIT_STATE.NETWORK_ERROR) {
         return (
             <ErrorView
@@ -26,12 +26,12 @@ export default function AppInitializer() {
         );
     }
 
-    // 3. 권한 필요
+    // 권한 필요
     if (state === INIT_STATE.PERMISSION_REQUIRED) {
         return <PermissionScreen onGranted={entryPoint} />;
     }
 
-    // 4. 인증 오류
+    // 인증 오류
     if (state === INIT_STATE.AUTH_ERROR) {
         return (
             <ErrorView
@@ -42,12 +42,12 @@ export default function AppInitializer() {
         );
     }
 
-    // 5. 주소 정보 체크
+    // 주소 정보 체크
     if ( state === INIT_STATE.ADDRESS_REQUIRED ) {
         return <AppNavigation initialRouteName={ROUTES.LOCATION_PICKER} />;
     }
 
-    // 6. 사용자 유형 체크
+    // 사용자 유형 체크
     if ( state === INIT_STATE.USER_TYPE_REQUIRED ) {
         return <AppNavigation initialRouteName={ROUTES.USER_TYPE} />;
     }

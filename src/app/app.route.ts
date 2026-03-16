@@ -18,6 +18,12 @@ export const ROUTES = {
     SAMPLESCR5: 'SampleScreen5',
     MENULAYEROVERLAY: 'MenuLayerOverlay',
     BOTTOMSHEET: 'BottomSheet',
+    SHEET_BASIC: 'SheetBasic',
+    SHEET_WEBVIEW: 'SheetWebView',
+    SHEET_ASYNC: 'SheetAsync',
+    SHEET_FIXED: 'SheetFixed',
+    SHEET_PLAYGROUND: 'SheetPlayground',
+    SHOWCASE_REACT_QUERY: 'ShowcaseReactQuery',
     SAMPLEMAPOVERLAY: 'SampleMapOverlay',
     PERMISSION: 'Permission',
     LOCATION_PICKER: 'LocationPicker',
@@ -51,6 +57,12 @@ export type StackParamList = {
     [ROUTES.SAMPLESCR5]: undefined;
     [ROUTES.MENULAYEROVERLAY]: undefined;
     [ROUTES.BOTTOMSHEET]: undefined;
+    [ROUTES.SHEET_BASIC]: undefined;
+    [ROUTES.SHEET_WEBVIEW]: undefined;
+    [ROUTES.SHEET_ASYNC]: undefined;
+    [ROUTES.SHEET_FIXED]: undefined;
+    [ROUTES.SHEET_PLAYGROUND]: undefined;
+    [ROUTES.SHOWCASE_REACT_QUERY]: undefined;
     [ROUTES.SAMPLEMAPOVERLAY]: undefined;
     [ROUTES.PERMISSION]: undefined;
     [ROUTES.LOCATION_PICKER]: LocationPickerParams | undefined;

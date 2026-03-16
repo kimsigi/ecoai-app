@@ -28,6 +28,7 @@ export const styles = StyleSheet.create({
         paddingBottom: 7,
         paddingHorizontal: 20,
         justifyContent: 'space-between',
+        zIndex: 10,
     },
     guideFrameArea: {
         flex: 1,
@@ -146,6 +147,55 @@ export const styles = StyleSheet.create({
     },
     aiBadgeText: {
         fontFamily: FONT_FACE.pretendard.bold,
+        fontSize: FONT_SIZE.xxs,
+        color: COLOR.white,
+    },
+
+    // [추가] detection overlay
+    detectionOverlay: {
+        ...StyleSheet.absoluteFillObject,
+        zIndex: 2,
+    },
+    detectionBox: {
+        position: 'absolute',
+        borderWidth: 2,
+        borderColor: '#FF3B30',
+        backgroundColor: 'transparent',
+    },
+    detectionBadge: {
+        alignSelf: 'flex-start',
+        maxWidth: '100%',
+        backgroundColor: '#FF3B30',
+        paddingHorizontal: SPACING.xsSm,
+        paddingVertical: SPACING.xs,
+        borderBottomRightRadius: RADIUS.md,
+    },
+    detectionBadgeText: {
+        fontFamily: FONT_FACE.pretendard.semibold,
+        fontSize: FONT_SIZE.xxs,
+        color: COLOR.white,
+    },
+    // [추가] detection touch debug panel
+    detectionDebugPanel: {
+        position: 'absolute',
+        left: 12,
+        right: 12,
+        top: 72,
+        maxHeight: 220,
+        backgroundColor: '#000000AA',
+        borderRadius: RADIUS.lg,
+        paddingHorizontal: SPACING.smMd,
+        paddingVertical: SPACING.smMd,
+        zIndex: 3,
+    },
+    detectionDebugTitle: {
+        fontFamily: FONT_FACE.pretendard.bold,
+        fontSize: FONT_SIZE.xs,
+        color: COLOR.white,
+        marginBottom: SPACING.xs,
+    },
+    detectionDebugText: {
+        fontFamily: FONT_FACE.pretendard.semibold,
         fontSize: FONT_SIZE.xxs,
         color: COLOR.white,
     },

@@ -3,7 +3,7 @@ import { AppIcon } from "@/shared/ui/component/icon";
 import PageLayout from "@/shared/ui/component/layout/PageLayout";
 import { AppLottie } from "@/shared/ui/component/lottie";
 import { COLOR } from "@/shared/ui/token";
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function PageTest() {
@@ -36,7 +36,8 @@ export default function PageTest() {
             statusBarLight
         >
             <View style={{ flex: 1, padding: 20, backgroundColor: 'red' }}>
-                <Text>컨텐츠 영역</Text>
+                <Text>테스트</Text>
+                
             </View>
         </PageLayout>
     );

@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import { AppRegistry, Text, TextInput } from 'react-native';
 import App from './src/App';
 
