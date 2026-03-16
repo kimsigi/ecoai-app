@@ -1,13 +1,16 @@
 import { StyleSheet } from 'react-native';
+import { COLOR } from '../../token';
 
 export const styles = StyleSheet.create({
     inner: {
+        flex: 1,
         overflow: 'hidden',
     },
     background: {
         borderTopLeftRadius: 24,
         borderTopRightRadius: 24,
-        backgroundColor: '#FFFFFF',
+        //backgroundColor: '#FFFFFF',
+        backgroundColor: COLOR.whiteA80,
     },
     handleIndicator: {
         width: 44,
@@ -16,7 +19,12 @@ export const styles = StyleSheet.create({
         backgroundColor: '#C9CDD4',
     },
     container: {
-        minHeight: 1,
+        flex: 1,
+        minHeight: 0,
+    },
+    scrollView: {
+        flex: 1,
+        minHeight: 0,
     },
     headerContainer: {
         minHeight: 56,

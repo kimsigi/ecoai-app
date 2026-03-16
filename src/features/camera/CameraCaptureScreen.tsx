@@ -1,12 +1,14 @@
-﻿import React, { useMemo, useState } from "react";
-import { Image, LayoutChangeEvent, Pressable, Text, View } from "react-native";
+﻿import React, { useEffect, useMemo, useState } from "react";
+import { Image, LayoutChangeEvent, Pressable, StyleSheet, Text, View } from "react-native";
 import { Camera } from "react-native-vision-camera";
 import { PageLayout } from "@/shared/ui/component/layout";
 import { AppLottie } from "@/shared/ui/component/lottie";
 import { styles } from "./camera.style";
 import { useCameraCapture } from "./useCameraCapture";
 import { InferenceDetection } from "../inference/inference.type";
-import { BottomSheet } from "@/shared/ui/component/bottomsheet";
+import { BottomSheet, BottomSheetScrollContent } from "@/shared/ui/component/bottomsheet";
+import { COLOR, FONT_FACE, FONT_SIZE, RADIUS, SPACING } from "@/shared/ui/token";
+import { SCREEN_HEIGHT } from "@/shared/ui/component/bottomsheet/useBottomSheet";
 
 type Size = {
     width: number;
@@ -80,7 +82,7 @@ function buildOverlayBoxes(
                 width: boxWidth,
                 height: boxHeight,
                 caption: `${detection.best.label} ${score.toFixed(2)}`,
-                 detection, // [추가]
+                detection, // [추가]
             } satisfies OverlayBox;
         })
         .filter((item): item is OverlayBox => item !== null);
@@ -90,7 +92,7 @@ export default function CameraCaptureScreen() {
 
     const {
         device,
-        isFocused,
+        //isFocused,
         cameraRef,
         isCapturing,
         previewUri,
@@ -98,10 +100,16 @@ export default function CameraCaptureScreen() {
         onRetakePress,
         onShutterPress,
         onAiAssistantPress,
-
+        onAiAssistantPress2,
         // [추가]
         detections,
         previewImageSize,
+
+
+        inferenceTiming, // [변경] 바텀시트에 추론 상태/시간 표시용
+
+        isResultSheetOpen, 
+        setIsResultSheetOpen,
     } = useCameraCapture();
 
     const [previewViewportSize, setPreviewViewportSize] = useState<Size>({
@@ -121,6 +129,27 @@ export default function CameraCaptureScreen() {
         const { width, height } = event.nativeEvent.layout;
         setPreviewViewportSize({ width, height });
     };
+
+    // [변경] 촬영본이 생기면 바텀시트를 열고, 재촬영 상태로 돌아가면 닫기
+    useEffect(() => {
+        if (previewUri) {
+            setIsResultSheetOpen(true);
+            onAiAssistantPress2();
+            return;
+        }
+
+        setIsResultSheetOpen(false);
+        setSelectedDetectionJson("");
+    }, [previewUri]);
+
+    // [변경] 바텀시트 내부 재촬영 액션
+    const onRetakeFromSheetPress = () => {
+        setIsResultSheetOpen(false);
+        onRetakePress();
+    };
+
+    const isInferenceLoading =
+        !!previewUri && inferenceTiming.totalMs === null;
 
 
     return (
@@ -261,8 +290,226 @@ export default function CameraCaptureScreen() {
                     </View>
                 </View>
             </View>
+
+            {/* [변경] 공통 BottomSheet 사용: 촬영 직후 자동 오픈 + 내용 길이에 따라 동적 높이 */}
+            <BottomSheet
+                open={isResultSheetOpen}
+                onClose={onRetakeFromSheetPress}
+                title="촬영 결과"
+                //showCloseButton
+                fixedHeight={SCREEN_HEIGHT * 0.85}
+                showHandle={false}
+                enableGesture={false}
+                enableBackdropDismiss={false}
+                heightMode="fixed"
+            >
+                <BottomSheetScrollContent
+                    contentContainerStyle={resultSheetStyles.scrollContent}
+                >
+                    <View style={resultSheetStyles.summaryCard}>
+                        <Text style={resultSheetStyles.summaryTitle}>
+                            촬영이 완료되었습니다.
+                        </Text>
+                        <Text style={resultSheetStyles.summaryBody}>
+                            {isInferenceLoading
+                                ? "AI 추론 결과를 불러오는 중입니다."
+                                : `탐지된 항목 수: ${detections.length}건`}
+                        </Text>
+                        {inferenceTiming.totalMs !== null ? (
+                            <Text style={resultSheetStyles.summaryMeta}>
+                                전체 처리 시간: {inferenceTiming.totalMs}ms
+                            </Text>
+                        ) : null}
+                        {inferenceTiming.modelMs !== null ? (
+                            <Text style={resultSheetStyles.summaryMeta}>
+                                모델 추론 시간: {inferenceTiming.modelMs}ms
+                            </Text>
+                        ) : null}
+                    </View>
+
+                    {!isInferenceLoading && detections.length > 0 ? (
+                        <View style={resultSheetStyles.section}>
+                            <Text style={resultSheetStyles.sectionTitle}>
+                                탐지 결과
+                            </Text>
+
+                            {detections.map((detection, index) => (
+                                <View
+                                    key={`${index}-${detection.best.class_id}`}
+                                    style={resultSheetStyles.resultCard}
+                                >
+                                    <Text style={resultSheetStyles.resultLabel}>
+                                        {detection.best.label}
+                                    </Text>
+                                    <Text style={resultSheetStyles.resultValue}>
+                                        score {detection.best.score.toFixed(2)}
+                                    </Text>
+                                    <Text style={resultSheetStyles.resultMeta}>
+                                        bbox_raw: [{detection.bbox_raw.join(", ")}]
+                                    </Text>
+                                </View>
+                            ))}
+                        </View>
+                    ) : null}
+
+                    {!isInferenceLoading && detections.length === 0 ? (
+                        <View style={resultSheetStyles.section}>
+                            <Text style={resultSheetStyles.sectionTitle}>
+                                탐지 결과
+                            </Text>
+                            <View style={resultSheetStyles.resultCard}>
+                                <Text style={resultSheetStyles.resultValue}>
+                                    탐지된 항목이 없습니다.
+                                </Text>
+                            </View>
+                        </View>
+                    ) : null}
+
+                    {selectedDetectionJson ? (
+                        <View style={resultSheetStyles.section}>
+                            <Text style={resultSheetStyles.sectionTitle}>
+                                선택한 탐지 영역
+                            </Text>
+                            <View style={resultSheetStyles.codeCard}>
+                                <Text style={resultSheetStyles.codeText}>
+                                    {selectedDetectionJson}
+                                </Text>
+                            </View>
+                        </View>
+                    ) : null}
+{/*
+                    <View style={resultSheetStyles.actionRow}>
+                        <Pressable
+                            style={resultSheetStyles.secondaryButton}
+                            onPress={onRetakeFromSheetPress}
+                        >
+                            <Text style={resultSheetStyles.secondaryButtonText}>
+                                재촬영
+                            </Text>
+                        </Pressable>
+
+                        <Pressable
+                            style={resultSheetStyles.primaryButton}
+                            onPress={() => {
+                                onAiAssistantPress2();
+                                //setIsResultSheetOpen(false);
+                            }}
+                        >
+                            <Text style={resultSheetStyles.primaryButtonText}>
+                                AI 도우미
+                            </Text>
+                        </Pressable>
+                    </View>
+*/}
+                </BottomSheetScrollContent>
+            </BottomSheet>
         </PageLayout>
 
         
     );
 }
+
+
+// [변경] CameraCaptureScreen 전용 바텀시트 콘텐츠 스타일
+const resultSheetStyles = StyleSheet.create({
+    scrollContent: {
+        paddingTop: 16,
+        paddingBottom: 28,
+        gap: 16,
+    },
+    summaryCard: {
+        borderRadius: RADIUS.xl,
+        backgroundColor: COLOR.gray50,
+        padding: SPACING.lg,
+        gap: 6,
+    },
+    summaryTitle: {
+        fontFamily: FONT_FACE.pretendard.bold,
+        fontSize: FONT_SIZE.lg,
+        color: COLOR.gray950,
+    },
+    summaryBody: {
+        fontFamily: FONT_FACE.pretendard.regular,
+        fontSize: FONT_SIZE.sm,
+        color: COLOR.gray700,
+    },
+    summaryMeta: {
+        fontFamily: FONT_FACE.pretendard.regular,
+        fontSize: FONT_SIZE.xs,
+        color: COLOR.gray500,
+    },
+    section: {
+        gap: 12,
+    },
+    sectionTitle: {
+        fontFamily: FONT_FACE.pretendard.bold,
+        fontSize: FONT_SIZE.xl,
+        color: COLOR.gray950,
+    },
+    resultCard: {
+        borderRadius: RADIUS.lg,
+        borderWidth: 1,
+        borderColor: COLOR.gray100,
+        backgroundColor: COLOR.white,
+        padding: SPACING.md,
+        gap: 4,
+    },
+    resultLabel: {
+        fontFamily: FONT_FACE.pretendard.bold,
+        fontSize: FONT_SIZE.sm,
+        color: COLOR.gray950,
+    },
+    resultValue: {
+        fontFamily: FONT_FACE.pretendard.semibold,
+        fontSize: FONT_SIZE.sm,
+        color: COLOR.gray700,
+    },
+    resultMeta: {
+        fontFamily: FONT_FACE.pretendard.regular,
+        fontSize: FONT_SIZE.xs,
+        color: COLOR.gray500,
+    },
+    codeCard: {
+        borderRadius: RADIUS.lg,
+        backgroundColor: COLOR.gray950,
+        padding: SPACING.md,
+    },
+    codeText: {
+        fontFamily: FONT_FACE.pretendard.regular,
+        fontSize: FONT_SIZE.xs,
+        color: COLOR.white,
+    },
+    actionRow: {
+        flexDirection: "row",
+        gap: 12,
+        marginTop: 4,
+    },
+    secondaryButton: {
+        flex: 1,
+        height: 52,
+        borderRadius: RADIUS.lg,
+        borderWidth: 1,
+        borderColor: COLOR.gray200,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: COLOR.white,
+    },
+    secondaryButtonText: {
+        fontFamily: FONT_FACE.pretendard.bold,
+        fontSize: FONT_SIZE.sm,
+        color: COLOR.gray800,
+    },
+    primaryButton: {
+        flex: 1,
+        height: 52,
+        borderRadius: RADIUS.lg,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: COLOR.blue500,
+    },
+    primaryButtonText: {
+        fontFamily: FONT_FACE.pretendard.bold,
+        fontSize: FONT_SIZE.sm,
+        color: COLOR.white,
+    },
+});

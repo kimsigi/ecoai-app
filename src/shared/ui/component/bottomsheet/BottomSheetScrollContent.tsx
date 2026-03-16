@@ -9,6 +9,7 @@ export default function BottomSheetScrollContent({
 }: BottomSheetScrollContentProps) {
     return (
         <BottomSheetScrollView
+            style={styles.scrollView} 
             showsVerticalScrollIndicator={false}
             contentContainerStyle={[styles.contentContainer, contentContainerStyle]}
         >

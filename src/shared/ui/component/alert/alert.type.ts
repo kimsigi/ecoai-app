@@ -1,4 +1,5 @@
 export type AlertVariant = 'default' | 'decision';
+export type AlertPosition = 'center' | 'top' | 'bottom'; 
 
 export interface AlertOptions {
     title?: string;
@@ -7,6 +8,7 @@ export interface AlertOptions {
     onConfirm?: () => void;
 
     variant?: AlertVariant;
+    position?: AlertPosition;
 
     dismissOnBackdrop?: boolean;
     dismissOnBackButton?: boolean;

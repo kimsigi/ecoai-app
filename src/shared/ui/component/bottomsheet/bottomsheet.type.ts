@@ -67,6 +67,9 @@ export type BottomSheetProps = {
     // 내부 여백, 최소 높이, 정렬 방식 등을 화면별로 조정할 때 사용
     contentContainerStyle?: StyleProp<ViewStyle>;
 
+    // 시트 드래그와 콘텐츠 스크롤 제스처를 분리
+    enableContentScrollGesture?: boolean;
+
     // 바텀시트 본문에 들어갈 실제 화면 콘텐츠
     children: React.ReactNode;
 };

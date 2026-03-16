@@ -5,6 +5,7 @@ import {
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
+  BottomSheetScrollView,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import BottomSheetHeader from "./BottomSheetHeader";
@@ -25,7 +26,8 @@ export default function BottomSheet(props: BottomSheetProps) {
         detached = false,
         enableBackdropDismiss = true,
         showHandle = true,      
-        showCloseButton = false,      
+        showCloseButton = false,
+        enableContentScrollGesture = true,       
         children,
     } = props;
 
@@ -47,7 +49,7 @@ export default function BottomSheet(props: BottomSheetProps) {
             maxDynamicContentSize={maxDynamicContentSize}
             enablePanDownToClose={enableGesture && enablePanDownToClose}
             enableHandlePanningGesture={enableGesture}
-            enableContentPanningGesture={enableGesture}
+            enableContentPanningGesture={false}
             topInset={insetTop}
             detached={detached}
             bottomInset={insetBottom}
