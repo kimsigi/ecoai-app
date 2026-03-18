@@ -7,6 +7,7 @@ import chevronLeft from '@/shared/ui/assets/icon/chevronLeft.svg';
 import cameraEntry from '@/shared/ui/assets/icon/cameraEntry.svg';
 import category from '@/shared/ui/assets/icon/category.svg';
 import close from '@/shared/ui/assets/icon/close.svg';
+import clear from '@/shared/ui/assets/icon/clear.svg';
 
 import disposal from '@/shared/ui/assets/icon/disposal.svg';
 
@@ -42,6 +43,7 @@ export const ICON_MAP = {
     cameraEntry,
     category,
     close,
+    clear,
 
     disposal,
 

@@ -14,7 +14,6 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ROUTES, StackParamList } from '@/app/app.route';
-import SearchNavHeader from '@/shared/ui/component/header/SearchNavHeader';
 import { AppIcon } from '@/shared/ui/component/icon';
 import {
   COLOR,
@@ -25,6 +24,7 @@ import {
   SPACING,
 } from '@/shared/ui/token';
 import { useAiChatStore } from '@/features/aichat/aiChat.store';
+import { HeaderInputDefault } from '@/shared/ui/component/header';
 
 // [ADD] 추천 키워드(피그마 시안 기준)
 const RECOMMENDED_KEYWORDS = [
@@ -198,12 +198,11 @@ export default function HomeSearchScreen() {
             </View>
           </View>
         ) : (
-          // [ADD] 기본/짧은 입력 시: SearchNavHeader 재사용
-          <SearchNavHeader
+          <HeaderInputDefault
             mode="input"
             value={query}
             placeholder="입력중..."
-            showBack
+            back
             autoFocus
             onBackPress={() => navigation.goBack()}
             onChangeText={setQuery}

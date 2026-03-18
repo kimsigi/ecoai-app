@@ -47,3 +47,14 @@ export interface LocationRegionResponse {
 
 export interface LocationData
     extends Partial<LocationSearchResponse & LocationRegionResponse> {}
+
+export type ResultSection = {
+    key: LocationSearchType;
+    data: LocationSearchResponse[];
+};
+
+export interface LocationAddressSearchDisplayText {
+    mainTitle: string;
+    smallLabel: string;
+    subText: string;
+}

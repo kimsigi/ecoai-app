@@ -8,7 +8,6 @@ import {
   TextInput,
   View,
 } from "react-native";
-import AppButton from "@/shared/ui/component/button/AppButton";
 import {
   useCreateReactQueryTodoMutation,
   useDeleteReactQueryTodoMutation,
@@ -17,6 +16,7 @@ import {
   useReactQueryTodoListQuery,
   useToggleReactQueryTodoMutation,
 } from "./reactQuery.queries";
+import { AppButton } from "@/shared/ui/component/button";
 
 function formatDateLabel(value?: string) {
   if (!value) {
@@ -75,11 +75,11 @@ export default function ReactQueryShowcaseScreen() {
 
   return (
     <PageLayout
-      headerState="content"
-      headerCenter="React Query"
-      showBack
-      protectBottomInset
-      contentContainerStyle={styles.page}
+      //headerState="content"
+      //headerCenter="React Query"
+      back
+      //protectBottomInset
+      //contentContainerStyle={styles.page}
     >
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.heroCard}>

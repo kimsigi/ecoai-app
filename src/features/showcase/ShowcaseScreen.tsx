@@ -34,7 +34,15 @@ export default function ShowcaseScreen() {
                     <Text>홈</Text>
                 </TouchableOpacity>
             </View>
-
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.LOCATION_PICKER)}
+                >
+                    <Text>위치선택</Text>
+                </TouchableOpacity>
+            </View>
             <View style={styles.buttonWrapper}>
                 <TouchableOpacity
                     style={styles.button}
@@ -284,15 +292,7 @@ export default function ShowcaseScreen() {
 
 
 
-            <View style={styles.buttonWrapper}>
-                <TouchableOpacity
-                    style={styles.button}
-                    activeOpacity={0.7}
-                    onPress={() => navigation.push(ROUTES.LOCATION_PICKER)}
-                >
-                    <Text>위치선택</Text>
-                </TouchableOpacity>
-            </View>
+            
             <View style={styles.buttonWrapper}>
                 <TouchableOpacity
                     style={styles.button}

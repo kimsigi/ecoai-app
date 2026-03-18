@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { MapHandle } from '@/shared/sdk/map/kakao';
-import { Coordinate, LocationCoordinate } from './location.type';
+import { Coordinate, LocationCoordinate } from '../location.type';
 import {
     getCurrentPosition,
     getLocation,
     resolveRegion,
     setLocation,
-} from './location.service';
+} from '../location.service';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ROUTES, StackParamList } from '@/app/app.route';
