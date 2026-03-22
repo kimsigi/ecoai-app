@@ -3,72 +3,53 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import {
     LocationAddressSearchDisplayText,
-    LocationAddressSearchParams,
+    LocationAddressSearchParam,
     LocationSearchResponse,
     ResultSection,
 } from '../location.type';
 import { LOCATION_SEARCH_TYPE } from '../location.constant';
 import { getLocation } from '../location.service';
-import { locationSearch } from '../location.api';
 import { StackParamList } from '@/app/app.route';
 import { FALLBACK } from '@/shared/core/config';
+import { useLocationSearchQuery } from '../location.queries';
 
 export function useLocationAddressSearch() {
     const navigation =
         useNavigation<NativeStackNavigationProp<StackParamList>>();
     const route = useRoute();
-    const params = route.params as LocationAddressSearchParams | undefined;
+    const params = route.params as LocationAddressSearchParam | undefined;
 
-    // initialQuery 우선 사용
-    const initialQuery = params?.initialQuery ?? params?.addressName ?? '';
-
+    const initialQuery = params?.initialQuery ?? params?.locationName ?? '';
+    
     const [query, setQuery] = useState(initialQuery);
-    const [loading, setLoading] = useState(false);
-    const [items, setItems] = useState<LocationSearchResponse[]>([]);
+
+    // React Query 호출용 debounced keyword 분리
+    const [debouncedQuery, setDebouncedQuery] = useState(initialQuery);
 
     // 기준 좌표 계산
-    const baseCoord = useMemo(() => {
-        const saved = getLocation();
+    const baseCoordinate = useMemo(() => {
+        const savedLocation = getLocation();
         return {
-            lat: saved?.y ?? FALLBACK.MAP_LAT,
-            lng: saved?.x ?? FALLBACK.MAP_LNG,
+            lat: savedLocation?.y ?? FALLBACK.MAP_LAT,
+            lng: savedLocation?.x ?? FALLBACK.MAP_LNG,
         };
     }, []);
 
-    // 검색 실행
-    const runSearch = useCallback(
-        async (keyword: string) => {
-            const trimmed = keyword.trim();
-            if (!trimmed) {
-                setItems([]);
-                return;
-            }
-
-            try {
-                setLoading(true);
-                const result = await locationSearch({
-                    query: trimmed,
-                    lat: baseCoord.lat,
-                    lng: baseCoord.lng,
-                });
-                setItems(result ?? []);
-            } catch (error) {
-                console.warn('주소 검색 실패:', error);
-                setItems([]);
-            } finally {
-                setLoading(false);
-            }
-        },
-        [baseCoord.lat, baseCoord.lng],
-    );
-
-    // debounce 검색
+    // debounce 후에만 실제 검색 query 실행
     useEffect(() => {
         const timer = setTimeout(() => {
-            runSearch(query);
+            setDebouncedQuery(query.trim());
         }, 250);
+
         return () => clearTimeout(timer);
-    }, [query, runSearch]);
+    }, [query]);
+
+    // 변경사항: 직접 API 호출 대신 React Query 사용
+    const {data: items = [], isFetching} = useLocationSearchQuery({
+        keyword: debouncedQuery,
+        lat: baseCoordinate.lat,
+        lng: baseCoordinate.lng,
+    });
 
     // 섹션 가공
     const sections = useMemo<ResultSection[]>(() => {
@@ -80,16 +61,29 @@ export function useLocationAddressSearch() {
         );
 
         const next: ResultSection[] = [];
-        if (addressItems.length > 0)
-            next.push({ key: 'ADDRESS', data: addressItems });
-        if (placeItems.length > 0)
-            next.push({ key: 'PLACE', data: placeItems });
+
+        if (addressItems.length > 0) {
+            next.push({
+                key: LOCATION_SEARCH_TYPE.ADDRESS,
+                data: addressItems,
+            });
+        }
+
+        if (placeItems.length > 0) {
+            next.push({
+                key: LOCATION_SEARCH_TYPE.PLACE,
+                data: placeItems,
+            });
+        }
+
         return next;
     }, [items]);
 
     // 빈 상태 문구 계산
     const emptyText = useMemo(() => {
-        return query.trim() ? '검색 결과가 없습니다.' : '주소를 입력해 주세요.';
+        return query.trim()
+            ? '검색 결과가 없습니다.'
+            : '주소를 입력해 주세요.';
     }, [query]);
 
     // 섹션 divider 노출 여부 계산
@@ -99,6 +93,7 @@ export function useLocationAddressSearch() {
         );
     }, [sections]);
 
+    // 거리 표시
     const formatDistance = useCallback((distance?: number | null): string => {
         if (!distance || distance <= 0) return '';
         if (distance < 1000) return `${Math.round(distance)}m`;
@@ -106,6 +101,7 @@ export function useLocationAddressSearch() {
         return `${(distance / 1000).toFixed(1)}km`;
     }, []);
 
+    // 마지막 카테고리 추출
     const getLastCategoryDepth = useCallback(
         (categoryName?: string | null): string => {
             if (!categoryName) return '';
@@ -124,12 +120,12 @@ export function useLocationAddressSearch() {
         if (item.type === LOCATION_SEARCH_TYPE.ADDRESS) {
             return item.roadAddressName || item.addressName || '';
         }
+
         return item.placeName || item.roadAddressName || item.addressName || '';
     }, []);
 
-    const getSmallLabel = useCallback(
-        (item: LocationSearchResponse): string => {
-            if (item.type === LOCATION_SEARCH_TYPE.ADDRESS) return '도로명';
+    const getSmallLabel = useCallback((item: LocationSearchResponse): string => {
+        if (item.type === LOCATION_SEARCH_TYPE.ADDRESS) return '도로명';
             return getLastCategoryDepth(item.categoryName);
         },
         [getLastCategoryDepth],
@@ -164,13 +160,14 @@ export function useLocationAddressSearch() {
             params?.callback?.({
                 lat: item.y,
                 lng: item.x,
-                addressName:
+                locationName:
                     item.type === LOCATION_SEARCH_TYPE.ADDRESS
                         ? item.roadAddressName || item.addressName
                         : item.placeName ||
                           item.roadAddressName ||
                           item.addressName,
             });
+            
             navigation.goBack();
         },
         [navigation, params],
@@ -181,17 +178,19 @@ export function useLocationAddressSearch() {
     }, [navigation]);
 
     const onSubmit = useCallback(() => {
-        runSearch(query);
-    }, [query, runSearch]);
+        // submit 시 debounce 대기 없이 즉시 검색 반영
+        setDebouncedQuery(query.trim());
+    }, [query]);
 
     const onClear = useCallback(() => {
         setQuery('');
+        setDebouncedQuery('');
     }, []);
 
     return {
         query,
         setQuery,
-        loading,
+        isFetching,
         sections,
         emptyText,
         hasPlaceSection,

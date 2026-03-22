@@ -69,15 +69,15 @@ async function initApp(): Promise<InitState> {
 
     // YOLO 웜업
     await warmupImageInference();
-
+/*
     // 네트워크 연결 상태 확인
     const network = await checkNetwork();
     if (!network) return INIT_STATE.NETWORK_ERROR;
-
+*/
     // 필수 권한 체크 + 순차 요청
     const hasPermission = await hasRequiredPermissions();
     if (!hasPermission) return INIT_STATE.PERMISSION_REQUIRED;
-
+/*
     // 토큰 발급 및 스토어 저장
     const token = await ensureInitToken();
     if (!token) return INIT_STATE.AUTH_ERROR;
@@ -89,7 +89,7 @@ async function initApp(): Promise<InitState> {
     // 사용자 유형 체크 (예: 일반/사업자)
     const userType = getUserType();
     if (!userType) return INIT_STATE.USER_TYPE_REQUIRED;
-
+*/
     // 모든 점검 완료: 메인 화면 진입 가능 상태
     return INIT_STATE.READY;
 }

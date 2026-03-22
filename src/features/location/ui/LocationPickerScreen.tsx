@@ -10,11 +10,12 @@ export default function LocationPickerScreen() {
     
     const {
         mapRef,
-        coordinate,
+        queryFetching,
+        locationCoordinate,
+        locationName,
         goToAddressSearch,
         handleCenterChange,
         confirmLocation,
-        isResolvingAddress,
     } = useLocationPicker();
 
     return (
@@ -25,7 +26,7 @@ export default function LocationPickerScreen() {
                 <View style={styles.customHeader}>
                     <HeaderInputDefault
                         mode="trigger"
-                        value={coordinate.addressName ?? ""}
+                        value={locationName ?? ""}
                         placeholder="검색할 주소를 입력하세요."
                         onPressField={goToAddressSearch}
                     />
@@ -37,8 +38,8 @@ export default function LocationPickerScreen() {
                 {/* 지도 */}
                 <KakaoMap
                     ref={mapRef}
-                    lat={coordinate.lat}
-                    lng={coordinate.lng}
+                    lat={locationCoordinate.lat}
+                    lng={locationCoordinate.lng}
                     onCenterChange={handleCenterChange}
                 />
                
@@ -47,19 +48,24 @@ export default function LocationPickerScreen() {
                     <TouchableOpacity
                         style={[
                             styles.bottomConfirmButton,
-                            isResolvingAddress && { opacity: 0.8 },
+                            (confirmLocation.disabled || queryFetching || !locationName) && {
+                                opacity: 0.8,
+                            },
                         ]}
-                        onPress={confirmLocation}
-                        disabled={isResolvingAddress}
+                        onPress={confirmLocation.onPress}
+                        disabled={confirmLocation.disabled || queryFetching || !locationName}
                     >
                         <AppText style={styles.bottomConfirmText}>
-                            {isResolvingAddress ? '주소 확인 중...' : '이 위치로 설정'}
+                            {
+                                confirmLocation.pending || queryFetching 
+                                ?
+                                '주소 확인 중...' 
+                                : 
+                                '이 위치로 설정'    
+                            }
                         </AppText>
                     </TouchableOpacity>
                 </View>
-                
-                {/* 상단 검색 영역 */}
-                
             </View>
         </PageLayout>
     );

@@ -1,5 +1,6 @@
 import { ActivityIndicator, Pressable, SectionList, View } from "react-native";
 import { useLocationAddressSearch } from "../hook/useLocationAddressSearch";
+import { LOCATION_SEARCH_TYPE } from "../location.constant";
 import { locationAddressSearchStyles as styles  } from "../location.style";
 import { LocationSearchResponse } from "../location.type";
 import { AppIcon } from "@/shared/ui/component/icon";
@@ -12,7 +13,7 @@ export default function LocationAddressSearchScreen() {
     const {
         query,
         setQuery,
-        loading,
+        isFetching,
         sections,
         emptyText,
         hasPlaceSection,
@@ -76,7 +77,7 @@ export default function LocationAddressSearchScreen() {
                 </View>
             }
         >
-             {loading && (
+             {isFetching && (
                 <View style={styles.activityIndicator}>
                     <ActivityIndicator />
                 </View>
@@ -89,12 +90,14 @@ export default function LocationAddressSearchScreen() {
                 stickySectionHeadersEnabled={false}
                 renderSectionHeader={() => null}
                 renderSectionFooter={({ section }) =>
-                    section.key === 'ADDRESS' && hasPlaceSection ? (
+                    section.key === LOCATION_SEARCH_TYPE.ADDRESS &&
+                    hasPlaceSection ? (
                         <View style={styles.sectionDivider} />
                     ) : null
+
                 }
                 ListEmptyComponent={
-                    !loading ? <AppText style={styles.emptyText}>{emptyText}</AppText> : null
+                    !isFetching ? <AppText style={styles.emptyText}>{emptyText}</AppText> : null
                 }
                 renderItem={({ item }) => renderRow(item)}
             />

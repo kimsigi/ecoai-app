@@ -1,6 +1,7 @@
 /* ---------- storage(mmkv) 키 정의 ---------- */
 export const LAT_KEY = 'LAT';
 export const LNG_KEY = 'LNG';
+export const LOCATION_NAME_KEY = 'LOCATION_NAME';
 export const ADDRESS_NAME_KEY = 'ADDRESS_NAME';
 export const REGION_1DEPTH_NAME_KEY = 'REGION_1DEPTH_NAME';
 export const REGION_2DEPTH_NAME_KEY = 'REGION_2DEPTH_NAME';

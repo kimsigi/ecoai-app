@@ -38,6 +38,9 @@ import SheetAsyncScreen from "@/features/showcase/sheet/SheetAsyncScreen";
 import SheetFixedScreen from "@/features/showcase/sheet/SheetFixedScreen";
 import SheetPlaygroundScreen from "@/features/showcase/sheet/SheetPlaygroundScreen";
 import ReactQueryShowcaseScreen from "@/features/showcase/reactQuery/ReactQueryShowcaseScreen";
+import CameraCaptureTestScreen from "@/features/camera/CameraCaptureTestScreen";
+import CameraCaptureTest2Screen from "@/features/camera/CameraCaptureTest2Screen";
+import CameraCaptureTest3Screen from "@/features/camera/CameraCaptureTest3Screen";
 
 const Stack = createNativeStackNavigator<StackParamList>();
 
@@ -74,7 +77,9 @@ export default function AppNavigation({ initialRouteName }: AppNavigationProps) 
         <Stack.Screen name={ROUTES.HOME} component={HomeScreen} />
         <Stack.Screen name={ROUTES.HOMESEARCH} component={HomeSearchScreen} />
         <Stack.Screen name={ROUTES.CAMERA_CAPTURE} component={CameraCaptureScreen} />
-
+        <Stack.Screen name={ROUTES.CAMERA_CAPTURE_TEST} component={CameraCaptureTestScreen} />
+        <Stack.Screen name={ROUTES.CAMERA_CAPTURE_TEST2} component={CameraCaptureTest2Screen} />
+        <Stack.Screen name={ROUTES.CAMERA_CAPTURE_TEST3} component={CameraCaptureTest3Screen} />
 
         <Stack.Screen name={ROUTES.SETTING} component={SettingScreen} />
         <Stack.Screen name={ROUTES.DISPOSALHISTORY} component={DisposalHistoryScreen} />

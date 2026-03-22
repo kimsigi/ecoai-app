@@ -52,7 +52,33 @@ export default function ShowcaseScreen() {
                     <Text>카메라</Text>
                 </TouchableOpacity>
             </View>
-
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.CAMERA_CAPTURE_TEST)}
+                >
+                    <Text>카메라 테스트</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.CAMERA_CAPTURE_TEST2)}
+                >
+                    <Text>카메라 테스트2</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonWrapper}>
+                <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.7}
+                    onPress={() => navigation.push(ROUTES.CAMERA_CAPTURE_TEST3)}
+                >
+                    <Text>카메라 테스트3</Text>
+                </TouchableOpacity>
+            </View>
             <View style={styles.buttonWrapper}>
                 <TouchableOpacity
                     style={styles.button}

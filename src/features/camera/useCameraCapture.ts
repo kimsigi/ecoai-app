@@ -72,16 +72,12 @@ export function useCameraCapture() {
             try {
                 const loadedImageSize = await loadImageSize(imageUri);
                 setPreviewImageSize(loadedImageSize);
-                console.log('### loadedImageSize: ', loadedImageSize); 
                 const inferenceResult = await runImageInference(imageUri);
                 setDetections(inferenceResult.detections);
                 setInferenceTiming({
                     totalMs: inferenceResult.totalMs,
                     modelMs: inferenceResult.modelMs,
                 });
-
-                
-                console.log('#### inferenceResult: ', inferenceResult);
             } catch (error) {
                 setInferenceTiming({ totalMs: 0, modelMs: 0 }); // [수정] 실패 시 로딩 상태가 끝나도록 처리
                 const message =

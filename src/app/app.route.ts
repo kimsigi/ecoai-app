@@ -1,6 +1,6 @@
 import {
-    LocationAddressSearchParams,
-    LocationPickerParams,
+    LocationAddressSearchParam,
+    LocationPickerParam
 } from '@/features/location';
 
 /**
@@ -32,6 +32,9 @@ export const ROUTES = {
     HOME: 'Home',
     HOMESEARCH: 'HomeSearch',
     CAMERA_CAPTURE: 'CameraCapture',
+    CAMERA_CAPTURE_TEST: 'CameraCaptureTest',
+    CAMERA_CAPTURE_TEST2: 'CameraCaptureTest2',
+    CAMERA_CAPTURE_TEST3: 'CameraCaptureTest3',
     SETTING: 'Setting',
     DISPOSALHISTORY: 'DisposalHistory',
     FAQ: 'Faq',
@@ -65,12 +68,15 @@ export type StackParamList = {
     [ROUTES.SHOWCASE_REACT_QUERY]: undefined;
     [ROUTES.SAMPLEMAPOVERLAY]: undefined;
     [ROUTES.PERMISSION]: undefined;
-    [ROUTES.LOCATION_PICKER]: LocationPickerParams | undefined;
-    [ROUTES.LOCATION_ADDRESS_SEARCH]: LocationAddressSearchParams | undefined;
+    [ROUTES.LOCATION_PICKER]: LocationPickerParam | undefined;
+    [ROUTES.LOCATION_ADDRESS_SEARCH]: LocationAddressSearchParam | undefined;
     [ROUTES.USER_TYPE]: undefined;
     [ROUTES.HOME]: undefined;
     [ROUTES.HOMESEARCH]: undefined;
     [ROUTES.CAMERA_CAPTURE]: undefined;
+    [ROUTES.CAMERA_CAPTURE_TEST]: undefined;
+    [ROUTES.CAMERA_CAPTURE_TEST2]: undefined;
+    [ROUTES.CAMERA_CAPTURE_TEST3]: undefined;
     [ROUTES.SETTING]: undefined;
     [ROUTES.DISPOSALHISTORY]: undefined;
     [ROUTES.FAQ]: undefined;

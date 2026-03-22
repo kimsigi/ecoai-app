@@ -1,12 +1,14 @@
 import { mmkv } from '@/shared/core/storage/mmkv';
+import Geolocation from 'react-native-geolocation-service';
 import {
     Coordinate,
-    LocationApiParams,
     LocationData,
     LocationRegionResponse,
+    LocationsByKeywordParams,
+    LocationSearchResponse,
+    RegionFromCoordsParams,
 } from './location.type';
-import Geolocation from 'react-native-geolocation-service';
-import { locationRegion } from './location.api';
+import { fetchLocationsByKeyword, fetchRegionByCoords } from './location.api';
 import {
     ADDRESS_NAME_KEY,
     ADDRESS_TYPE_KEY,
@@ -14,6 +16,7 @@ import {
     DISTANCE_KEY,
     LAT_KEY,
     LNG_KEY,
+    LOCATION_NAME_KEY,
     PLACE_NAME_KEY,
     REGION_1DEPTH_NAME_KEY,
     REGION_2DEPTH_NAME_KEY,
@@ -50,24 +53,59 @@ export function getCurrentPosition(): Promise<Coordinate> {
 }
 
 /**
- * 좌표로 행정구역 조회
- *  - 위도(lat), 경도(lng)를 이용하여 행정구역 정보를 조회합니다.
+ * 좌표를 기반으로 행정구역 정보 조회
+ *
+ * - 위도(lat), 경도(lng)를 이용하여 시/도, 시/군/구, 읍/면/동 등의 행정구역 정보를 반환
+ * - 조회는 정상적으로 수행되었으나 매핑되는 주소가 없는 경우 null을 반환
+ * - 네트워크 오류 또는 서버 오류 발생 시 에러를 throw
  */
-export async function resolveRegion(
-    params: LocationApiParams,
-): Promise<LocationRegionResponse | null> {
+export async function getRegionFromCoords(param: RegionFromCoordsParams): Promise<LocationRegionResponse | null> {
     try {
-        const response = await locationRegion(params);
+        const response = await fetchRegionByCoords(param);
         return response || null;
-    } catch (error) {
-        console.error('Error resolving address:', error);
-        return null;
+    } catch(error: unknown) {
+        console.error(
+            "[LocationService] Failed to get region from coords",
+            {
+                lat: param.lat,
+                lng: param.lng,
+                error,
+            },
+        );
+        throw error;
     }
 }
 
-/* ==================================================
- * LOCATION
- * ================================================== */
+/**
+ * 검색어를 기반으로 주소 및 장소 정보 조회
+ *
+ * - keyword를 이용하여 주소/장소 목록을 검색
+ * - lat, lng가 포함된 경우 현재 위치 기준 거리(distance)가 함께 제공
+ * - 결과가 없는 경우 빈 배열([])을 반환
+ * - 네트워크/서버 오류 발생 시 에러를 throw
+ */
+export async function getLocationsByKeyword(param: LocationsByKeywordParams): Promise<LocationSearchResponse[]> {
+    try {
+        const response = await fetchLocationsByKeyword({
+            query: param.keyword,
+            lat: param.lat,
+            lng: param.lng,
+        });
+        return response ?? [];
+    } catch (error: unknown) {
+        console.error(
+            "[LocationService] Failed to search locations by keyword",
+            {
+                keyword: param.keyword,
+                lat: param.lat,
+                lng: param.lng,
+                error,
+            },
+        );
+        throw error; // 네트워크/서버 에러만 throw
+    }
+}
+
 /**
  * 위치정보 저장
  */
@@ -78,6 +116,7 @@ export function setLocation(locationData: LocationData): void {
         x: lng = '',
 
         // 기본 필드 및 기본값 설정
+        locationName = '',
         addressName = '',
         region1DepthName = '',
         region2DepthName = '',
@@ -98,6 +137,7 @@ export function setLocation(locationData: LocationData): void {
     // 1. 좌표 및 주요 주소 정보
     mmkv.set(LAT_KEY, lat);
     mmkv.set(LNG_KEY, lng);
+    mmkv.set(LOCATION_NAME_KEY, locationName);
     mmkv.set(ADDRESS_NAME_KEY, addressName);
 
     // 2. 행정구역 상세 정보
@@ -121,6 +161,7 @@ function clearLocation(): void {
     // 1. 좌표 및 주요 주소 정보 삭제
     mmkv.remove(LAT_KEY);
     mmkv.remove(LNG_KEY);
+    mmkv.remove(LOCATION_NAME_KEY);
     mmkv.remove(ADDRESS_NAME_KEY);
 
     // 2. 행정구역 상세 정보 삭제
@@ -148,6 +189,7 @@ export function getLocation(): LocationData | null {
     return {
         y,
         x,
+        locationName: mmkv.getString(LOCATION_NAME_KEY) ?? '', 
         addressName: mmkv.getString(ADDRESS_NAME_KEY) ?? '',
         region1DepthName: mmkv.getString(REGION_1DEPTH_NAME_KEY) ?? '',
         region2DepthName: mmkv.getString(REGION_2DEPTH_NAME_KEY) ?? '',

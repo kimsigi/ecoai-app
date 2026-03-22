@@ -1,6 +1,6 @@
 export type {
-    LocationPickerParams,
-    LocationAddressSearchParams,
+    LocationPickerParam,
+    LocationAddressSearchParam,
 } from './location.type';
 
 export { getLocation, setLocation } from './location.service';

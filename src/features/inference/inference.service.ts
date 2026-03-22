@@ -205,18 +205,14 @@ export async function runImageInference(
 }
 
 export async function warmupImageInference(): Promise<boolean> {
-    console.log('#### warmupImageInference-1: ');
     if (warmupRequested) {
         return false;
     }
     warmupRequested = true;
-    console.log('#### warmupImageInference-2: ', warmupRequested);
     try {
         if (nativeDetectionModule?.warmup) {
-            console.log('#### warmupImageInference-3: WARMUP!!');
             return await nativeDetectionModule.warmup();
         }
-        console.log('#### warmupImageInference-3: WARMUP >>>  false');
         return false;
     } catch (error) {
         // 워밍업 실패는 기능상 치명적이지 않으므로 로그만 남기고 진행합니다.
